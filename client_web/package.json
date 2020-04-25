@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    
+    "mint-ui": "^2.2.13"
   },
   "devDependencies": {
     "@babel/core": "^7.4.5",

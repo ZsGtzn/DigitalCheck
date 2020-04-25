@@ -1,6 +1,7 @@
 <template>
 <div id="main">
     <h1>Hello World</h1>
+    <mt-button type="danger">danger</mt-button>
 </div>
 </template>
 

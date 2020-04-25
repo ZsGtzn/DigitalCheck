@@ -1,5 +1,5 @@
 {
-    "name": "AndroidWrapper",
+    "name": "digit_invoice",
     "version": "0.0.1",
     "scripts": {
         "mockServer": "java -Dmockserver.enableCORSForAllResponses=true -jar \"./client_mock/jar/mockserver-netty-5.10.0-jar-with-dependencies.jar\" -serverPort 8080",

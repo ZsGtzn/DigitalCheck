@@ -4,6 +4,11 @@ import router from './router'
 import store from './store'
 import axios from './net/axios'
 
+// 引入全部组件
+import Mint from 'mint-ui';
+Vue.use(Mint);
+
+//
 Vue.mixin({
   data() {
     return {
