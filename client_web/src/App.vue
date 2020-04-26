@@ -1,5 +1,10 @@
 <template>
 <div id="app">
+    <mt-header fixed title="fixed top">
+        <span slot="left">
+            <mt-button icon="back">back</mt-button>
+        </span>
+    </mt-header>
     <router-view/>
 </div>
 </template>
@@ -9,7 +14,7 @@ export default {
     name: 'App',
     data() {
         return {
-            
+            passengers: []
         }
     },
 

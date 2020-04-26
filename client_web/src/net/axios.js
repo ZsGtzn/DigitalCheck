@@ -54,24 +54,24 @@ class Axios
     return res.data
   }
 
-  async get (url, params, response) 
+  async get (url, params) 
   {
-    return this.apiAxios('GET', url, params, response)
+    return this.apiAxios('GET', url, params)
   }
 
-  async post (url, params, response) 
+  async post (url, params) 
   {
-    return this.apiAxios('POST', url, params, response)
+    return this.apiAxios('POST', url, params)
   }
 
-  async put (url, params, response) 
+  async put (url, params) 
   {
-    return this.apiAxios('PUT', url, params, response)
+    return this.apiAxios('PUT', url, params)
   }
 
-  async delete (url, params, response) 
+  async delete (url, params) 
   {
-    return this.apiAxios('DELETE', url, params, response)
+    return this.apiAxios('DELETE', url, params)
   }
 }
 

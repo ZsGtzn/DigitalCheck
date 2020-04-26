@@ -7,11 +7,12 @@ export default new Router({
   base: process.env.BASE_URL,
   routes: [
     {
-      path: '/',
+      path: '/:orderNo',
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import('./views/Home.vue')
+      component: () => import('./views/Home.vue'),
+      props: true,
     }
   ]
 });

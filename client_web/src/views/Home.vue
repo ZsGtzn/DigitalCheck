@@ -1,23 +1,31 @@
 <template>
 <div id="main">
-    <h1>Hello World</h1>
-    <mt-button type="danger">danger</mt-button>
+    <mt-checklist
+        v-model="checkedPassenger"
+        :options="['optionA', 'optionB', 'optionC']">
+    </mt-checklist>
 </div>
 </template>
 
 <script>
 
+import Vue from "vue";
+
 export default {
     name: 'Main',
+    props: ['orderNo'],
     data() {
         return {
-            
+            checkedPassenger: [],
         }
     },
 
     created()
     {
-        
+        alert(this.axios);
+        this.axios.get(`/invoice/passengerList?orderNo=${this.orderNo}`).then(response => {
+            alert(response);
+        });
     },
 
     methods: {
