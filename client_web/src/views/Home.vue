@@ -81,7 +81,7 @@ export default {
         checkInvoice() {
             if(!this.multipleSelection || this.multipleSelection.length == 0)
             {
-                return Toast("请至少选择一笔订单");
+                return this.Toast("请至少选择一笔订单");
             }
 
             localStorage.setItem('invoice', JSON.stringify(this.multipleSelection));

@@ -5,21 +5,23 @@ import store from './store'
 import axios from './net/axios'
 
 // 引入全部组件
-import MintUI from 'mint-ui'
+import MintUI, { Toast } from 'mint-ui'
 import 'mint-ui/lib/style.css'
 Vue.use(MintUI);
 
 // 引入全部组件
-import { Table, TableColumn } from 'element-ui';
+import { Table, TableColumn, Divider } from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 Vue.use(Table);
 Vue.use(TableColumn);
+Vue.use(Divider);
 
 //
 Vue.mixin({
   data() {
     return {
-      axios
+      axios,
+      Toast
     }
   }
 });
