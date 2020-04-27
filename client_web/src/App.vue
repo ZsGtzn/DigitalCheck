@@ -2,11 +2,13 @@
 <div id="app">
     <mt-header fixed title="电子发票" id="head">
         <span slot="left">
-            <mt-button icon="back"></mt-button>
+            <mt-button icon="back" @click="back"></mt-button>
         </span>
     </mt-header>
     <div id="content">
-        <router-view/>
+        <transition name="fade">
+            <router-view/>
+        </transition>
     </div>
 </div>
 </template>
@@ -30,6 +32,12 @@ export default {
 
     watch: {
         
+    },
+
+    methods: {
+        back() {
+            this.$router.go(-1);
+        }
     }
 }
 </script>
@@ -39,6 +47,7 @@ export default {
     position: fixed;
     width: 100%;
     height: 100%;
+    background-color: #f0ebeb
 }
 
 #head {
@@ -50,7 +59,15 @@ export default {
     margin-top: 50px;
     width: 100%;
     height: calc(100% - 50px);
-    padding: 5px;
     box-sizing: border-box;
 }
+
+//
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .2s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
+
 </style>

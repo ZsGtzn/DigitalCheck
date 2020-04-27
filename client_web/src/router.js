@@ -14,7 +14,7 @@ export default new Router({
       component: () => import('./views/Home.vue'),
       props: (route) =>({ query: route.query }),
     },
-
+    
     {
       path: '/checkInvoice',
       component: () => import('./views/CheckInvoice.vue'),

@@ -2,9 +2,9 @@
 <div id="main">
     <el-table
         id="passengerInvoice"
-        ref="multipleTable"
-        :data="checkedPassenger"
         tooltip-effect="dark"
+        :data="checkedPassenger"
+        :row-class-name="tableRowClassName"
         @selection-change="handleSelectionChange">
     <el-table-column
         type="selection"
@@ -12,23 +12,36 @@
     </el-table-column>
     <el-table-column
         label="日期"
-        width="120">
+        width="120px">
         <template slot-scope="scope">{{ scope.row.date + scope.row.time }}</template>
+    </el-table-column>
+    <el-table-column
+        prop="canInvoice"
+        label="是否已经开票"
+        width="120px">
+        <template slot-scope="scope">
+            <div v-if="scope.row.canInvoice">
+                <mt-button type="primary" size="small">查看票据</mt-button>
+            </div>
+            <div v-else>
+                未开票
+            </div>
+        </template>
     </el-table-column>
     <el-table-column
         prop="invoiceAmount"
         label="开票金额"
-        width="120">
+        width="120px">
     </el-table-column>
     <el-table-column
         prop="name"
         label="姓名"
-        width="120">
+        width="120px">
     </el-table-column>
     <el-table-column
         prop="endPort"
         label="目的站"
-        width="120">
+        width="120px">
     </el-table-column>
     <el-table-column
         prop="invoiceType"
@@ -74,6 +87,17 @@ export default {
     },
 
     methods: {
+        tableRowClassName({row, rowIndex}) {
+            if (row.canInvoice) {
+                return 'success-row';
+            } 
+            else {
+                return 'warning-row';
+            }
+
+            return '';
+        },
+
         handleSelectionChange(val) {
             this.multipleSelection = val;
         },
@@ -112,5 +136,14 @@ export default {
     position :absolute;
     bottom: 0px;
     width: 100%;
+}
+
+//
+.el-table .warning-row {
+    background: oldlace;
+}
+
+.el-table .success-row {
+    background: #dff8d1;
 }
 </style>
