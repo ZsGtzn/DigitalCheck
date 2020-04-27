@@ -26,7 +26,7 @@ class Axios
 
     this.http = axios.create({
       baseURL: `http://${host}:${port}`,
-      withCredentials: true
+      // withCredentials: true
     })
   }
 
