@@ -1,11 +1,19 @@
 <template>
 <div id="main">
-    <ul class="passengerInvoice" v-swipe-down="swipeDown" v-swipe-up="swipeUp">
-        <li v-for="(item, index) of checkedPassenger" :key="index" class="listItem">
-            <route-detail :item="item"></route-detail>
+    <div class="selectAll" @click="selectALl">
+        <input type="checkbox" id="selectAll" v-model="ifAllSelected">
+        <label for="selectAll">全选</label>
+    </div>
+    
+    <ul class="passengerInvoice">
+        <li v-for="(item, index) of checkedPassenger" :key="index" class="listItem" @click="selectInvoice(item)">
+            <div style="display:flex;align-items:center;">
+                <input style="margin-right:10px;" type="checkbox" :disabled="!item.canInvoice" v-model="item.ifSelected">
+                <route-detail :item="item"></route-detail>
+            </div>
         </li>
     </ul>
-  <mt-button type="primary" id="checkInvoice" @click="checkInvoice">开票</mt-button>
+    <mt-button type="primary" id="checkInvoice" @click="checkInvoice">开票</mt-button>
 </div>
 </template>
 
@@ -19,6 +27,7 @@ export default {
     data() {
         return {
             checkedPassenger: [],
+            ifAllSelected: false,
         }
     },
 
@@ -27,52 +36,70 @@ export default {
         this.axios.get(`/invoice/passengerList?orderNo=${this.$attrs.query.orderNo}`).then(response => {
             if(response.code === 0)
             {
-                return this.checkedPassenger = response.data;
+                return this.checkedPassenger = response.data.map(ele => Object.assign(ele, {
+                    ifSelected: false
+                }));
             }
 
             Toast("订单拉取失败");
         });
     },
 
+    watch: {
+        ifAllSelected: function(newValue, oldValue) {
+            for(let ele of this.checkedPassenger)
+            {
+                if(!ele.canInvoice) {
+                    continue;
+                }
+
+                //
+                ele.ifSelected = newValue;
+            }
+        }
+    },
+
     methods: {
-        tableRowClassName({row, rowIndex}) {
-            if (row.canInvoice) {
-                return 'success-row';
-            } 
-            else {
-                return 'warning-row';
+        selectInvoice(item) {
+            if(!item.canInvoice)
+            {
+                return;
             }
 
-            return '';
+            //
+            item.ifSelected = !item.ifSelected;
         },
 
-        handleSelectionChange(val) {
-            this.multipleSelection = val;
+        selectALl()
+        {
+            this.ifAllSelected = !this.ifAllSelected;
         },
 
         checkInvoice() {
-            if(!this.multipleSelection || this.multipleSelection.length == 0)
-            {
-                return this.Toast("请至少选择一笔订单");
-            }
+            //
+            let multipleSelection = this.checkedPassenger.filter(ele => {
+                if(ele.ifSelected)
+                {
+                    return true;
+                }
 
-            localStorage.setItem('invoice', JSON.stringify(this.multipleSelection));
+                return false;
+            })
+
+            //
+            localStorage.setItem('invoice', JSON.stringify(multipleSelection));
 
             this.$router.push({ path: '/checkInvoice' });
-        },
-
-        swipeUp: function() {
-            
-        },
-
-        swipeDown: function() {
-            
-        },
+        }
     }
 }
 </script>
 
 <style lang="scss" scoped>
+$selectAllHeight: 45px;
+$checkInvoiceHeight: 50px;
+
+//
 #main {
     position: relative;
     width: 100%;
@@ -84,12 +111,21 @@ export default {
     align-items: center;
 }
 
+.selectAll {
+    width: 100%;
+    height: $selectAllHeight;
+    background-color: white;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
 //
 .passengerInvoice {
+    position: relative;
     margin: 0px;
     padding: 0px;
     width: 100%;
-    height: calc(100% - 50px);
+    height: calc(100% - #{$checkInvoiceHeight} - #{$selectAllHeight});
     overflow: auto;
 }
 
@@ -97,8 +133,8 @@ export default {
   width: 100%;
   display: inline-block;
   background-color: white;
-  padding: 10px;
   margin-bottom: 5px;
+  padding: 10px;
   box-sizing: border-box;
 }
 
