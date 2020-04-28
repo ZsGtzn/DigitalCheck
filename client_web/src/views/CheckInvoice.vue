@@ -55,7 +55,7 @@
             </div>
             <p class="totalCashAmountFrame">预计开票金额（以审核为准）：<span class="totalCashAmount">￥{{totalCashAmount}}</span></p>
         </div>
-        <mt-button type="primary" class="commitInvoiceCheck" @click="commitInvoiceCheck">开票</mt-button>
+        <mt-button type="primary" class="commitInvoiceCheck" @click="commitInvoiceCheck">提交</mt-button>
     </div>
 </template>
 

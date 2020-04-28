@@ -124,7 +124,6 @@ $checkInvoiceHeight: 50px;
     position: relative;
     width: 100%;
     height: 100%;
-    top: 5px;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -158,7 +157,7 @@ $checkInvoiceHeight: 50px;
 
 //
 #checkInvoice {
-    position :absolute;
+    position: absolute;
     bottom: 0px;
     width: 100%;
 }
