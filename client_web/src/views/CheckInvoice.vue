@@ -17,12 +17,16 @@
                 <div class="divider"></div>
                 <mt-field placeholder="*邮箱地址" type="email" v-model="email"></mt-field>
                 <div class="divider"></div>
+                <mt-field placeholder="*手机号码" v-model="mobile"></mt-field>
+                <div class="divider"></div>
                 <mt-field placeholder="备注（选填）" v-model="remark"></mt-field>
             </div>
             <div class="invoiceDetail" v-else-if="invoiceTargetType==='2'">
                 <mt-field placeholder="*公司抬头" v-model="companyHead"></mt-field>
                 <div class="divider"></div>
                 <mt-field placeholder="*邮件地址" type="email" v-model="email"></mt-field>
+                <div class="divider"></div>
+                <mt-field placeholder="*手机号码" v-model="mobile"></mt-field>
                 <div class="divider"></div>
                 <mt-field placeholder="*税号" v-model="taxNo"></mt-field>
                 <div class="divider"></div>
@@ -40,6 +44,8 @@
                 <mt-field placeholder="*公司抬头" v-model="companyHead"></mt-field>
                 <div class="divider"></div>
                 <mt-field placeholder="*邮件地址" type="email" v-model="email"></mt-field>
+                <div class="divider"></div>
+                <mt-field placeholder="*手机号码" v-model="mobile"></mt-field>
                 <div class="divider"></div>
                 <mt-field placeholder="税号（选填）" v-model="taxNo"></mt-field>
                 <div class="divider"></div>
@@ -76,6 +82,7 @@ export default {
             companyBank: "",
             companyBankAccount: "",
             remark: "",
+            mobile: "",
 
             //
             invoiceList: [],
@@ -119,6 +126,11 @@ export default {
             {
                 return this.Toast("请填写email地址")
             }
+            
+            if(!this.mobile || this.mobile.length === 0)
+            {
+                return this.Toast("请填写手机号码");
+            }
 
             //
             if(this.invoiceTargetType === "1")
@@ -149,27 +161,50 @@ export default {
             }
 
             //
-            return this.axios.post("/invoice/check", {
-                type: this.invoiceTargetType,
-                username: this.username,
-                companyHead: this.companyHead,
+            let serialNumList = "";
+            for(let [index, value] of this.invoiceList.entries())
+            {
+                serialNumList += value.serialNum;
+                if(index !== this.invoiceList.length - 1)
+                {
+                    serialNumList += ",";
+                }
+            }
+
+            //
+            let buyerName;
+            if(this.invoiceTargetType == "1")
+            {
+                buyerName = this.username;
+            }
+            else
+            {
+                buyerName = this.companyHead;
+            }
+
+            //
+            return this.axios.post("/invoice/doInvoice.do", {
+                serialNum: serialNumList,
+                buyerName: buyerName,
+                type: parseInt(this.invoiceTargetType),
                 email: this.email,
-                taxNo: this.taxNo,
+                taxnum: this.taxNo,
                 companyAddress: this.companyAddress,
-                companyTelephone: this.companyTelephone,
-                companyBank: this.companyBank,
-                companyBankAccount: this.companyBankAccount,
+                landline: this.companyTelephone,
+                bankAddress: this.companyBank,
+                bankAccount: this.companyBankAccount,
                 remark: this.remark,
+                mobile: this.mobile,
             }).then(response => {
                 if(response.code === 0)
                 {
                     setTimeout(() => {
                         this.$router.go(-1);
                     }, 500);
-                    return this.Toast("开票成功");
+                    return this.Toast(response.msg);
                 }
 
-                this.Toast("开票申请提交失败");
+                this.Toast(response.error);
             });
         }
     }

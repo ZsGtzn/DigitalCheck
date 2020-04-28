@@ -54,7 +54,7 @@ export default {
     methods: {
         fetchData()
         {
-            this.axios.get(`/invoice/passengerList?orderNo=${this.$attrs.query.orderNo}`).then(response => {
+            this.axios.get(`/invoice/passengerList.do?orderNo=${this.$attrs.query.orderNo}`).then(response => {
                 if(response.code === 0)
                 {
                     return this.checkedPassenger = response.data.map(ele => Object.assign(ele, {
@@ -62,7 +62,7 @@ export default {
                     }));
                 }
 
-                this.Toast("订单拉取失败");
+                this.Toast(response.error);
             });
         },
 

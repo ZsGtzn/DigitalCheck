@@ -20,12 +20,13 @@
 
     <div style="text-align:right;width:100px;">
       <div style="margin-bottom:5px;">{{`￥${routeInfo.invoiceAmount}`}}</div>
-      <div v-if="routeInfo.canInvoice">
-        未开票
-      </div>
-      <div v-else>
-        <mt-button type="primary" size="small">查看票据</mt-button>
-      </div>
+      <template v-if="routeInfo.canInvoice">
+        <span>未开票</span>
+      </template>
+      <template v-else>
+        <a href="routeInfo.invoiceUrl" class="preview" target="_blank">查看票据</a><div style="height:10px;"/>
+        <a href="routeInfo.invoiceUrl" class="download" download="serialNum.pdf">下载</a>
+      </template>
     </div>
   </div>
 </template>
@@ -55,5 +56,22 @@ export default {
 </script>
 
 <style scoped lang="scss">
+
+@mixin pdf {
+  text-decoration: none;
+  color: white;
+  border: solid #26a2ff 1px;
+  background-color: #26a2ff;
+  border-radius: 5px;
+  padding: 2px 5px 2px 5px;
+}
+
+.preview {
+  @include pdf;
+}
+
+.download {
+  @include pdf;
+}
 
 </style>
