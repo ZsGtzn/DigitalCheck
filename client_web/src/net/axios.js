@@ -4,28 +4,26 @@ import axios from "axios"
 
 //
 var host;
-var port;
 
 if(process.env.NODE_ENV === 'development') 
 {
-  ({ host, port } = developmentConfig)
+  ({ host } = developmentConfig)
 }
 
 if(process.env.NODE_ENV === 'production') 
 {
-  ({ host, port } = productionConfig)
+  ({ host } = productionConfig)
 }
 
 //
 class Axios 
 {
-  constructor(host, port)
+  constructor(host)
   {
     this.host = host;
-    this.port = port;
 
     this.http = axios.create({
-      baseURL: `http://${host}:${port}`,
+      baseURL: host,
       // withCredentials: true
     })
   }
@@ -76,6 +74,6 @@ class Axios
 }
 
 
-const axiosInstance = new Axios(host, port)
+const axiosInstance = new Axios(host)
 
 export default axiosInstance
