@@ -2,7 +2,7 @@
 <div id="main">
     <div class="selectAll" @click="selectALl">
         <input type="checkbox" id="selectAll" v-model="ifAllSelected">
-        <label for="selectAll">全选</label>
+        <label for="selectAll" @click="selectALl">全选</label>
     </div>
     <mt-loadmore :top-method="loadTop" :bottom-all-loaded="true" ref="loadmore" class="passengerInvoice">
         <ul style="margin: 0px;padding: 0px;">
@@ -62,7 +62,7 @@ export default {
                     }));
                 }
 
-                Toast("订单拉取失败");
+                this.Toast("订单拉取失败");
             });
         },
 
@@ -100,6 +100,12 @@ export default {
                 return false;
             })
 
+            //
+            if(multipleSelection.length == 0)
+            {
+                return this.Toast("请至少选择一笔订单");
+            }
+            
             //
             localStorage.setItem('invoice', JSON.stringify(multipleSelection));
 
