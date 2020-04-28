@@ -4,15 +4,16 @@
         <input type="checkbox" id="selectAll" v-model="ifAllSelected">
         <label for="selectAll">全选</label>
     </div>
-    
-    <ul class="passengerInvoice">
-        <li v-for="(item, index) of checkedPassenger" :key="index" class="listItem" @click="selectInvoice(item)">
-            <div style="display:flex;align-items:center;">
-                <input style="margin-right:10px;" type="checkbox" :disabled="!item.canInvoice" v-model="item.ifSelected">
-                <route-detail :item="item"></route-detail>
-            </div>
-        </li>
-    </ul>
+    <mt-loadmore :top-method="loadTop" :bottom-all-loaded="true" ref="loadmore" class="passengerInvoice">
+        <ul style="margin: 0px;padding: 0px;">
+            <li v-for="(item, index) of checkedPassenger" :key="index" class="listItem" @click="selectInvoice(item)">
+                <div style="display:flex;align-items:center;">
+                    <input style="margin-right:10px;" type="checkbox" :disabled="!item.canInvoice" v-model="item.ifSelected">
+                    <route-detail :item="item"></route-detail>
+                </div>
+            </li>
+        </ul>
+    </mt-loadmore>
     <mt-button type="primary" id="checkInvoice" @click="checkInvoice">开票</mt-button>
 </div>
 </template>
@@ -33,16 +34,7 @@ export default {
 
     created()
     {
-        this.axios.get(`/invoice/passengerList?orderNo=${this.$attrs.query.orderNo}`).then(response => {
-            if(response.code === 0)
-            {
-                return this.checkedPassenger = response.data.map(ele => Object.assign(ele, {
-                    ifSelected: false
-                }));
-            }
-
-            Toast("订单拉取失败");
-        });
+        this.fetchData();
     },
 
     watch: {
@@ -60,6 +52,28 @@ export default {
     },
 
     methods: {
+        fetchData()
+        {
+            this.axios.get(`/invoice/passengerList?orderNo=${this.$attrs.query.orderNo}`).then(response => {
+                if(response.code === 0)
+                {
+                    return this.checkedPassenger = response.data.map(ele => Object.assign(ele, {
+                        ifSelected: false
+                    }));
+                }
+
+                Toast("订单拉取失败");
+            });
+        },
+
+        loadTop()
+        {
+            this.fetchData();
+
+            //
+            this.$refs.loadmore.onTopLoaded();
+        },
+
         selectInvoice(item) {
             if(!item.canInvoice)
             {
@@ -122,8 +136,6 @@ $checkInvoiceHeight: 50px;
 //
 .passengerInvoice {
     position: relative;
-    margin: 0px;
-    padding: 0px;
     width: 100%;
     height: calc(100% - #{$checkInvoiceHeight} - #{$selectAllHeight});
     overflow: auto;
