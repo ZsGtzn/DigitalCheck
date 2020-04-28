@@ -24,8 +24,8 @@
         <span>未开票</span>
       </template>
       <template v-else>
-        <a href="routeInfo.invoiceUrl" class="preview" target="_blank">查看票据</a><div style="height:10px;"/>
-        <a href="routeInfo.invoiceUrl" class="download" download="serialNum.pdf">下载</a>
+        <a :href="routeInfo.invoiceUrl" class="preview" target="_blank">查看票据</a><div style="height:10px;"/>
+        <a :href="routeInfo.invoiceUrl" class="download" download="serialNum.pdf">下载</a>
       </template>
     </div>
   </div>
