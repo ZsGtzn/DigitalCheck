@@ -3,7 +3,7 @@ const mockServerClientInstance = process["mockServerClientInstance"];
 mockServerClientInstance.mockAnyResponse({
   httpRequest: {
     "method": "GET",
-    "path": "/invoice/passengerList",
+    "path": "/invoice/passengerList.do",
     "queryStringParameters": {
       "orderNo": [".*"]
     }
