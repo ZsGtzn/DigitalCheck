@@ -1,7 +1,7 @@
 <template>
     <div id="main">
         <div class="invoiceDetailFrame">
-            <p class="notify">1.未开航不开票；2.只能开两个月内的票；3.全退订单不开票；4.开票完成后，电子发票生成需要几秒钟时间，请耐心等待。</p>
+            <p class="notify">开票完成后，电子发票生成需要几秒钟时间，请耐心等待。</p>
             
             <div class="invoiceTargetType">
                 提交方式
