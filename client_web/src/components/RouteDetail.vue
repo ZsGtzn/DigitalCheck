@@ -22,10 +22,13 @@
       <div style="margin-bottom:5px;">{{`￥${routeInfo.invoiceAmount}`}}</div>
       <template v-if="routeInfo.canInvoice">
         <span>未开票</span>
+        <div style="height:10px;"/>
       </template>
       <template v-if="routeInfo.invoiceUrl && routeInfo.invoiceUrl.length > 0">
-        <a :href="routeInfo.invoiceUrl" class="preview" target="_blank">查看票据</a><div style="height:10px;"/>
-        <a :href="routeInfo.invoiceUrl" class="download" download="serialNum.pdf">下载</a>
+            <div @click.capture="showOpenBrowserHint">
+                <mt-button type="primary" class="preview" @click.capture="preview(routeInfo)">查看</mt-button><div style="height:10px;"/>
+                <mt-button type="primary" class="download" @click.capture="download(routeInfo)">下载</mt-button>
+            </div>
       </template>
     </div>
   </div>
@@ -37,20 +40,63 @@ export default {
 
   props: {
     item: {
-      required: true
+      required: true,
     }
   },
 
   data: function() {
     return {
-      routeInfo: this.item
+      routeInfo: this.item,
     };
   },
 
   methods: {
     longTouch() {
       
-    }
+    },
+
+    showOpenBrowserHint(event)
+    {
+        if(window.gtzn.ifNeedToJumpOutBrowser)
+        {
+            event.stopPropagation();
+
+            //
+            return this.Toast("请点击右上角，选择从浏览器中打开");
+        }
+    },
+
+    download(routeInfo)
+    {
+        // 创建隐藏的可下载链接
+        var eleLink = document.createElement('a');
+        eleLink.download = `${routeInfo.serialNum}.pdf`;
+        eleLink.style.display = 'none';
+
+        // 
+        if(window.gtzn.platform == 'android')
+        {
+            eleLink.href = routeInfo.invoiceUrl;
+        }
+        else
+        {
+            var blob = new Blob([routeInfo.invoiceUrl]);
+            eleLink.href = URL.createObjectURL(blob);
+        }
+        
+
+        // 触发点击
+        document.body.appendChild(eleLink);
+        eleLink.click();
+
+        // 然后移除
+        document.body.removeChild(eleLink);
+    },
+
+    preview(routeInfo)
+    {
+        window.location.href = routeInfo.invoiceUrl;
+    },
   }
 };
 </script>
@@ -58,12 +104,10 @@ export default {
 <style scoped lang="scss">
 
 @mixin pdf {
-  text-decoration: none;
-  color: white;
-  border: solid #26a2ff 1px;
-  background-color: #26a2ff;
-  border-radius: 5px;
-  padding: 2px 5px 2px 5px;
+  font-size: 0.75em;
+  width: 80px;
+  height: 30px;
+  padding: auto;
 }
 
 .preview {

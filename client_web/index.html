@@ -10,6 +10,32 @@
     <noscript>
       <strong>We're sorry but Digital Invoice doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
     </noscript>
+    <script>
+        var ua = navigator.userAgent;
+
+        //
+        const ifWeixinBrowser = ua.toLowerCase().match(/MicroMessenger/i) == "micromessenger";
+
+        //
+        let platform ="";
+        if (ua.match(/(iPhone|iPod|iPad);?/i)) { //判断是否是iOS
+            platform = "ios";
+        }
+
+        //
+        if (ua.match(/android/i)) { //判断是否是Android
+            platform = "android";
+        }
+
+        //
+        let ifNeedToJumpOutBrowser = ifWeixinBrowser;
+
+        //
+        window.gtzn = {
+            ifNeedToJumpOutBrowser: ifNeedToJumpOutBrowser,
+            platform: platform,
+        }
+    </script>
     <div id="app"></div>
     <!-- built files will be auto injected -->
   </body>
