@@ -11,11 +11,6 @@ import 'mint-ui/lib/style.css'
 Vue.use(MintUI);
 
 // 引入全部组件
-import { Table, TableColumn, Divider } from 'element-ui';
-import 'element-ui/lib/theme-chalk/index.css';
-Vue.use(Table);
-Vue.use(TableColumn);
-Vue.use(Divider);
 Vue.use(touch);
 
 Vue.config.productionTip = false

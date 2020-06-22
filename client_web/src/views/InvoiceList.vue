@@ -174,12 +174,4 @@ $checkInvoiceHeight: 50px;
     width: 100%;
 }
 
-//
-.el-table .warning-row {
-    background: oldlace;
-}
-
-.el-table .success-row {
-    background: #dff8d1;
-}
 </style>

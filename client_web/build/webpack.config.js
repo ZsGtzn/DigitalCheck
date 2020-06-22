@@ -29,15 +29,6 @@ module.exports = {
         hot: true,
         host: '0.0.0.0',
         port: 8080,
-        proxy: {
-            '/': {
-                target: 'http://localhost:3000',
-                ws: false,
-                pathRewrite: {
-                    '^/': '/',
-                },
-            }
-        }
     },
     module: {
         rules: [
