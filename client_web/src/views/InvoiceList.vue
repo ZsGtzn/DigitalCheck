@@ -24,8 +24,12 @@
 const RouteDetail = () => import("../components/RouteDetail.vue");
 
 export default {
-    name: 'Main',
+    name: 'InvoiceList',
+    
     components: { RouteDetail },
+
+    props: ['type', 'orderNo'],
+
     data() {
         return {
             checkedPassenger: [],
@@ -55,7 +59,7 @@ export default {
     methods: {
         fetchData()
         {
-            this.axios.get(`/invoice/passengerList.do?orderNo=${this.$attrs.query.orderNo}`).then(response => {
+            this.axios.get(`/invoice/passengerList.do?orderNo=${this.orderNo}`).then(response => {
                 if(response.code === 0)
                 {
                     return this.checkedPassenger = response.data.map(ele => Object.assign(ele, {

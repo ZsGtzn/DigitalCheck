@@ -7,21 +7,15 @@ export default new Router({
     base: process.env.BASE_URL,
     routes: [
         {
-            path: '/scan',
-            // route level code-splitting
-            // this generates a separate chunk (about.[hash].js) for this route
-            // which is lazy-loaded when the route is visited.
+            path: '/scan/:type',
             component: () => import('./views/Scan.vue'),
-            props: (route) => ({ query: route.query }),
+            props: true,
         },
 
         {
-            path: '/invoiceList',
-            // route level code-splitting
-            // this generates a separate chunk (about.[hash].js) for this route
-            // which is lazy-loaded when the route is visited.
+            path: '/invoiceList/:type/:orderNo',
             component: () => import('./views/InvoiceList.vue'),
-            props: (route) => ({ query: route.query }),
+            props: true,
         },
 
         {

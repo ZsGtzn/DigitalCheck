@@ -42,10 +42,6 @@ class Axios
     });
 
     if (res.status < 200 || res.status >= 300) {
-      Vue.prototype.$notify.error({
-        title: 'apiAxios',
-        message: res
-      });
       await Promise.reject('invalid status code');
     }
 
