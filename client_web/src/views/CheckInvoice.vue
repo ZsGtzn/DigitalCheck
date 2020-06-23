@@ -233,7 +233,7 @@ export default {
 
 .notify {
     @extend .cubeBase;
-    color: red;
+    color: #e91010;
     line-height: 1.5em;
 }
 
@@ -247,6 +247,8 @@ export default {
 .invoiceTargetType {
     @extend .cubeBase;
     width: 100%;
+    font-size: 16px;
+    font-weight: bold;
 }
 
 .invoiceDetail {
@@ -261,10 +263,11 @@ export default {
 .totalCashAmountFrame {
     @extend .cubeBase;
     width: 100%;
+    font-weight: bold;
 }
 
 .totalCashAmount {
-    color: red;
+    color: #e91010;
 }
 
 //

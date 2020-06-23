@@ -35,7 +35,7 @@ export default {
     created() {
         if(!wx)
         {
-            return alert("微信js sdk导入失败");
+            return this.Toast("微信js sdk导入失败");
         }
         
         if(!this.isWeChat)
@@ -96,7 +96,7 @@ export default {
         {
             if(this.weChatAuthState !== 1)
             {
-                return alert("请先进行微信授权");
+                return this.Toast("请先进行微信授权");
             }
 
             //
@@ -124,7 +124,7 @@ export default {
     position: fixed;
     width: 100%;
     height: 100%;
-    background-color: #f0ebeb
+    background-color: #f1f1f1
 }
 
 #head {

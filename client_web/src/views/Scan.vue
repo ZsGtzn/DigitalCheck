@@ -33,7 +33,7 @@ export default {
     {
         if(type !== 'sanjiang')
         {
-            alert("无效的发票类型");
+            this.Toast("无效的发票类型");
         }
     },
 
@@ -44,7 +44,7 @@ export default {
             
             // 号码规则校验
             if(!format.test(this.identityNo)){
-                alert('身份证号码不合规');
+                this.Toast('身份证号码不合规');
 
                 //
                 return 0;
@@ -60,7 +60,7 @@ export default {
                 now_time = Date.parse(new Date()), // 当前时间戳
                 dates = (new Date(year,month,0)).getDate(); // 身份证当月天数
             if(time > now_time|| date > dates){
-                alert('出生日期不合规');
+                this.Toast('出生日期不合规');
 
                 //
                 return 0;
@@ -75,7 +75,7 @@ export default {
                 sum += parseInt(id_array[k]) * parseInt(c[k]);
             }
             if(id_array[17].toUpperCase() != b[sum % 11].toUpperCase()){
-                alert('身份证校验码不合规');
+                this.Toast('身份证校验码不合规');
 
                 //
                 return 0;
@@ -99,7 +99,7 @@ export default {
                     break;
                 default:
                     {
-                        alert("无效的发票类型");
+                        this.Toast("无效的发票类型");
                     }
             }
         },
