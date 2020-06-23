@@ -28,7 +28,7 @@ export default {
     
     components: { RouteDetail },
 
-    props: ['type', 'orderNo'],
+    props: ['type', 'identifier'],
 
     data() {
         return {
@@ -59,7 +59,7 @@ export default {
     methods: {
         fetchData()
         {
-            this.axios.get(`/invoice/passengerList.do?orderNo=${this.orderNo}`).then(response => {
+            this.axios.get(`/invoice/passengerList.do?identifier=${this.identifier}`).then(response => {
                 if(response.code === 0)
                 {
                     return this.checkedPassenger = response.data.map(ele => Object.assign(ele, {

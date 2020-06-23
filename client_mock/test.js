@@ -5,7 +5,7 @@ mockServerClientInstance.mockAnyResponse({
     "method": "GET",
     "path": "/invoice/passengerList.do",
     "queryStringParameters": {
-      "orderNo": [".*"]
+      "identifier": [".*"]
     }
   },
   "httpResponse": {

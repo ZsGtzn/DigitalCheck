@@ -13,7 +13,7 @@ export default new Router({
         },
 
         {
-            path: '/invoiceList/:type/:orderNo',
+            path: '/invoiceList/:type/:identifier',
             component: () => import('./views/InvoiceList.vue'),
             props: true,
         },
