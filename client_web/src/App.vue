@@ -4,7 +4,7 @@
         <span slot="left">
             <mt-button icon="back" @click="back"></mt-button>
         </span>
-        <span slot="right" @click="scan">
+        <span slot="right" @click="scan" v-show="isWeChat">
             <img :src="scanImg" style="height:35px;margin-right:10px;"/>
         </span>
     </mt-header>
@@ -19,7 +19,8 @@
 <script>
 
 import scanImg from "./assets/scan/scan.png";
-import {default as axios} from "axios";
+import { default as axios } from "axios";
+import { isWeChat } from "./utils.js";
 
 export default {
     name: 'App',
@@ -27,6 +28,7 @@ export default {
         return {
             scanImg: scanImg,
             weChatAuthState: 0,
+            isWeChat: isWeChat(),
         }
     },
 
@@ -36,6 +38,11 @@ export default {
             return alert("微信js sdk导入失败");
         }
         
+        if(!this.isWeChat)
+        {
+            return;
+        }
+
         //
         wx.ready(() => {
             this.weChatAuthState = 1;
@@ -64,13 +71,13 @@ export default {
 
             //
             if (status < 200 || status >= 300) {
-                await Promise.reject(`微信授权服务无法访问,${status}`);
+                await Promise.reject(`微信授权服务无法访问, ${status}`);
             }
 
             //
             if(data.code !== 0)
             {
-                await Promise.reject(`微信授权服务失败,${data.msg}`);
+                await Promise.reject(`微信授权服务请求失败, ${data.msg}`);
             }
 
 
@@ -98,7 +105,9 @@ export default {
                     needResult: 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
                     scanType: ["qrCode", "barCode"], // 可以指定扫二维码还是一维码，默认二者都有
                     success: function ({resultStr}) {
-                       alert(`scan result ${resultStr}`);                       
+
+                        // just jump
+                        window.location.href = resultStr;              
                     }
             });
         },
