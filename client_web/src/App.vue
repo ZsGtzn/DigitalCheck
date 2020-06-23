@@ -4,9 +4,12 @@
         <span slot="left">
             <mt-button icon="back" @click="back"></mt-button>
         </span>
-        <span slot="right" @click="scan" v-show="isWeChat">
-            <img :src="scanImg" style="height:35px;margin-right:10px;"/>
-        </span>
+        <div slot="right" @click="scan" v-show="isWeChat" style="display:flex;flex-direction:column;align-items:flex-end;">
+            <div style="display:flex;flex-direction:column;align-items:center;width:25px;margin-right:10px;">
+                <img :src="scanImg" style="width:28px;"/>
+                <span style="font-size:11px;margin-top:5px;">扫一扫</span>
+            </div>
+        </div>
     </mt-header>
     <div id="content">
         <transition name="fade">
@@ -33,6 +36,9 @@ export default {
     },
 
     created() {
+
+        return;
+
         if(!wx)
         {
             return this.Toast("微信js sdk导入失败");
