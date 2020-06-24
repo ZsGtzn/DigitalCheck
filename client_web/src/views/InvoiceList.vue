@@ -8,7 +8,7 @@
         <span class="warning">以下情况不支持开票及注意事项：1.未开航不开票；2.只能开两个月内的票；3.全退订单不开票（退票未产生手续费的）；4.已取票的不开票；5.退票产生手续费的可开票；6.如遇到发票不能显示的问题，请与客服联系，联系方式：0580-2626888</span>
         <ul style="margin: 5px;padding: 0px;">
             <li v-for="(item, index) of checkedPassenger" :key="index" class="listItem" @click="selectInvoice(item)">
-                <route-detail :item="item"></route-detail>
+                <route-detail v-if="type==='sanjiang'" :item="item"></route-detail>
             </li>
         </ul>
     </mt-loadmore>
@@ -36,7 +36,13 @@ export default {
 
     created()
     {
-        this.fetchData();
+        switch(this.type)
+        {
+            case 'sanjiang': {
+                this.fetchSanJiangData();
+            }
+            break;
+        }  
     },
 
     watch: {
@@ -54,9 +60,9 @@ export default {
     },
 
     methods: {
-        fetchData()
+        fetchSanJiangData()
         {
-            this.axios.get(`/invoice/passengerList.do?identifier=${this.identifier}`).then(response => {
+            this.axios.invoice.get(`/invoiceApi/sjky/passengerList?IDCard=${this.identifier}&state=all`).then(response => {
                 if(response.code === 0)
                 {
                     return this.checkedPassenger = response.data.map(ele => Object.assign(ele, {
@@ -70,7 +76,7 @@ export default {
 
         loadTop()
         {
-            this.fetchData();
+            this.fetchSanJiangData();
 
             //
             this.$refs.loadmore.onTopLoaded();
@@ -109,9 +115,13 @@ export default {
             }
             
             //
-            localStorage.setItem('invoice', JSON.stringify(multipleSelection));
-
-            this.$router.push({ path: '/checkInvoice' });
+            this.$router.push({ 
+                path: '/checkInvoice', 
+                query: { 
+                    type: this.type,
+                    invoiceList: JSON.stringify(multipleSelection) 
+                } 
+            });
         }
     }
 }

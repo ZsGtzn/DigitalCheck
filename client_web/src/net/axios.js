@@ -1,18 +1,19 @@
 import developmentConfig from '../configs/development.json'
 import productionConfig from '../configs/production.json'
 import axios from "axios"
+import { fetchAuthToken, updateAuthToken } from "../storage/local"
 
 //
-var host;
+var hostConfigMap;
 
 if(process.env.NODE_ENV === 'development') 
 {
-  ({ host } = developmentConfig)
+    hostConfigMap = developmentConfig;
 }
 
 if(process.env.NODE_ENV === 'production') 
 {
-  ({ host } = productionConfig)
+    hostConfigMap = productionConfig;
 }
 
 //
@@ -29,14 +30,28 @@ class Axios
   }
 
   async apiAxios(method, url, params) {
+    //
+    let headers = {
+        'Authorization' : fetchAuthToken() || "",
+    }
+    if(method === 'POST' || method === 'PUT')
+    {
+        headers = Object.assign(headers, {
+            'Content-Type': 'application/json;charset=utf-8',
+        });
+    }
+    else
+    {
+        headers = Object.assign(headers, {
+            'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
+        });
+    }
+
+    //
     const res = await this.http({
       method: method,
       url: url,
-      headers: method === 'POST' || method === 'PUT' ? {
-        'Content-Type': 'application/json;charset=utf-8'
-      } : {
-          'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
-        },
+      headers: headers,
       data: method === 'POST' || method === 'PUT' ? params : null,
       params: method === 'GET' || method === 'DELETE' ? params : null
     });
@@ -45,6 +60,14 @@ class Axios
       await Promise.reject('invalid status code');
     }
 
+    // refresh auth token
+    const authToken = res.headers['Authorization'] || res.headers['authorization'];    
+    if(authToken && authToken.length > 0)
+    {
+        updateAuthToken(authToken);
+    }
+
+    //
     return res.data
   }
 
@@ -70,6 +93,17 @@ class Axios
 }
 
 
-const axiosInstance = new Axios(host)
+//
+const axiosInstance = {};
+for(let name in hostConfigMap)
+{
+    //
+    const config = hostConfigMap[name];
 
+    //
+    axiosInstance[name] = new Axios(config.host)
+}
+
+
+//
 export default axiosInstance

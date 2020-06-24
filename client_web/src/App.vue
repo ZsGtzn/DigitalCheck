@@ -22,7 +22,6 @@
 <script>
 
 import scanImg from "./assets/scan/scan.png";
-import { default as axios } from "axios";
 import { isWeChat } from "./utils.js";
 
 export default {
@@ -36,9 +35,6 @@ export default {
     },
 
     created() {
-
-        return;
-
         if(!wx)
         {
             return this.Toast("微信js sdk导入失败");
@@ -59,29 +55,23 @@ export default {
         });
 
         //
-        this.weChatAuth().catch(e => {
+        this.weChatJsSdkAuth().catch(e => {
             this.Toast(e.toString());
         });
     },
 
     methods: {
-        async weChatAuth()
+        async weChatJsSdkAuth()
         {
             //
-            const authHost = "http://192.168.11.187:4000"
-            const wechatAuthUrl = `${authHost}/weChat/getJSSdkSignature?url=${btoa(window.location.href)}`;
             const appId = 'wx0e0353673be551f6';
 
             //
-            const { status, data } = await axios.get(wechatAuthUrl);
+            const { code, data } = await this.axios.weChatJsSdkAuth.get(`/weChat/getJSSdkSignature?url=${btoa(window.location.href)}`);
 
+          
             //
-            if (status < 200 || status >= 300) {
-                await Promise.reject(`微信授权服务无法访问, ${status}`);
-            }
-
-            //
-            if(data.code !== 0)
+            if(code !== 0)
             {
                 await Promise.reject(`微信授权服务请求失败, ${data.msg}`);
             }
@@ -91,9 +81,9 @@ export default {
             wx.config({
                 debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
                 appId: appId, // 必填，公众号的唯一标识
-                timestamp: data.data.timestamp, // 必填，生成签名的时间戳
-                nonceStr: data.data.nonceStr, // 必填，生成签名的随机串
-                signature: data.data.signature,// 必填，签名
+                timestamp: data.timestamp, // 必填，生成签名的时间戳
+                nonceStr: data.nonceStr, // 必填，生成签名的随机串
+                signature: data.signature,// 必填，签名
                 jsApiList: ['scanQRCode'] // 必填，需要使用的JS接口列表
             });
         },

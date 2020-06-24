@@ -31,7 +31,7 @@ export default {
 
     created()
     {
-        if(type !== 'sanjiang')
+        if(this.type !== 'sanjiang')
         {
             this.Toast("无效的发票类型");
         }

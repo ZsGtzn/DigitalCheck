@@ -3,9 +3,10 @@ const mockServerClientInstance = process["mockServerClientInstance"];
 mockServerClientInstance.mockAnyResponse({
   httpRequest: {
     "method": "GET",
-    "path": "/invoice/passengerList.do",
+    "path": "/invoiceApi/sjky/passengerList",
     "queryStringParameters": {
-      "identifier": [".*"]
+      "IDCard": [".*"],
+      "state": [".*"]
     }
   },
   "httpResponse": {
@@ -93,3 +94,26 @@ mockServerClientInstance.mockAnyResponse({
 }).catch(e => {
   console.log(e);
 });
+
+mockServerClientInstance.mockAnyResponse({
+    httpRequest: {
+      "method": "GET",
+      "path": "/invoiceApi/wx/wxLogin",
+      "queryStringParameters": {
+        "code": [".*"]
+      }
+    },
+    "httpResponse": {
+      "headers": {
+        "Content-Type": ["application/json", "charset=utf-8"],
+        "Last-Modified": ["Fri, 23 Oct 2019 07:28:00 GMT"],
+        "Authorization": ["auth"],
+        "Access-Control-Expose-Headers" : ['Authorization'],
+      },
+      "body": {"subscribe": 1},
+    }
+  }).then(() => {
+    console.log("/invoice/check expectation created");
+  }).catch(e => {
+    console.log(e);
+  });

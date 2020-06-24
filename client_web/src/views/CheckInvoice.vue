@@ -70,6 +70,9 @@ export default {
     name: 'Main',
     data() {
         return {
+            type: "",
+
+            //
             invoiceTargetType: "1",
 
             //
@@ -109,7 +112,9 @@ export default {
     },
 
     created() {
-        this.invoiceList = JSON.parse(localStorage.getItem("invoice"));
+        //
+        this.invoiceList = JSON.parse(this.$attrs.invoiceList);
+        this.type = this.$attrs.type;
 
         //
         this.totalCashAmount = 0;
@@ -183,7 +188,7 @@ export default {
             }
 
             //
-            return this.axios.post("/invoice/doInvoice.do", {
+            return this.axios.invoice.post("/invoice/doInvoice.do", {
                 serialNum: serialNumList,
                 buyerName: buyerName,
                 type: parseInt(this.invoiceTargetType),
