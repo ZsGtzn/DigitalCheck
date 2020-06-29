@@ -23,6 +23,12 @@ const routerInstance = new Router({
         },
 
         {
+            path: '/invoiceSingle/:type/:identifier',
+            component: () => import('./views/InvoiceSingle.vue'),
+            props: true,
+        },
+
+        {
             path: '/checkInvoice',
             component: () => import('./views/CheckInvoice.vue'),
             props: route => { 
@@ -51,7 +57,10 @@ const payAttensionZiubaoUrl = "https://mp.weixin.qq.com/mp/profile_ext?action=ho
 routerInstance.beforeEach((to, from, next) => {
     if (to.matched.some(record => record.meta.requireCheckPayAttension)) {
         // this route requires check pay attension
-        axios.invoice.get(`/invoiceApi/wx/wxLogin?code=${to.query.code}`).then(({subscribe}) => {
+        axios.invoice.get(`/invoiceApi/wx/wxLogin?code=${to.query.code}`).then(({data}) => {
+            const { subscribe } = data;
+            
+            //
             if(subscribe == 1)
             {
                 return next();

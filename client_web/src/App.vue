@@ -64,7 +64,7 @@ export default {
     methods: {
         async weChatJsSdkAuth()
         {
-            const { statusCode, data, msg } = await this.axios.weChatJsSdkAuth.get(`/wxShare/getJSApiTicket.do?url=${btoa(window.location.href)}`);
+            const { statusCode, data, msg } = await this.axios.weChatJsSdkAuth.get(`/wxShare/getJSSdkSignature.do?url=${btoa(window.location.href)}`);
 
             //
             if(parseInt(statusCode) !== 200)
@@ -111,6 +111,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
+$headerHeight: 50px;
+
 #app {
     position: fixed;
     width: 100%;
@@ -119,16 +122,15 @@ export default {
 }
 
 #head {
-    height: 50px;
+    height: $headerHeight;
     font-size: 17px;
 }
 
 #content {
     position: fixed;
-    margin-top: 50px;
+    bottom: 0px;
     width: 100%;
-    height: calc(100% - 50px);
-    box-sizing: border-box;
+    height: calc(100% - #{$headerHeight});
 }
 
 //
