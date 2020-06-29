@@ -64,14 +64,14 @@ export default {
     methods: {
         async weChatJsSdkAuth()
         {
-            const { statusCode, data } = await this.axios.weChatJsSdkAuth.get(`/wxShare/getJSApiTicket.do?url=${btoa(window.location.href)}`);
+            const { statusCode, data, msg } = await this.axios.weChatJsSdkAuth.get(`/wxShare/getJSApiTicket.do?url=${btoa(window.location.href)}`);
 
             //
-            if(statusCode !== 200)
+            if(parseInt(statusCode) !== 200)
             {
-                await Promise.reject(`微信授权服务请求失败, ${data.msg}`);
+                await Promise.reject(msg);
             }
-
+            
             //
             wx.config({
                 debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
