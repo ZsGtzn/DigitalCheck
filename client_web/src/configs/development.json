@@ -1,8 +1,12 @@
 {
-	"invoice": {
-        "host": "http://192.168.11.187:3000"
+    "axios": {
+        "invoice": {
+            "host": "http://192.168.11.187:3000"
+        },
+        "weChatJsSdkAuth": {
+            "host": "http://192.168.11.187:4000"
+        }
     },
-    "weChatJsSdkAuth": {
-        "host": "http://192.168.11.187:4000"
-    }
+    
+    "appId": "wx0e0353673be551f6"
 }

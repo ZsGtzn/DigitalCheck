@@ -8,12 +8,12 @@ var hostConfigMap;
 
 if(process.env.NODE_ENV === 'development') 
 {
-    hostConfigMap = developmentConfig;
+    hostConfigMap = developmentConfig.axios;
 }
 
 if(process.env.NODE_ENV === 'production') 
 {
-    hostConfigMap = productionConfig;
+    hostConfigMap = productionConfig.axios;
 }
 
 //
@@ -22,7 +22,7 @@ class Axios
   constructor(host)
   {
     this.host = host;
-
+    alert(host)
     this.http = axios.create({
       baseURL: host,
       // withCredentials: true

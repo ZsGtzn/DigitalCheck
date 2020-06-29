@@ -23,6 +23,7 @@
 
 import scanImg from "./assets/scan/scan.png";
 import { isWeChat } from "./utils.js";
+import { appId } from "./configs";
 
 export default {
     name: 'App',
@@ -56,26 +57,20 @@ export default {
 
         //
         this.weChatJsSdkAuth().catch(e => {
-            this.Toast(e.toString());
+            this.Toast(`微信授权服务请求失败, ${e.toString()}`);
         });
     },
 
     methods: {
         async weChatJsSdkAuth()
         {
-            //
-            const appId = 'wx0e0353673be551f6';
+            const { statusCode, data } = await this.axios.weChatJsSdkAuth.get(`/wxShare/getJSApiTicket.do?url=${btoa(window.location.href)}`);
 
             //
-            const { code, data } = await this.axios.weChatJsSdkAuth.get(`/weChat/getJSSdkSignature?url=${btoa(window.location.href)}`);
-
-          
-            //
-            if(code !== 0)
+            if(statusCode !== 200)
             {
                 await Promise.reject(`微信授权服务请求失败, ${data.msg}`);
             }
-
 
             //
             wx.config({
