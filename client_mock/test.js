@@ -19,7 +19,6 @@ mockServerClientInstance.mockAnyResponse({
         "data": [
             { 
                 "IDNum": "330921198606202031", 
-                "canInvoice": true, 
                 "date": "2018-12-06", 
                 "endPort": "gaoting", 
                 "id": 1, 
@@ -41,7 +40,6 @@ mockServerClientInstance.mockAnyResponse({
             }, 
             { 
                 "IDNum": "210905197807210546", 
-                "canInvoice": false, 
                 "date": "2018-12-06", 
                 "endPort": "gaoting", 
                 "id": 2, 

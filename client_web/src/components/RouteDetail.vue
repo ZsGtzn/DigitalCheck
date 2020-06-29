@@ -4,13 +4,13 @@
             <input
                 style="margin-right:10px;"
                 type="checkbox"
-                :disabled="!routeInfo.canInvoice"
+                :disabled="routeInfo.isInvoice"
                 v-model="routeInfo.ifSelected"
             />
             <div 
             style="color:#ffffff;font-size:11px;width:100px;height:30px;border-radius: 0px 0px 10px 10px;display:flex;justify-content:center;align-items:center;"
-            :class="[routeInfo.canInvoice? 'checkedInvoice' : 'unCheckedInvoice']">
-                <span v-if="routeInfo.canInvoice">未开票</span>
+            :class="[!routeInfo.isInvoice? 'checkedInvoice' : 'unCheckedInvoice']">
+                <span v-if="!routeInfo.isInvoice">未开票</span>
                 <span v-else>已开票</span>
             </div>
             

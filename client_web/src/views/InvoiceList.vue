@@ -49,7 +49,7 @@ export default {
         ifAllSelected: function(newValue, oldValue) {
             for(let ele of this.checkedPassenger)
             {
-                if(!ele.canInvoice) {
+                if(ele.isInvoice) {
                     continue;
                 }
 
@@ -62,7 +62,7 @@ export default {
     methods: {
         fetchSanJiangData()
         {
-            this.axios.invoice.get(`/invoiceApi/sjky/passengerList?IDCard=${this.identifier}&state=all`).then(response => {
+            this.axios.invoice.get(`/invoiceApi/sjky/passengerList?IDCard=${this.identifier}&state`).then(response => {
                 if(response.code === 0)
                 {
                     return this.checkedPassenger = response.data.map(ele => Object.assign(ele, {
@@ -83,7 +83,7 @@ export default {
         },
 
         selectInvoice(item) {
-            if(!item.canInvoice)
+            if(item.isInvoice)
             {
                 return;
             }
