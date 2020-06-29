@@ -67,6 +67,9 @@ routerInstance.beforeEach((to, from, next) => {
             }
 
             //
+            alert("请先关注自游宝公众号");
+
+            //
             window.location.href = payAttensionZiubaoUrl;
         }).catch(err => {
             //
