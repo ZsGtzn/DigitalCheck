@@ -31,7 +31,7 @@ export default {
     created() {
         if (this.type !== "sanjiang"
         && this.type !== "putuobus") {
-            this.Toast("无效的发票类型");
+            this.Toast(`无效的平台, ${this.type}`);
         }
     },
 

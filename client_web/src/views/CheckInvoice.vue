@@ -182,8 +182,24 @@ export default {
                 buyerName = this.companyHead;
             }
 
+
             //
-            return this.axios.invoice.post("/invoiceApi/zlkc/doInvoice", {
+            let serverUrl = ""
+            if(this.type == 'sanjiang')
+            {
+                serverUrl = "/invoiceApi/sjky/doInvoice";
+            }
+            else if(this.type == 'putuobus')
+            {
+                serverUrl = "/invoiceApi/zlkc/doInvoice";
+            }
+            else
+            {
+                this.Toast(`无效的平台, ${this.type}`);
+            }
+
+            //
+            return this.axios.invoice.post(serverUrl, {
                 serialNum: serialNumList,
                 buyerName: buyerName,
                 type: parseInt(this.invoiceTargetType),
@@ -205,7 +221,9 @@ export default {
                 }
 
                 this.Toast(response.error);
-            });
+            }).catch(e => {
+                this.Toast(`开票请求失败, ${e.toString()}`);
+            });;
         }
     }
 }

@@ -11,6 +11,7 @@
             style="color:#ffffff;font-size:11px;width:100px;height:30px;border-radius: 0px 0px 10px 10px;display:flex;justify-content:center;align-items:center;"
             :class="[!routeInfo.isInvoice? 'checkedInvoice' : 'unCheckedInvoice']">
                 <span v-if="!routeInfo.isInvoice">未开票</span>
+                <span v-else-if="routeInfo.isInvoice && (!routeInfo.invoiceUrl || routeInfo.invoiceUrl.length == 0)">开票中</span>
                 <span v-else>已开票</span>
             </div>
             

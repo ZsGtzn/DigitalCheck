@@ -78,7 +78,9 @@ export default {
                 }
 
                 this.Toast(response.error);
-            });
+            }).catch(e => {
+                this.Toast(`获取开票信息失败, ${e.toString()}`);
+            });;
         },
 
         checkInvoice() {
