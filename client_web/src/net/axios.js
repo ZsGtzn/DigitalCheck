@@ -22,7 +22,7 @@ class Axios
   constructor(host)
   {
     this.host = host;
-    alert(host)
+    //
     this.http = axios.create({
       baseURL: host,
       // withCredentials: true
