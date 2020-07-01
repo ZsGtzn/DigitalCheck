@@ -4,7 +4,7 @@
         <span slot="left">
             <mt-button icon="back" @click="back"></mt-button>
         </span>
-        <div slot="right" @click="scan" v-show="isWeChat" style="display:flex;flex-direction:column;align-items:flex-end;">
+        <div slot="right" @click="scan" v-show="ifShowScanIcon && isWeChat" style="display:flex;flex-direction:column;align-items:flex-end;">
             <div style="display:flex;flex-direction:column;align-items:center;width:25px;margin-right:10px;">
                 <img :src="scanImg" style="width:28px;"/>
                 <span style="font-size:11px;margin-top:5px;">扫一扫</span>
@@ -35,7 +35,18 @@ export default {
         }
     },
 
+    computed: {
+        ifShowScanIcon: function() {
+            return this.$route.path.search(/\/sanjiang/) >= 0;
+        }
+    },
+
     created() {
+        if(!this.ifShowScanIcon)
+        {
+            return;
+        }
+
         if(!wx)
         {
             return this.Toast("微信js sdk导入失败");
