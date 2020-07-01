@@ -1,6 +1,9 @@
 <template>
     <div id="main">
-        <img :src="mainPageImg" style="width:100%;margin:10px 0px 10px 0px;" />
+        <img v-if="type=='sanjiang'" :src="mainPageImg" style="width:100%;margin:10px 0px 10px 0px;" />
+        <div v-else-if="type=='putuobus'" style="text-align:center;">
+            <p>普陀山旅游巴士</p>
+        </div>
         <div v-if="type=='sanjiang'">
             <mt-field placeholder="请输入您的身份证号码" style="border-radius:10px;" v-model="identityNo"></mt-field>
         </div>
@@ -164,6 +167,7 @@ export default {
     bottom: 0px;
     left: 0px;
     width: 100%;
+    font-size:11px
 }
 
 #main {
