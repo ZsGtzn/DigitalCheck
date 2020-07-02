@@ -17,9 +17,11 @@
                 <div class="divider"></div>
                 <mt-field placeholder="*手机号码" v-model="mobile"></mt-field>
                 <div class="divider"></div>
-                <mt-field placeholder="邮箱地址" type="email" v-model="email"></mt-field>
+                <mt-field placeholder="邮箱地址（选填）" type="email" v-model="email"></mt-field>
                 <div class="divider"></div>
                 <mt-field placeholder="备注（选填）" v-model="remark"></mt-field>
+                <div class="divider"></div>
+                <mt-field placeholder="身份证（选填）" v-model="personIdentifier"></mt-field>
             </div>
             <div class="invoiceDetail" v-else-if="invoiceTargetType==='2'">
                 <mt-field placeholder="*公司抬头" v-model="companyHead"></mt-field>
@@ -86,6 +88,7 @@ export default {
             companyBankAccount: "",
             remark: "",
             mobile: "",
+            personIdentifier: "",
 
             //
             invoiceList: [],
@@ -204,7 +207,7 @@ export default {
                 buyerName: buyerName,
                 type: parseInt(this.invoiceTargetType),
                 email: this.email,
-                taxnum: this.taxNo,
+                taxnum: parseInt(this.invoiceTargetType) == 1 ? this.personIdentifier : this.taxNo,
                 companyAddress: this.companyAddress,
                 landline: this.companyTelephone,
                 bankAddress: this.companyBank,

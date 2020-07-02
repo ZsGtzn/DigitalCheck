@@ -1,27 +1,32 @@
 <template>
-    <div style="position:absolute;top:0px;height:100%;width:100%;">
-        <div id="invoiceDetail">
-            <span class="title">开票金额</span><span style="font-size:20px;color:#e91010;">￥{{invoiceDetail.total_Fee}}</span>
+    <div style="display:flex;flex-direction:column;justify-content:flex-end;height:100%;width:100%;">
+        <div style="overflow:auto;width:100%;height:100%;">
+            <p class="warningHead" style="text-align:text-align">电子发票温馨提示</p>
+            <span class="warning">1、如你开具的增值税普通发票用于企业报销，根据国家税务相关政策要求填定纳税人识别号。</span>
+            <span class="warning">2、因你个人填写发票信息有误等原因开具的发票，由你本人自行承担，请你仔细核对确认后开具。</span>
+            <div id="invoiceDetail">
+                <span class="title">开票金额</span><span style="font-size:20px;color:#e91010;">￥{{invoiceDetail.total_Fee}}</span>
+            </div>
+            <div id="invoiceDetail">
+                <span class="title">订单号</span><span style="font-size:12.5px;">{{invoiceDetail.out_Trade_No}}</span>
+            </div>
+            <div id="invoiceDetail">
+                <span class="title">车牌号</span><span style="font-size:12.5px;">{{invoiceDetail.busNo}}</span>
+            </div>
+            <div id="invoiceDetail">
+                <span class="title">开票金额</span><span style="font-size:12.5px;">{{invoiceDetail.invoiceAmount}}</span>
+            </div>
+            <div id="invoiceDetail">
+                <span class="title">交易方式</span><span style="font-size:12.5px;">{{invoiceDetail.trade_Type}}</span>
+            </div>
+            <div id="invoiceDetail">
+                <span class="title">交易时间</span><span style="font-size:12.5px;">{{invoiceDetail.time_End}}</span>
+            </div>
         </div>
-        <div id="invoiceDetail">
-            <span class="title">订单号</span><span style="font-size:12.5px;">{{invoiceDetail.out_Trade_No}}</span>
-        </div>
-        <div id="invoiceDetail">
-            <span class="title">车牌号</span><span style="font-size:12.5px;">{{invoiceDetail.busNo}}</span>
-        </div>
-        <div id="invoiceDetail">
-            <span class="title">开票金额</span><span style="font-size:12.5px;">{{invoiceDetail.invoiceAmount}}</span>
-        </div>
-        <div id="invoiceDetail">
-            <span class="title">交易方式</span><span style="font-size:12.5px;">{{invoiceDetail.trade_Type}}</span>
-        </div>
-        <div id="invoiceDetail">
-            <span class="title">交易时间</span><span style="font-size:12.5px;">{{invoiceDetail.time_End}}</span>
-        </div>
-
         <mt-button :disabled="true" type="danger" v-if="!invoiceDetail || !invoiceDetail.out_Trade_No || invoiceDetail.out_Trade_No.length == 0" id="unableCheckInvoice">无法开票</mt-button>
         <mt-button v-else-if="invoiceDetail.isInvoice && invoiceDetail.invoiceUrl.length == 0" type="primary" disabled="true" id="checkingInvoice">开票中</mt-button>
         <mt-button v-else-if="!invoiceDetail.isInvoice" type="primary" id="checkInvoice" @click="checkInvoice">开票</mt-button>
+        
         <div 
             v-else-if="invoiceDetail.invoiceUrl && invoiceDetail.invoiceUrl.length > 0"
             @click.capture="showOpenBrowserHint"
@@ -157,10 +162,8 @@ export default {
 
 //
 @mixin checkInvoiceBase {
-    position: absolute;
-    bottom: 0px;
     width: 100%;
-    font-size:11px
+    font-size:11px;
 }
 
 #unableCheckInvoice {
@@ -199,4 +202,23 @@ export default {
     @include pdf;
     background-color: #79c9fe;
 }
+
+.warning {
+    width: 100%;
+    display: inline-block;
+    box-sizing: border-box;
+    color:#e91010; 
+    font-size:11px;
+    padding: 5px 10px 5px 10px;
+    &:last-child {
+        margin-bottom: 20px;
+    }
+}
+
+.warningHead {
+    @extend .warning;
+    text-align:center;
+    font-size:15px;
+}
+
 </style>

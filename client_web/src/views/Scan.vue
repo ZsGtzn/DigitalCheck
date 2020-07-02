@@ -7,7 +7,7 @@
             <mt-field placeholder="请输入您的身份证号码" style="border-radius:10px;" v-model="identityNo"></mt-field>
         </div>
         <div v-else-if="type=='putuobus'">
-            <mt-field placeholder="请输入您的订单号" style="border-radius:10px;" v-model="identityNo"></mt-field>
+            <mt-field placeholder="请您输入商户单号" style="border-radius:10px;" v-model="identityNo"></mt-field>
         </div>
         <mt-button type="primary" id="checkInvoice" @click="search">查询</mt-button>
     </div>
