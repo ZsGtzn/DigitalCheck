@@ -217,10 +217,9 @@ export default {
                     setTimeout(() => {
                         this.$router.go(-1);
                     }, 500);
-                    return this.Toast(response.msg);
                 }
 
-                this.Toast(response.error);
+                this.Toast(response.msg);
             }).catch(e => {
                 this.Toast(`开票请求失败, ${e.toString()}`);
             });;

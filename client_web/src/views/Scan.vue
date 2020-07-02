@@ -1,9 +1,8 @@
 <template>
     <div id="main">
         <img v-if="type=='sanjiang'" :src="mainPageImg" style="width:100%;margin:10px 0px 10px 0px;" />
-        <div v-else-if="type=='putuobus'" style="text-align:center;">
-            <p>普陀山旅游巴士</p>
-        </div>
+        <img v-else-if="type=='putuobus'" :src="putuobusMainImg" style="width:100%;margin:10px 0px 10px 0px;" />
+        
         <div v-if="type=='sanjiang'">
             <mt-field placeholder="请输入您的身份证号码" style="border-radius:10px;" v-model="identityNo"></mt-field>
         </div>
@@ -16,6 +15,7 @@
 
 <script>
 import mainPageImg from "../assets/scan/main.png";
+import putuobusMainImg from "../assets/scan/putuobusMain.png";
 
 export default {
     name: "Scan",
@@ -27,7 +27,8 @@ export default {
     data() {
         return {
             identityNo: "",
-            mainPageImg: mainPageImg
+            mainPageImg: mainPageImg,
+            putuobusMainImg: putuobusMainImg,
         };
     },
 
@@ -147,6 +148,13 @@ export default {
                     break;
                 case "putuobus":
                     {
+                        //
+                        if(!this.identityNo || this.identityNo.length == 0)
+                        {
+                            return this.Toast("请输入订单号");
+                        }
+
+                        //
                         this.$router.push({
                             path: `/invoiceSingle/${this.type}/${this.identityNo}`
                         });

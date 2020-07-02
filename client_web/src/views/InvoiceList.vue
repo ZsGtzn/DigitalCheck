@@ -70,7 +70,7 @@ export default {
                     }));
                 }
 
-                this.Toast(response.error);
+                this.Toast(response.msg);
             }).catch(e => {
                 this.Toast(`获取开票列表失败, ${e.toString()}`);
             });

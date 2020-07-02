@@ -19,18 +19,19 @@
             <span class="title">交易时间</span><span style="font-size:12.5px;">{{invoiceDetail.time_End}}</span>
         </div>
 
-        <mt-button v-if="invoiceDetail.isInvoice && invoiceDetail.invoiceUrl.length == 0" type="primary" disabled="true" id="checkingInvoice">开票中</mt-button>
+        <mt-button :disabled="true" type="danger" v-if="!invoiceDetail || !invoiceDetail.out_Trade_No || invoiceDetail.out_Trade_No.length == 0" id="unableCheckInvoice">无法开票</mt-button>
+        <mt-button v-else-if="invoiceDetail.isInvoice && invoiceDetail.invoiceUrl.length == 0" type="primary" disabled="true" id="checkingInvoice">开票中</mt-button>
         <mt-button v-else-if="!invoiceDetail.isInvoice" type="primary" id="checkInvoice" @click="checkInvoice">开票</mt-button>
         <div 
             v-else-if="invoiceDetail.invoiceUrl && invoiceDetail.invoiceUrl.length > 0"
             @click.capture="showOpenBrowserHint"
             id="downloadInvoice">
-            <mt-button type="primary" class="preview" @click.capture="preview(routeInfo)">查看发票</mt-button>
+            <mt-button type="primary" class="preview" @click.capture="preview()">查看发票</mt-button>
             <div style="height:5px;width:100%" />
             <mt-button
                 type="primary"
                 class="download"
-                @click.capture="download(routeInfo)"
+                @click.capture="download()"
             >下载发票</mt-button>
         </div>
     </div>
@@ -69,6 +70,15 @@ export default {
     },
 
     methods: {
+        showOpenBrowserHint(event) {
+            if (window.gtzn.ifNeedToJumpOutBrowser) {
+                event.stopPropagation();
+
+                //
+                return this.Toast("请点击右上角，选择从浏览器中打开");
+            }
+        },
+
         fetchPutuoBusData: function()
         {
             this.axios.invoice.get(`invoiceApi/zlkc/getOrderInfo?serialNum=${this.identifier}`).then(response => {
@@ -77,7 +87,7 @@ export default {
                     return this.invoiceDetail = response.data;
                 }
 
-                this.Toast(response.error);
+                this.Toast(response.msg);
             }).catch(e => {
                 this.Toast(`获取开票信息失败, ${e.toString()}`);
             });;
@@ -97,17 +107,17 @@ export default {
             });
         },
 
-        download(routeInfo) {
+        download() {
             // 创建隐藏的可下载链接
             var eleLink = document.createElement("a");
-            eleLink.download = `${routeInfo.serialNum}.pdf`;
+            eleLink.download = `${this.invoiceDetail.out_Trade_No}.pdf`;
             eleLink.style.display = "none";
 
             //
             if (window.gtzn.platform == "android") {
-                eleLink.href = routeInfo.invoiceUrl;
+                eleLink.href = this.invoiceDetail.invoiceUrl;
             } else {
-                var blob = new Blob([routeInfo.invoiceUrl]);
+                var blob = new Blob([this.invoiceDetail.invoiceUrl]);
                 eleLink.href = URL.createObjectURL(blob);
             }
 
@@ -119,8 +129,8 @@ export default {
             document.body.removeChild(eleLink);
         },
 
-        preview(routeInfo) {
-            window.location.href = routeInfo.invoiceUrl;
+        preview() {
+            window.location.href = this.invoiceDetail.invoiceUrl;
         }
     }
 }
@@ -151,6 +161,11 @@ export default {
     bottom: 0px;
     width: 100%;
     font-size:11px
+}
+
+#unableCheckInvoice {
+    @include checkInvoiceBase;
+    height: 50px;
 }
 
 #checkingInvoice {
