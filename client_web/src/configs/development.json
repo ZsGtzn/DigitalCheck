@@ -1,7 +1,7 @@
 {
 	"axios": {
         "invoice": {
-            "host": "http://192.168.11.187:3000"
+            "host": "http://123.157.78.187:8090"
         },
         "weChatJsSdkAuth": {
             "host": "http://192.168.11.187:4000"
