@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import axios from './net/axios'
+import { isWeChat } from "./utils.js";
 
 //
 Vue.use(Router)
@@ -55,6 +56,19 @@ const routerInstance = new Router({
 //
 const payAttensionZiubaoUrl = "https://mp.weixin.qq.com/mp/profile_ext?action=home&__biz=MjM5MTkxMDcyNA==&scene=#wechat_redirect";
 routerInstance.beforeEach((to, from, next) => {
+    // putuobus do not need check channel flavor
+    if(to.path.search(/\/putuobus/) >= 0)
+    {
+        return next();
+    }
+
+    // just wechat need to check channel flavor
+    if(!isWeChat())
+    {
+        return next();
+    }
+
+    // check channel flavor
     if (to.matched.some(record => record.meta.requireCheckPayAttension)) {
         // this route requires check pay attension
         axios.invoice.get(`/invoiceApi/wx/wxLogin?code=${to.query.code}`).then(({data}) => {

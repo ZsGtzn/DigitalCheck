@@ -51,7 +51,7 @@ export default {
         {
             return this.Toast("微信js sdk导入失败");
         }
-        
+
         if(!this.isWeChat)
         {
             return;
