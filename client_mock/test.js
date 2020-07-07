@@ -105,10 +105,10 @@ mockServerClientInstance.mockAnyResponse({
       "headers": {
         "Content-Type": ["application/json", "charset=utf-8"],
         "Last-Modified": ["Fri, 23 Oct 2019 07:28:00 GMT"],
-        "Authorization": ["auth"],
         "Access-Control-Expose-Headers" : ['Authorization'],
+        "Authorization": ["auth"],
       },
-      "body": {"subscribe": 1},
+      "body": {"code": 0, "data": { "subscribe": 1 }},
     }
   }).then(() => {
     console.log("/invoice/check expectation created");

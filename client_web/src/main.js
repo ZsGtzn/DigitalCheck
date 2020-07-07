@@ -8,7 +8,9 @@ import touch from './directives/touch';
 // 引入全部组件
 import MintUI, { Toast } from 'mint-ui'
 import 'mint-ui/lib/style.css'
-import './style/putuobus/blue.scss';
+
+// this style is used for putuobus invoice
+// import './style/putuobus/blue.scss';
 
 Vue.use(MintUI);
 
