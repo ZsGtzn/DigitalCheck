@@ -16,11 +16,11 @@ export const clearAuthToken = () => {
 const wxUserInfoKey = 'zyb_wx_userinfo';
 
 export const setWxUserInfo = (userInfo) => {
-    localStorage.setItem(wxUserInfoKey, userInfo);
+    localStorage.setItem(wxUserInfoKey, JSON.stringify(userInfo));
 }
 
 export const getWxUserInfo = () => {
-    localStorage.getItem(wxUserInfoKey);
+    return JSON.parse(localStorage.getItem(wxUserInfoKey));
 }
 
 export const clearWxUserInfo = () => {

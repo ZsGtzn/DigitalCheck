@@ -1,6 +1,6 @@
 import axios from '../../net/axios';
 import { getUrlQuery, isWeChat } from "../../utils.js";
-import { setWxUserInfo, getWxUserInfo, } from "../../storage/local";
+import { setWxUserInfo, getWxUserInfo, clearWxUserInfo, } from "../../storage/local";
 
 
 /**
@@ -41,6 +41,12 @@ const mutations = {
 
         //
         setFromOrginUrl(data);
+    },
+    clearWxUserInfo(state) {
+        state.wxUserInfo = null;
+
+        //
+        clearWxUserInfo();
     }
 }
 

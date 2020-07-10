@@ -3,7 +3,8 @@ import Router from 'vue-router'
 import { isWeChat } from "./utils.js";
 import config from "./configs";
 import store from "./store";
-import { fetchAuthToken } from "./storage/local";
+import { fetchAuthToken, clearAuthToken, getWxUserInfo } from "./storage/local";
+import axios from './net/axios';
 
 //
 Vue.use(Router)
@@ -74,26 +75,38 @@ routerInstance.beforeEach((to, from, next) => {
     store.dispatch("auth/wxAccessLogin").then(ifNeedWeChatAuth => {
         if(!ifNeedWeChatAuth)
         {
-            const authToken = fetchAuthToken();
-    
-            /**
-             * check channel flavor
-             */
-            if (to.matched.some(record => record.meta.requireCheckPayAttension)) {
-    
-                if((authToken && authToken.length > 0))
-                {
-                    return next();
+            //
+            const openid = getWxUserInfo().openid;
+
+            //
+            clearAuthToken();
+
+            // check if auth is expired
+            axios.invoice.get(`/invoiceApi/wx/wxLogin?openid=${openid}`).finally(() => {
+                /**
+                 * auth is valid
+                 */
+                const authToken = fetchAuthToken();
+        
+                /**
+                 * check channel flavor
+                 */
+                if (to.matched.some(record => record.meta.requireCheckPayAttension)) {
+        
+                    if((authToken && authToken.length > 0))
+                    {
+                        return next();
+                    }
+        
+                    //
+                    alert("请先关注自游宝公众号");
+        
+                    //
+                    window.location.href = payAttensionZiubaoUrl;
+                } else {
+                    next()
                 }
-    
-                //
-                alert("请先关注自游宝公众号");
-    
-                //
-                window.location.href = payAttensionZiubaoUrl;
-            } else {
-                next()
-            }
+            });
 
             //
             return;
