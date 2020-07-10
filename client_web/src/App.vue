@@ -22,9 +22,8 @@
 <script>
 
 import scanImg from "./assets/scan/scan.png";
-import { isWeChat } from "./utils.js";
+import { isWeChat, getUrlQuery } from "./utils.js";
 import config from "./configs";
-
 export default {
     name: 'App',
     data() {
@@ -115,6 +114,28 @@ export default {
         },
 
         back() {
+            // this is wechat redirect page, when jump back, need leap over auth page
+            const code = getUrlQuery('code');
+            if (isWeChat() && code && code.length > 0) {
+                //
+                const fromOrginUrl = this.$store.state.auth.fromOrginUrl;
+
+                //
+                if(fromOrginUrl && fromOrginUrl.length && fromOrginUrl.length > 0)
+                {
+                    window.location.href = fromOrginUrl;
+                }
+                else
+                {   
+                    //
+                    this.$router.go(-1);
+                }
+
+                //
+                return;
+            }
+
+            //
             this.$router.go(-1);
         }
     }

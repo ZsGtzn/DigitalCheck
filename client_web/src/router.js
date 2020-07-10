@@ -1,7 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import axios from './net/axios'
 import { isWeChat } from "./utils.js";
+import config from "./configs";
+import store from "./store";
+import { fetchAuthToken } from "./storage/local";
 
 //
 Vue.use(Router)
@@ -68,35 +70,54 @@ routerInstance.beforeEach((to, from, next) => {
         return next();
     }
 
-    // check channel flavor
-    if (to.matched.some(record => record.meta.requireCheckPayAttension)) {
-        // this route requires check pay attension
-        axios.invoice.get(`/invoiceApi/wx/wxLogin?code=${to.query.code}`).then(({data}) => {
-            const { subscribe } = data;
-            
-            //
-            if(subscribe == 1)
-            {
-                return next();
+    //
+    store.dispatch("auth/wxAccessLogin").then(ifNeedWeChatAuth => {
+        if(!ifNeedWeChatAuth)
+        {
+            const authToken = fetchAuthToken();
+    
+            /**
+             * check channel flavor
+             */
+            if (to.matched.some(record => record.meta.requireCheckPayAttension)) {
+    
+                if((authToken && authToken.length > 0))
+                {
+                    return next();
+                }
+    
+                //
+                alert("请先关注自游宝公众号");
+    
+                //
+                window.location.href = payAttensionZiubaoUrl;
+            } else {
+                next()
             }
 
             //
-            alert("请先关注自游宝公众号");
+            return;
+        }
 
-            //
-            window.location.href = payAttensionZiubaoUrl;
-        }).catch(err => {
-            //
-            routerInstance.push({
-                path: "routeCheckInvoiceResult", 
-                query: {
-                    reason: `公众号关注状态检查失败, ${err}`
-                }
-            });
-        });
-      } else {
-        next()
-      }
+        /**
+         * wechat auth
+         */
+        const appId = config.appId;
+        //
+        const redirectUri = `${window.location.origin}${window.location.pathname}${window.location.hash}`;
+        const encodeRedirectUrl = encodeURIComponent(redirectUri);
+
+        // fetch origin url
+        const fromUrl = encodeURIComponent(document.referrer);
+
+        //
+        const wechatAuthUrl = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${appId}&redirect_uri=${encodeRedirectUrl}&response_type=code&scope=snsapi_userinfo&state=${fromUrl}#wechat_redirect`;
+        
+        //
+        document.location.replace(wechatAuthUrl);
+    }).catch(e => {
+        alert(`微信授权失败, ${e.toString()}`);
+    })
 });
 
 //

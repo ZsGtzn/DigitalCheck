@@ -2,6 +2,7 @@ import developmentConfig from '../configs/development.json'
 import productionConfig from '../configs/production.json'
 import axios from "axios"
 import { fetchAuthToken, updateAuthToken } from "../storage/local"
+import { clearWxUserInfo, } from "../storage/local";
 
 //
 var hostConfigMap;
@@ -67,8 +68,19 @@ class Axios
         updateAuthToken(authToken);
     }
 
+
+    // check if token is expired, if expired, clear auth corresponding data
+    if(res.data && (res.data.code == 101 || res.data.code == 102))
+    {
+        //
+        clearWxUserInfo();
+
+        //
+        return location.reload();
+    }
+
     //
-    return res.data
+    return res.data;
   }
 
   async get (url, params) 
