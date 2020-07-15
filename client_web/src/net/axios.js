@@ -35,7 +35,6 @@ class Axios
     //
     let headers = {
         'Authorization' : fetchAuthToken() || "",
-        'WeChat': isWeChat(),
     }
     if(method === 'POST' || method === 'PUT')
     {
