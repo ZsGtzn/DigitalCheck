@@ -75,15 +75,6 @@ export default {
     },
 
     methods: {
-        showOpenBrowserHint(event) {
-            if (window.gtzn.ifNeedToJumpOutBrowser) {
-                event.stopPropagation();
-
-                //
-                return this.Toast("请点击右上角，选择从浏览器中打开");
-            }
-        },
-
         fetchPutuoBusData: function()
         {
             this.axios.invoice.get(`invoiceApi/zlkc/getOrderInfo?serialNum=${this.identifier}`).then(response => {
@@ -112,6 +103,15 @@ export default {
             });
         },
 
+        showOpenBrowserHint(event) {
+            if (window.gtzn.ifNeedToJumpOutBrowser) {
+                event.stopPropagation();
+
+                //
+                return this.Toast("请点击右上角，选择从浏览器中打开");
+            }
+        },
+        
         download() {
             // 创建隐藏的可下载链接
             var eleLink = document.createElement("a");

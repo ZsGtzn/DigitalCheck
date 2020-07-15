@@ -5,12 +5,22 @@
         <label for="selectAll" @click="selectALl">全选</label>
     </div>
     <mt-loadmore :top-method="loadTop" :bottom-all-loaded="true" ref="loadmore" class="passengerInvoice">
-        <span class="warning">以下情况不支持开票及注意事项：1.未开航不开票；2.只能开两个月内的票；3.全退订单不开票（退票未产生手续费的）；4.已取票的不开票；5.退票产生手续费的可开票；6.如遇到发票不能显示的问题，请与客服联系，联系方式：0580-2626888</span>
-        <ul style="margin: 5px;padding: 0px;">
-            <li v-for="(item, index) of checkedPassenger" :key="index" class="listItem" @click="selectInvoice(item)">
-                <route-detail v-if="type==='sanjiang'" :item="item"></route-detail>
-            </li>
-        </ul>
+        <template v-if="type==='sanjiang'">
+            <span class="warning">以下情况不支持开票及注意事项：1.未开航不开票；2.只能开两个月内的票；3.全退订单不开票（退票未产生手续费的）；4.已取票的不开票；5.退票产生手续费的可开票；6.如遇到发票不能显示的问题，请与客服联系，联系方式：0580-2626888</span>
+            <ul style="margin: 5px;padding: 0px;">
+                <li v-for="(item, index) of checkedPassenger" :key="index" class="listItem" @click="selectInvoice(item)">
+                    <route-detail :item="item"></route-detail>
+                </li>
+            </ul>
+        </template>
+        <template v-else-if="type==='changzhiVehiclePark'">
+            <span class="warning">以下情况不支持开票及注意事项：1.未开航不开票；2.只能开两个月内的票；3.全退订单不开票（退票未产生手续费的）；4.已取票的不开票；5.退票产生手续费的可开票；6.如遇到发票不能显示的问题，请与客服联系，联系方式：0580-2626888</span>
+            <ul style="margin: 5px;padding: 0px;">
+                <li v-for="(item, index) of checkedPassenger" :key="index" class="listItem" @click="selectInvoice(item)">
+                    <ChangzhiVehicleDetail :item="item"></ChangzhiVehicleDetail>
+                </li>
+            </ul>
+        </template>
     </mt-loadmore>
     <mt-button type="primary" id="checkInvoice" @click="checkInvoice">开票</mt-button>
 </div>
@@ -19,11 +29,12 @@
 <script>
 
 const RouteDetail = () => import("../components/RouteDetail.vue");
+const ChangzhiVehicleDetail = () => import("../components/ChangzhiVehicleDetail.vue");
 
 export default {
     name: 'InvoiceList',
     
-    components: { RouteDetail },
+    components: { RouteDetail, ChangzhiVehicleDetail },
 
     props: ['type', 'identifier'],
 
@@ -40,6 +51,9 @@ export default {
         {
             case 'sanjiang': {
                 this.fetchSanJiangData();
+            }
+            case 'changzhiVehiclePark': {
+                this.changzhiVehicleParkData();
             }
             break;
         }  
@@ -67,6 +81,23 @@ export default {
                 {
                     return this.checkedPassenger = response.data.map(ele => Object.assign(ele, {
                         ifSelected: false
+                    }));
+                }
+
+                this.Toast(response.msg);
+            }).catch(e => {
+                this.Toast(`获取开票列表失败, ${e.toString()}`);
+            });
+        },
+
+        changzhiVehicleParkData() 
+        {
+            this.axios.invoice.get(`/invoiceApi/czpark/recordList?plateNo=${this.identifier}`).then(response => {
+                if(response.code === 0)
+                {
+                    return this.checkedPassenger = response.data.map(ele => Object.assign(ele, {
+                        ifSelected: false,
+                        serialNum: ele.uniqueNo,
                     }));
                 }
 
@@ -124,6 +155,45 @@ export default {
                     invoiceList: JSON.stringify(multipleSelection) 
                 } 
             });
+        }
+    },
+
+    provice: function() {
+        return {
+            showOpenBrowserHint(event) {
+                if (window.gtzn.ifNeedToJumpOutBrowser) {
+                    event.stopPropagation();
+
+                    //
+                    return this.Toast("请点击右上角，选择从浏览器中打开");
+                }
+            },
+
+            download(routeInfo) {
+                // 创建隐藏的可下载链接
+                var eleLink = document.createElement("a");
+                eleLink.download = `${routeInfo.serialNum}.pdf`;
+                eleLink.style.display = "none";
+
+                //
+                if (window.gtzn.platform == "android") {
+                    eleLink.href = routeInfo.invoiceUrl;
+                } else {
+                    var blob = new Blob([routeInfo.invoiceUrl]);
+                    eleLink.href = URL.createObjectURL(blob);
+                }
+
+                // 触发点击
+                document.body.appendChild(eleLink);
+                eleLink.click();
+
+                // 然后移除
+                document.body.removeChild(eleLink);
+            },
+
+            preview(routeInfo) {
+                window.location.href = routeInfo.invoiceUrl;
+            }
         }
     }
 }

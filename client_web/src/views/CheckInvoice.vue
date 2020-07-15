@@ -196,6 +196,10 @@ export default {
             {
                 serverUrl = "/invoiceApi/zlkc/doInvoice";
             }
+            else if(this.type == 'changzhiVehiclePark')
+            {
+                serverUrl = "/invoiceApi/czpark/doInvoice";
+            }
             else
             {
                 this.Toast(`无效的平台, ${this.type}`);

@@ -115,3 +115,72 @@ mockServerClientInstance.mockAnyResponse({
   }).catch(e => {
     console.log(e);
   });
+
+mockServerClientInstance.mockAnyResponse({
+    httpRequest: {
+      "method": "GET",
+      "path": "/invoiceApi/czpark/recordList",
+      "queryStringParameters": {
+        "plateNo": [".*"]
+      }
+    },
+    "httpResponse": {
+      "headers": {
+        "Content-Type": ["application/json", "charset=utf-8"],
+        "Last-Modified": ["Fri, 23 Oct 2019 07:28:00 GMT"],
+        "Access-Control-Expose-Headers" : ['Authorization'],
+        "Authorization": ["auth"],
+      },
+      "body": {"code": 0, "data": [{ 
+        "uniqueNo":"415FB743316D1BEA75CE62CB",
+        "terminalNo":"",
+        "inUniqueNo":"415FB743316D1BEA75CE6297",
+        "plateFilePath": "415FB743316D1BE97B52/StorepicFile/PassVehid",
+        "isInvoice":false,
+        "plateNo":"浙L9669H",
+        "1laneCode": "4TSFB7433I6DIBE97B522T",
+        "shnldPay": 1500,
+        "passTime":"2020-02-20 14:22:20",
+        "vehType":0,
+        "invoiceAmount":15.0,
+        "cardNo":"",
+        "operatorName":"谢佩飞",
+        "gateName":"入口1",
+        "picFilePath":"415FB743316D1BE97B52/StorePicFile/PassVehicle",
+        "passType":"手动放行",
+        "laneName":"出口1",
+        "sehcolor": 0,
+        "invoiceUrl": "",
+        "inPassTime":"2020-02-20 09:09:00",
+        "direction":1,
+        "actualPay":15.0,
+       }, { 
+        "uniqueNo":"415FB743316D1BEA75CE62CB",
+        "terminalNo":"",
+        "inUniqueNo":"415FB743316D1BEA75CE6297",
+        "plateFilePath": "415FB743316D1BE97B52/StorepicFile/PassVehid",
+        "isInvoice":false,
+        "plateNo":"浙L9669H",
+        "1laneCode": "4TSFB7433I6DIBE97B522T",
+        "shnldPay": 1500,
+        "passTime":"2020-02-20 14:22:20",
+        "vehType":0,
+        "invoiceAmount":15.0,
+        "cardNo":"",
+        "operatorName":"谢佩飞",
+        "gateName":"入口1",
+        "picFilePath":"415FB743316D1BE97B52/StorePicFile/PassVehicle",
+        "passType":"手动放行",
+        "laneName":"出口1",
+        "sehcolor": 0,
+        "invoiceUrl": "",
+        "inPassTime":"2020-02-20 09:09:00",
+        "direction":1,
+        "actualPay":15.0,
+       }]},
+    }
+  }).then(() => {
+    console.log("/invoiceApi/czpark/recordList expectation created");
+  }).catch(e => {
+    console.log(e);
+  });

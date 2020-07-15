@@ -9,6 +9,9 @@
         <div v-else-if="type=='putuobus'">
             <mt-field placeholder="请您输入商户单号" style="border-radius:10px;" v-model="identityNo"></mt-field>
         </div>
+        <div v-else-if="type=='changzhiVehiclePark'">
+            <mt-field placeholder="请您输入车牌号" style="border-radius:10px;" v-model="identityNo"></mt-field>
+        </div>
         <mt-button type="primary" id="checkInvoice" @click="search">查询</mt-button>
     </div>
 </template>
@@ -34,7 +37,8 @@ export default {
 
     created() {
         if (this.type !== "sanjiang"
-        && this.type !== "putuobus") {
+        && this.type !== "putuobus"
+        && this.type !== "changzhiVehiclePark") {
             this.Toast(`无效的平台, ${this.type}`);
         }
     },
@@ -157,6 +161,20 @@ export default {
                         //
                         this.$router.push({
                             path: `/invoiceSingle/${this.type}/${this.identityNo}`
+                        });
+                    }
+                    break;
+                case "changzhiVehiclePark":
+                    {
+                        //
+                        if(!this.checkVehicleNumber())
+                        {
+                            return this.Toast("请输入正确的车牌号");
+                        }
+
+                        //
+                        this.$router.push({
+                            path: `/invoiceList/${this.type}/${this.identityNo}`
                         });
                     }
                     break;
