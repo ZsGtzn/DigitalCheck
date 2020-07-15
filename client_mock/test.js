@@ -98,7 +98,7 @@ mockServerClientInstance.mockAnyResponse({
       "method": "GET",
       "path": "/invoiceApi/wx/wxLogin",
       "queryStringParameters": {
-        "code": [".*"]
+            
       }
     },
     "httpResponse": {
