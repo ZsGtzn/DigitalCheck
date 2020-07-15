@@ -2,7 +2,7 @@ import developmentConfig from '../configs/development.json'
 import productionConfig from '../configs/production.json'
 import axios from "axios"
 import { fetchAuthToken, updateAuthToken } from "../storage/local"
-import { clearWxUserInfo, } from "../storage/local";
+import store from "../store"
 
 //
 var hostConfigMap;
@@ -73,7 +73,7 @@ class Axios
     if(res.data && (res.data.code == 101 || res.data.code == 102))
     {
         //
-        clearWxUserInfo();
+        store.commit("auth/clearWxUserInfo");
 
         //
         return location.reload();
