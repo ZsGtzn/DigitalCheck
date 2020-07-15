@@ -14,7 +14,7 @@
             </ul>
         </template>
         <template v-else-if="type==='changzhiVehiclePark'">
-            <span class="warning">以下情况不支持开票及注意事项：1.未开航不开票；2.只能开两个月内的票；3.全退订单不开票（退票未产生手续费的）；4.已取票的不开票；5.退票产生手续费的可开票；6.如遇到发票不能显示的问题，请与客服联系，联系方式：0580-2626888</span>
+            <span class="warning">以下情况不支持开票及注意事项：1.只能开两个月内的票；2.全退订单不开票（退票未产生手续费的）；3.已取票的不开票；4.退票产生手续费的可开票；5.如遇到发票不能显示的问题，请与客服联系，联系方式：0580-2626888</span>
             <ul style="margin: 5px;padding: 0px;">
                 <li v-for="(item, index) of checkedPassenger" :key="index" class="listItem" @click="selectInvoice(item)">
                     <ChangzhiVehicleDetail :item="item"></ChangzhiVehicleDetail>
