@@ -3,6 +3,7 @@ import productionConfig from '../configs/production.json'
 import axios from "axios"
 import { fetchAuthToken, updateAuthToken } from "../storage/local"
 import store from "../store"
+import { isWeChat } from "../utils"
 
 //
 var hostConfigMap;
@@ -34,6 +35,7 @@ class Axios
     //
     let headers = {
         'Authorization' : fetchAuthToken() || "",
+        'WeChat': isWeChat(),
     }
     if(method === 'POST' || method === 'PUT')
     {
@@ -70,7 +72,7 @@ class Axios
 
 
     // check if token is expired, if expired, clear auth corresponding data
-    if(res.data && (res.data.code == 101 || res.data.code == 102))
+    if(isWeChat() && res.data && (res.data.code == 101 || res.data.code == 102))
     {
         //
         store.commit("auth/clearWxUserInfo");
