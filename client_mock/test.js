@@ -108,7 +108,10 @@ mockServerClientInstance.mockAnyResponse({
         "Access-Control-Expose-Headers" : ['Authorization'],
         "Authorization": ["auth"],
       },
-      "body": {"code": 0, "data": { "subscribe": 1 }},
+      "body": {"code": 0, "data": { 
+          "openid": "123456789",
+          "subscribe": 1,
+        }},
     }
   }).then(() => {
     console.log("/invoice/check expectation created");
