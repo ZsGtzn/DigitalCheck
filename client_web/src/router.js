@@ -40,7 +40,7 @@ const routerInstance = new Router({
         },
 
         {
-            path: '/checkInvoice',
+            path: '/checkInvoice/:type',
             component: () => import('./views/CheckInvoice.vue'),
             props: route => { 
                 return {
@@ -71,8 +71,6 @@ routerInstance.beforeEach((to, from, next) => {
     {
         return alert("此功能微信中开放");
     }
-
-
 
     // putuobus do not need check channel flavor
     if(to.path.search(/\/putuobus/) >= 0)

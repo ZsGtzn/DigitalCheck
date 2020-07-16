@@ -92,7 +92,7 @@ export default {
         checkInvoice() {
             //
             this.$router.push({ 
-                path: '/checkInvoice', 
+                path: `/checkInvoice/${this.type}`, 
                 query: { 
                     type: this.type,
                     invoiceList: JSON.stringify([{
