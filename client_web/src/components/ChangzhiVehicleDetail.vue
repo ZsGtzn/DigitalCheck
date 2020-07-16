@@ -49,6 +49,8 @@
 export default {
     name: "ChangeZhiVehicleDetail",
 
+    inject: ['showOpenBrowserHint', 'download', 'preview'],
+
     props: {
         item: {
             required: true
@@ -111,9 +113,10 @@ export default {
 
 //
 @mixin pdf {
-    width: 100%;
+    width: 25%;
+    height: 30px;
     padding: auto;
-    font-size:11px
+    font-size:8px;
 }
 
 .preview {

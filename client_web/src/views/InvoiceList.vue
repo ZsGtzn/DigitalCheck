@@ -158,7 +158,7 @@ export default {
         }
     },
 
-    provice: function() {
+    provide: function() {
         return {
             showOpenBrowserHint(event) {
                 if (window.gtzn.ifNeedToJumpOutBrowser) {

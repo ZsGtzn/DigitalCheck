@@ -45,7 +45,7 @@ mockServerClientInstance.mockAnyResponse({
                 "id": 2, 
                 "invoiceAmount": 17, 
                 "invoiceType": 1, 
-                "isInvoice": false, 
+                "isInvoice": true, 
                 "name": "jack", 
                 "phoneNum": "13216800218", 
                 "price": "17.0", 
@@ -159,7 +159,7 @@ mockServerClientInstance.mockAnyResponse({
         "terminalNo":"",
         "inUniqueNo":"415FB743316D1BEA75CE6297",
         "plateFilePath": "415FB743316D1BE97B52/StorepicFile/PassVehid",
-        "isInvoice":false,
+        "isInvoice":true,
         "plateNo":"浙L9669H",
         "1laneCode": "4TSFB7433I6DIBE97B522T",
         "shnldPay": 1500,
@@ -173,7 +173,7 @@ mockServerClientInstance.mockAnyResponse({
         "passType":"手动放行",
         "laneName":"出口1",
         "sehcolor": 0,
-        "invoiceUrl": "",
+        "invoiceUrl": "https://sjgroup.ziubao.com/pdf/20200505001998-029.pdf",
         "inPassTime":"2020-02-20 09:09:00",
         "direction":1,
         "actualPay":15.0,
@@ -181,6 +181,75 @@ mockServerClientInstance.mockAnyResponse({
     }
   }).then(() => {
     console.log("/invoiceApi/czpark/recordList expectation created");
+  }).catch(e => {
+    console.log(e);
+  });
+
+mockServerClientInstance.mockAnyResponse({
+    httpRequest: {
+      "method": "POST",
+      "path": "/invoiceApi/sjky/doInvoice",
+      "queryStringParameters": {
+        
+      }
+    },
+    "httpResponse": {
+      "headers": {
+        "Content-Type": ["application/json", "charset=utf-8"],
+        "Last-Modified": ["Fri, 23 Oct 2019 07:28:00 GMT"],
+        "Access-Control-Expose-Headers" : ['Authorization'],
+        "Authorization": ["auth"],
+      },
+      "body": {"code": 0, "msg": "开票成功"},
+    }
+  }).then(() => {
+    console.log("/invoiceApi/sjky/doInvoice expectation created");
+  }).catch(e => {
+    console.log(e);
+  });
+
+mockServerClientInstance.mockAnyResponse({
+    httpRequest: {
+      "method": "POST",
+      "path": "/invoiceApi/zlkc/doInvoice",
+      "queryStringParameters": {
+        
+      }
+    },
+    "httpResponse": {
+      "headers": {
+        "Content-Type": ["application/json", "charset=utf-8"],
+        "Last-Modified": ["Fri, 23 Oct 2019 07:28:00 GMT"],
+        "Access-Control-Expose-Headers" : ['Authorization'],
+        "Authorization": ["auth"],
+      },
+      "body": {"code": 0, "msg": "开票成功"},
+    }
+  }).then(() => {
+    console.log("/invoiceApi/zlkc/doInvoice expectation created");
+  }).catch(e => {
+    console.log(e);
+  });
+
+  mockServerClientInstance.mockAnyResponse({
+    httpRequest: {
+      "method": "POST",
+      "path": "/invoiceApi/czpark/doInvoice",
+      "queryStringParameters": {
+        
+      }
+    },
+    "httpResponse": {
+      "headers": {
+        "Content-Type": ["application/json", "charset=utf-8"],
+        "Last-Modified": ["Fri, 23 Oct 2019 07:28:00 GMT"],
+        "Access-Control-Expose-Headers" : ['Authorization'],
+        "Authorization": ["auth"],
+      },
+      "body": {"code": 0, "msg": "开票成功"},
+    }
+  }).then(() => {
+    console.log("/invoiceApi/czpark/doInvoice expectation created");
   }).catch(e => {
     console.log(e);
   });
