@@ -256,3 +256,35 @@ mockServerClientInstance.mockAnyResponse({
   }).catch(e => {
     console.log(e);
   });
+
+mockServerClientInstance.mockAnyResponse({
+    httpRequest: {
+      "method": "GET",
+      "path": "/invoiceApi/zlkc/getOrderInfo",
+      "queryStringParameters": {
+        
+      }
+    },
+    "httpResponse": {
+      "headers": {
+        "Content-Type": ["application/json", "charset=utf-8"],
+        "Last-Modified": ["Fri, 23 Oct 2019 07:28:00 GMT"],
+        "Access-Control-Expose-Headers" : ['Authorization'],
+        "Authorization": ["auth"],
+      },
+      "body": {"code": 0, "msg": "开票成功" , "data": {
+        "total_Fee": "123",
+        "isInvoice": false,
+        "out_Trade_No": "123",
+        "invoiceUrl": "123",
+        "busNo": "123",
+        "invoiceAmount": "123",
+        "trade_Type": "123",
+        "time_End": "123"
+      }},
+    }
+  }).then(() => {
+    console.log("/invoiceApi/zlkc/getOrderInfo expectation created");
+  }).catch(e => {
+    console.log(e);
+  });

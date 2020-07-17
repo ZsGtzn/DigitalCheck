@@ -68,6 +68,35 @@
 </template>
 
 <script>
+import { 
+    setInvoiceInfoType,
+    setInvoiceInfoUsername,
+    setInvoiceInfoCompanyHead,
+    setInvoiceInfoEmail,
+    setInvoiceInfoTaxNo,
+    setInvoiceInfoCompanyAddress,
+    setInvoiceInfoCompanyTelephone,
+    setInvoiceInfoCompanyBank,
+    setInvoiceInfoCompanyBankAccount,
+    setInvoiceInfoRemark,
+    setInvoiceInfoMobile,
+    setInvoiceInfoPersonIdentifier, 
+    getInvoiceInfoType, 
+    getInvoiceInfoUsername, 
+    getInvoiceInfoCompanyHead, 
+    getInvoiceInfoEmail, 
+    getInvoiceInfoTaxNo, 
+    getInvoiceInfoCompanyAddress, 
+    getInvoiceInfoCompanyTelephone, 
+    getInvoiceInfoCompanyBank, 
+    getInvoiceInfoCompanyBankAccount, 
+    getInvoiceInfoRemark, 
+    getInvoiceInfoMobile, 
+    getInvoiceInfoPersonIdentifier, 
+} from "../storage/local";
+
+
+
 export default {
     name: 'Main',
     data() {
@@ -75,20 +104,20 @@ export default {
             type: "",
 
             //
-            invoiceTargetType: "1",
+            invoiceTargetType: getInvoiceInfoType(),
 
             //
-            username: "",
-            companyHead: "",
-            email: "",
-            taxNo: "",
-            companyAddress: "",
-            companyTelephone: "",
-            companyBank: "",
-            companyBankAccount: "",
-            remark: "",
-            mobile: "",
-            personIdentifier: "",
+            username: getInvoiceInfoUsername(),
+            companyHead: getInvoiceInfoCompanyHead(),
+            email: getInvoiceInfoEmail(),
+            taxNo: getInvoiceInfoTaxNo(),
+            companyAddress: getInvoiceInfoCompanyAddress(),
+            companyTelephone: getInvoiceInfoCompanyTelephone(),
+            companyBank: getInvoiceInfoCompanyBank(),
+            companyBankAccount: getInvoiceInfoCompanyBankAccount(),
+            remark: getInvoiceInfoRemark(),
+            mobile: getInvoiceInfoMobile(),
+            personIdentifier: getInvoiceInfoPersonIdentifier(),
 
             //
             invoiceList: [],
@@ -130,6 +159,22 @@ export default {
     methods: {
         commitInvoiceCheck()
         {
+            //
+            setInvoiceInfoType(this.invoiceTargetType);
+            setInvoiceInfoUsername(this.username);
+            setInvoiceInfoCompanyHead(this.companyHead);
+            setInvoiceInfoEmail(this.email);
+            setInvoiceInfoTaxNo(this.taxNo);
+            setInvoiceInfoCompanyAddress(this.companyAddress);
+            setInvoiceInfoCompanyTelephone(this.companyTelephone);
+            setInvoiceInfoCompanyBank(this.companyBank);
+            setInvoiceInfoCompanyBankAccount(this.companyBankAccount);
+            setInvoiceInfoRemark(this.remark);
+            setInvoiceInfoMobile(this.mobile);
+            setInvoiceInfoPersonIdentifier(this.personIdentifier);
+
+
+            //
             if(!this.mobile || this.mobile.length === 0)
             {
                 return this.Toast("请填写手机号码");
@@ -207,6 +252,7 @@ export default {
 
             //
             return this.axios.invoice.post(serverUrl, {
+                orderInfoList: this.$attrs.invoiceList,
                 serialNum: serialNumList,
                 buyerName: buyerName,
                 type: parseInt(this.invoiceTargetType),

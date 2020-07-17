@@ -66,18 +66,18 @@ const routerInstance = new Router({
 //
 const payAttensionZiubaoUrl = "https://mp.weixin.qq.com/mp/profile_ext?action=home&__biz=MjM5MTkxMDcyNA==&scene=#wechat_redirect";
 routerInstance.beforeEach((to, from, next) => {
-    //
-    if(!isWeChat())
-    {
-        return alert("此功能微信中开放");
-    }
-
     // putuobus do not need check channel flavor
     if(to.path.search(/\/putuobus/) >= 0)
     {
         return next();
     }
 
+    //
+    if(!isWeChat())
+    {
+        return alert("此功能微信中开放");
+    }
+    
     // just wechat need to check channel flavor
     if(!isWeChat())
     {

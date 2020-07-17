@@ -95,10 +95,9 @@ export default {
                 path: `/checkInvoice/${this.type}`, 
                 query: { 
                     type: this.type,
-                    invoiceList: JSON.stringify([{
+                    invoiceList: JSON.stringify([Object.assign(this.invoiceDetail, {
                         serialNum: this.invoiceDetail.out_Trade_No,
-                        invoiceAmount: this.invoiceDetail.invoiceAmount,
-                    }]),
+                    })]),
                 } 
             });
         },
