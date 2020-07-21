@@ -51,10 +51,14 @@ export default {
             case 'sanjiang': {
                 this.fetchSanJiangData();
             }
+            break;
             case 'changzhiVehiclePark': {
                 this.changzhiVehicleParkData();
             }
             break;
+            default: {
+                alert(`错误的平台类型`);
+            }
         }  
     },
 
@@ -108,7 +112,20 @@ export default {
 
         loadTop()
         {
-            this.fetchSanJiangData();
+            switch(this.type)
+            {
+                case 'sanjiang': {
+                    this.fetchSanJiangData();
+                }
+                break;
+                case 'changzhiVehiclePark': {
+                    this.changzhiVehicleParkData();
+                }
+                break;
+                default: {
+                    alert(`错误的平台类型`);
+                }
+            }  
 
             //
             this.$refs.loadmore.onTopLoaded();
