@@ -37,7 +37,7 @@
         </el-table-column>
         <el-table-column
             prop="order_num"
-            label="订单号"
+            label="票据索引"
             width="180">
         </el-table-column>
         <el-table-column

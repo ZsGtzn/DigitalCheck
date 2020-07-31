@@ -30,7 +30,6 @@ export default {
             identityNo: "",
         };
     },
-
     provide: function () {
         return {
             checkVehicleNumber(vehicleNumber) {

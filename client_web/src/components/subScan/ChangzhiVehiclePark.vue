@@ -13,8 +13,8 @@
 </template>
 
 <script>
-import changzhiVehicleParkImg from "../../assets/scan/changzhiVehiclePark.png";
 
+import changzhiVehicleParkImg from "../../assets/scan/changzhiVehiclePark.png";
 
 /**
  * localstorage

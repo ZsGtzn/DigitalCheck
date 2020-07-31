@@ -31,12 +31,15 @@
             v-else-if="invoiceDetail.invoiceUrl && invoiceDetail.invoiceUrl.length > 0"
             @click.capture="showOpenBrowserHint"
             id="downloadInvoice">
-            <mt-button type="primary" class="preview" @click.capture="preview()">查看发票</mt-button>
+            <mt-button type="primary" class="preview" @click.capture="preview(invoiceDetail)">查看发票</mt-button>
             <div style="height:5px;width:100%" />
             <mt-button
                 type="primary"
                 class="download"
-                @click.capture="download()"
+                @click.capture="download({
+                    serialNum: invoiceDetail.out_Trade_No, 
+                    invoiceUrl: invoiceDetail.invoiceUrl
+                })"
             >下载发票</mt-button>
         </div>
     </div>
@@ -44,10 +47,15 @@
 </template>
 
 <script>
+
+import { downloadutil } from "../utils";
+
 export default {
     name: "InvoiceSingle",
 
     props: ['type', 'identifier'],
+
+    inject: ['showOpenBrowserHint', 'download', 'preview'],
 
     data() {
         return {
@@ -75,6 +83,8 @@ export default {
     },
 
     methods: {
+        ...downloadutil,
+
         fetchPutuoBusData: function()
         {
             this.axios.invoice.get(`invoiceApi/zlkc/getOrderInfo?serialNum=${this.identifier}`).then(response => {
@@ -100,43 +110,8 @@ export default {
                     })]),
                 } 
             });
-        },
-
-        showOpenBrowserHint(event) {
-            if (window.gtzn.ifNeedToJumpOutBrowser) {
-                event.stopPropagation();
-
-                //
-                return this.Toast("请点击右上角，选择从浏览器中打开");
-            }
-        },
-        
-        download() {
-            // 创建隐藏的可下载链接
-            var eleLink = document.createElement("a");
-            eleLink.download = `${this.invoiceDetail.out_Trade_No}.pdf`;
-            eleLink.style.display = "none";
-
-            //
-            if (window.gtzn.platform == "android") {
-                eleLink.href = this.invoiceDetail.invoiceUrl;
-            } else {
-                var blob = new Blob([this.invoiceDetail.invoiceUrl]);
-                eleLink.href = URL.createObjectURL(blob);
-            }
-
-            // 触发点击
-            document.body.appendChild(eleLink);
-            eleLink.click();
-
-            // 然后移除
-            document.body.removeChild(eleLink);
-        },
-
-        preview() {
-            window.location.href = this.invoiceDetail.invoiceUrl;
         }
-    }
+    },
 }
 </script>
 

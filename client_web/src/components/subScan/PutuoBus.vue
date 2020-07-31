@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import putuobusMainImg from "../../assets/scan/putuobusMain.png";
+import putuobusMainImg from "../../assets/scan/putuobusMainZiubao.png";
 
 /**
  * localstorage

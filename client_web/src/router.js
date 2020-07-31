@@ -71,12 +71,6 @@ routerInstance.beforeEach((to, from, next) => {
     {
         return next();
     }
-
-    //
-    if(!isWeChat())
-    {
-        return alert("此功能微信中开放");
-    }
     
     // just wechat need to check channel flavor
     if(!isWeChat())
