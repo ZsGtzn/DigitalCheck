@@ -1,7 +1,7 @@
 <template>
     <div>
         <!-- <img :src="sanjiangImg" @click="jumpToSanjiang"/> -->
-        <mt-button class="button" @click="jumpToSanjiang">三江开票</mt-button>
+        <!-- <mt-button class="button" @click="jumpToSanjiang">三江开票</mt-button> -->
         <mt-button class="button" @click="jumpToChangzhiVehiclePark">长峙岛停车场开票</mt-button>
     </div>
 </template>

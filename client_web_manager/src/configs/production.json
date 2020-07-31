@@ -1,0 +1,7 @@
+{
+	"axios": {
+        "invoice": {
+            "host": "https://invoice.ziubao.com"
+        }
+    }
+}
