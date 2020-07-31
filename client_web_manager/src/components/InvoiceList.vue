@@ -1,22 +1,28 @@
 <template>
 <div id="main">
     <div id="header">
-        <span style="padding: 20px;">总数量</span><p>{{totalInvoice}}</p>
-        <span style="padding: 20px;">总金额</span><p>{{totalInvoiceAmount}}</p>
-        <div style="padding: 20px;">
+        <span style="padding: 20px 20px 20px 20px;">总数量</span><p>{{totalInvoice}}</p>
+
+        <span style="padding: 20px 20px 20px 60px;">总金额</span><p>{{totalInvoiceAmount}}</p>
+
+        <span style="padding: 20px 20px 20px 60px;">开始时间</span>
+        <div>
             <el-date-picker
                 v-model="beginTime"
                 type="date"
                 placeholder="开始时间">
             </el-date-picker>
         </div>
-        <div style="padding: 20px;">
+
+        <span style="padding: 20px 20px 20px 60px;">结束时间</span>
+        <div>
             <el-date-picker
                 v-model="endTime"
                 type="date"
                 placeholder="结束时间">
             </el-date-picker>
         </div>
+
         <div style="flex-grow:1;text-align:right;">
             <el-button type="primary" @click="changzhiVehicleParkData">查询</el-button>
         </div>
