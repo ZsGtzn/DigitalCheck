@@ -9,8 +9,13 @@ const routerInstance = new Router({
     base: process.env.BASE_URL,
     routes: [
         {
-            path: '/scan',
-            component: () => import('./views/Scan.vue'),
+            path: '/changzhiVehiclePark',
+            component: () => import('./views/ChangzhiVehiclePark.vue'),
+        },
+
+        {
+            path: '/sanjiang',
+            component: () => import('./views/SanJiang.vue'),
         }
     ]
 });

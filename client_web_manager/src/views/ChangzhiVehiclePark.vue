@@ -28,9 +28,8 @@
         </div>
     </div>
     <el-table
-        class="invoiceList"
-        :data="invoiceList"
-        style="width:100%;height:100%;">
+        height="100%"
+        :data="invoiceList">
         <el-table-column
             prop="invoiceTime"
             label="开票时间"
@@ -70,7 +69,7 @@
 <script>
 
 export default {
-    name: 'InvoiceList',
+    name: "ChangzhiVehiclePark",
 
     data() {
         return {
@@ -119,7 +118,7 @@ export default {
         changzhiVehicleParkData() 
         {
             //
-            this.axios.invoice.get(`/invoiceApi/czpark/statistics?startDate=${this.formattedBeginTime}&endDate=${this.formattedEndTime}`).then(response => {
+            this.axios.changzhiVehicleParkinvoice.get(`/invoiceApi/czpark/statistics?startDate=${this.formattedBeginTime}&endDate=${this.formattedEndTime}`).then(response => {
                 if(response.code === 0)
                 {
                     this.invoiceList = response.data.list;
@@ -136,10 +135,11 @@ export default {
             });
         }
     }
-}
+};
 </script>
 
 <style lang="scss" scoped>
+
 #header {
     padding: 10px;
     display: flex;
