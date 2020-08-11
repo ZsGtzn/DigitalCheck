@@ -31,21 +31,19 @@ export default {
             scanImg: scanImg,
             weChatAuthState: 0,
             isWeChat: isWeChat(),
-        }
-    },
-
-    computed: {
-        ifShowScanIcon: function() {
-            return this.$route.path.search(/\/sanjiang/) >= 0;
+            ifShowScanIcon: false,
         }
     },
 
     created() {
+
+        this.ifShowScanIcon = window.location.href.search(/\/sanjiang/) >= 0;
+
         if(!this.ifShowScanIcon)
         {
             return;
         }
-
+        
         if(!wx)
         {
             return this.Toast("微信js sdk导入失败");
@@ -55,16 +53,19 @@ export default {
         {
             return;
         }
-
+        
         //
         wx.ready(() => {
+            this.Toast("微信授权成功");
+
+            //
             this.weChatAuthState = 1;
         });
-
+        
         wx.error(res => {
             alert(`微信授权失败, ${JSON.stringify(res)}`);
         });
-
+        
         //
         this.weChatJsSdkAuth().catch(e => {
             this.Toast(`微信授权服务请求失败, ${e.toString()}`);
@@ -74,12 +75,13 @@ export default {
     methods: {
         async weChatJsSdkAuth()
         {
-            const { statusCode, data, msg } = await this.axios.weChatJsSdkAuth.get(`/wxShare/getJSSdkSignature.do?url=${btoa(window.location.href)}`);
+            //
+            const { statusCode, data, message } = await this.axios.weChatJsSdkAuth.get(`/wxShare/getJSSdkSignature.do?url=${btoa(window.location.href)}`);
 
             //
             if(parseInt(statusCode) !== 200)
             {
-                await Promise.reject(msg);
+                await Promise.reject(message);
             }
             
             //
@@ -97,7 +99,10 @@ export default {
         {
             if(this.weChatAuthState !== 1)
             {
-                return this.Toast("请先进行微信授权");
+                //
+                this.weChatJsSdkAuth().catch(e => {
+                    this.Toast(`微信授权服务请求失败, ${e.toString()}`);
+                });
             }
 
             //

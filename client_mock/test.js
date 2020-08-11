@@ -114,7 +114,7 @@ mockServerClientInstance.mockAnyResponse({
         }},
     }
   }).then(() => {
-    console.log("/invoice/check expectation created");
+    console.log("/invoiceApi/wx/wxLogin expectation created");
   }).catch(e => {
     console.log(e);
   });
