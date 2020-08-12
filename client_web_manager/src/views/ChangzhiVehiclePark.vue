@@ -42,25 +42,41 @@
         </el-table-column>
         <el-table-column
             prop="invoiceAmount"
-            label="开票金额">
+            label="开票金额"
+            width="100">
         </el-table-column>
         <el-table-column
             prop="buyerName"
             label="姓名"
-            width="180">
+            width="300">
         </el-table-column>
         <el-table-column
             prop="plateNo"
             label="车牌号"
+            width="100">
+        </el-table-column>
+        <el-table-column
+            prop="submitTime"
+            label="申请时间"
             width="180">
         </el-table-column>
         <el-table-column
+            label="开票状态"
+            width="100">
+            <template slot-scope="scope">
+                <span style="margin-left: 10px" v-if="scope.row.invoiceUrl = ''">已申请未开票</span>
+                <span style="margin-left: 10px" v-else>开票成功</span>
+            </template>
+        </el-table-column>
+        <el-table-column
             prop="passTime"
-            label="离开时间">
+            label="离开时间"
+            width="180">
         </el-table-column>
         <el-table-column
             prop="inPassTime"
-            label="进入时间">
+            label="进入时间"
+            width="180">
         </el-table-column>
     </el-table>
 </div>

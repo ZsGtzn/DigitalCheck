@@ -33,25 +33,27 @@
         <el-table-column
             prop="buyername"
             label="姓名"
-            width="180">
+            width="300">
         </el-table-column>
         <el-table-column
             prop="order_num"
             label="票据索引"
-            width="180">
+            width="250">
         </el-table-column>
         <el-table-column
             prop="invoice_time"
-            label="开票时间">
+            label="开票时间"
+            width="180">
         </el-table-column>
         <el-table-column
             prop="invoice_amount"
             label="开票金额"
-            width="180">
+            width="100">
         </el-table-column>
         <el-table-column
             prop="mobile"
-            label="手机号">
+            label="手机号"
+            width="180">
         </el-table-column>
     </el-table>
 </div>
