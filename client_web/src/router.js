@@ -59,6 +59,16 @@ const routerInstance = new Router({
                     reason: route.query.reason,
                 }
             },
+        },
+
+        {
+            path: '/favorQR',
+            component: () => import('./views/FavorQR.vue'),
+            props: route => { 
+                return {
+                    reason: route.query.reason,
+                }
+            },
         }
     ]
 });
@@ -106,10 +116,9 @@ routerInstance.beforeEach((to, from, next) => {
                     }
         
                     //
-                    alert("请先关注自游宝公众号");
-        
-                    //
-                    window.location.href = payAttensionZiubaoUrl;
+                    next({
+                        path: "/favorQR"
+                    })
                 } else {
                     next()
                 }
