@@ -4,7 +4,7 @@
         <span slot="left">
             <mt-button icon="back" @click="back"></mt-button>
         </span>
-        <div slot="right" @click="scan" v-show="ifShowScanIcon && isWeChat" style="display:flex;flex-direction:column;align-items:flex-end;">
+        <div slot="right" @click="scan" v-show="ifSanjiangModule && isWeChat" style="display:flex;flex-direction:column;align-items:flex-end;">
             <div style="display:flex;flex-direction:column;align-items:center;width:25px;margin-right:10px;">
                 <img :src="scanImg" style="width:28px;"/>
                 <span style="font-size:11px;margin-top:5px;">扫一扫</span>
@@ -31,7 +31,7 @@ export default {
             scanImg: scanImg,
             weChatAuthState: 0,
             isWeChat: isWeChat(),
-            ifShowScanIcon: false,
+            ifSanjiangModule: false,
         }
     },
 
@@ -41,32 +41,8 @@ export default {
         }
     },
 
-    methods: {
-        checkIfShowScan() {
-            this.ifShowScanIcon = window.location.href.search(/\/sanjiang/) >= 0;
-
-            // check if need show
-            if(!this.ifShowScanIcon)
-            {
-                return;
-            }
-
-            // check if all ready authed
-            if(this.weChatAuthState)
-            {
-                return;
-            }
-
-            if(!wx)
-            {
-                return this.Toast("微信js sdk导入失败");
-            }
-
-            if(!this.isWeChat)
-            {
-                return;
-            }
-            
+    created() {
+        try {
             //
             wx.ready(() => {
                 this.Toast("微信授权成功");
@@ -74,10 +50,44 @@ export default {
                 //
                 this.weChatAuthState = 1;
             });
-            
+
+            //
             wx.error(res => {
-                alert(`微信授权失败, ${JSON.stringify(res)}`);
+                this.Toast(`微信授权失败, ${JSON.stringify(res)}`);
             });
+        } catch (e) {
+            this.Toast("微信授权监听函数添加失败: " + e.toString());
+        }
+        
+    },
+
+    methods: {
+        checkIfShowScan() {
+             try {
+                //
+                this.ifSanjiangModule = window.location.href.search(/\/sanjiang/) >= 0;
+
+                // check if need show
+                if(!this.ifSanjiangModule)
+                {
+                    return;
+                }
+
+                //
+                this.weChatAuthState = 0;
+
+                if(!wx)
+                {
+                    return this.Toast("微信js sdk导入失败");
+                }
+
+                if(!this.isWeChat)
+                {
+                    return;
+                }
+            } catch(e) {
+                 this.Toast("微信授权预检查失败: " + e.toString());
+            }
             
             //
             this.weChatJsSdkAuth().catch(e => {
@@ -87,6 +97,7 @@ export default {
 
         async weChatJsSdkAuth()
         {
+            this.Toast(window.location.href);
             //
             const { statusCode, data, message } = await this.axios.weChatJsSdkAuth.get(`/wxShare/getJSSdkSignature.do?url=${btoa(window.location.href)}`);
 
@@ -103,7 +114,10 @@ export default {
                 timestamp: data.timestamp, // 必填，生成签名的时间戳
                 nonceStr: data.nonceStr, // 必填，生成签名的随机串
                 signature: data.signature,// 必填，签名
-                jsApiList: ['scanQRCode'] // 必填，需要使用的JS接口列表
+                jsApiList: ['scanQRCode'], // 必填，需要使用的JS接口列表
+                fail: ({errMsg}) => {
+                    this.Toast("微信config调用失败: " + errMsg.toString());
+                }
             });
         },
 
@@ -118,16 +132,23 @@ export default {
             }
 
             //
-            wx.scanQRCode({
-                    desc: 'scanQRCode desc',
-                    needResult: 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
-                    scanType: ["qrCode", "barCode"], // 可以指定扫二维码还是一维码，默认二者都有
-                    success: function ({resultStr}) {
+            try {
+                wx.scanQRCode({
+                        desc: 'scanQRCode desc',
+                        needResult: 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
+                        scanType: ["qrCode", "barCode"], // 可以指定扫二维码还是一维码，默认二者都有
+                        success: function ({resultStr}) {
 
-                        // just jump
-                        window.location.href = resultStr;              
-                    }
-            });
+                            // just jump
+                            window.location.href = resultStr;              
+                        },
+                        fail: ({errMsg}) => {
+                            this.Toast("微信扫一扫接口调用失败: " + errMsg.toString())
+                        }
+                });
+            } catch (e) {
+                this.Toast("微信扫一扫接口调用异常: " + e.toString());
+            }
         },
 
         back() {
