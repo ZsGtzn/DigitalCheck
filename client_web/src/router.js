@@ -74,7 +74,6 @@ const routerInstance = new Router({
 });
 
 //
-const payAttensionZiubaoUrl = "https://mp.weixin.qq.com/mp/profile_ext?action=home&__biz=MjM5MTkxMDcyNA==&scene=#wechat_redirect";
 routerInstance.beforeEach((to, from, next) => {
     // putuobus do not need check channel flavor
     if(to.path.search(/\/putuobus/) >= 0)
