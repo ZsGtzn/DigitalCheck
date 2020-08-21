@@ -1,6 +1,8 @@
 const path = require('path')
 const HtmlWebpackplugin = require('html-webpack-plugin');
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
+const CopyPlugin = require('copy-webpack-plugin');
+const globals = require("../globals");
 
 module.exports = {
     // 指定打包模式
@@ -21,7 +23,12 @@ module.exports = {
         filename: 'js/[name].[hash:8].js',
         // chunkname就是未被列在entry中，但有些场景需要被打包出来的文件命名配置。
         // 比如按需加载（异步）模块的时候，这样的文件是没有被列在entry中的使用CommonJS的方式异步加载的模块。
-        chunkFilename: 'js/[name].[hash:8].js'
+        chunkFilename: 'js/[name].[hash:8].js',
+    },
+    externals: {
+        'vue': 'Vue',
+        'vue-router': 'VueRouter',
+        'mint-ui': 'Mint',
     },
     devServer: { 
         contentBase: false,
@@ -72,7 +79,16 @@ module.exports = {
         new VueLoaderPlugin(),
         new HtmlWebpackplugin({
             filename: 'index.html', // 打包后的文件名，默认是index.html   
-            template: path.resolve(__dirname, '../index.html') // 导入被打包的文件模板
-        })
+            template: path.resolve(__dirname, '../index.html'), // 导入被打包的文件模板
+            templateParameters: globals // 这一步就是注入的变量, 会从这里面拿
+        }),
+        new CopyPlugin({
+            pattern: [
+                { from: 'static', to: 'static' },
+            ],
+            options: {
+                writeToDisk: true,
+            }
+        }),
     ]
 }
