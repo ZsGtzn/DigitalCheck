@@ -1,20 +1,42 @@
 <template>
     <div style="height:100%;overflow:auto;">
-        <mt-button type="primary" class="button" @click="jumpToSanjiang">三江客运站开票</mt-button>
-        <mt-button type="primary" class="button" @click="jumpToZiubaoBus">大巴票开票</mt-button>
-        <mt-button type="primary" class="button" @click="jumpToPutuoBus">普陀山巴士</mt-button>
-        <mt-button type="primary" class="button" @click="jumpToChangzhiVehiclePark">长峙岛停车场开票</mt-button>
+        <div style="display:flex;">
+            <img class="item" @click="jumpToSanjiang" :src="sanjiangImg"/>
+            <img class="item" @click="jumpToZiubaoBus" :src="busImg"/>
+        </div>
+        <div style="display:flex;">
+            <img class="item" @click="jumpToPutuoBus" :src="putuobusImg"/>
+            <img class="item" @click="jumpToChangzhiVehiclePark" :src="changzhiImg"/>
+        </div>
+        <div style="margin-top: 20px;">
+            <p>
+            1.如您开具的增值税普通发票用于企业报销，根据国家税务相关政策要填定纳税人名称及纳税识别号;如您的单位是非企业性质或您要求开具个人名义抬头的，请您填写您的姓名，手机号码、电子邮箱，方便发送电子发票。
+            </p>
+            <p>
+            2.因您个人填写发票信息有误等原因开具的发票，由您本人自行承担，请您仔细核对确认后开具。
+            </p>
+            <p>
+            3.自游宝咨询服务热线∶0580-226622。
+            </p>
+        </div>
     </div>
 </template>
 
 <script>
+import sanjiangImg from "../assets/nav/sanjiang.png";
+import changzhiImg from "../assets/nav/changzhi.png";
+import putuobusImg from "../assets/nav/putuobus.png";
+import busImg from "../assets/nav/bus.png";
 
 export default {
     name: "Nav",
 
     data() {
         return {
-            
+            sanjiangImg,
+            changzhiImg,
+            putuobusImg,
+            busImg,
         }
     },
 
@@ -42,13 +64,16 @@ export default {
 
 <style scoped>
 
-
-.button {
-    width: 90%;
-    height: 100px;
+.item {
+    width: 50%;
     box-sizing: border-box;
-    margin: 5%;
-    font-weight: bold;
+    padding: 10px;
 }
 
+p {
+    color: #999999;
+    font-size: 15px;
+    line-height: 30px;
+    padding: 20px;
+}
 </style>

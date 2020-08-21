@@ -35,44 +35,56 @@ export default {
         }
     },
 
-    created() {
-
-        this.ifShowScanIcon = window.location.href.search(/\/sanjiang/) >= 0;
-
-        if(!this.ifShowScanIcon)
-        {
-            return;
+    watch: {
+        $route: function() {
+            this.checkIfShowScan();
         }
-        
-        if(!wx)
-        {
-            return this.Toast("微信js sdk导入失败");
-        }
-
-        if(!this.isWeChat)
-        {
-            return;
-        }
-        
-        //
-        wx.ready(() => {
-            this.Toast("微信授权成功");
-
-            //
-            this.weChatAuthState = 1;
-        });
-        
-        wx.error(res => {
-            alert(`微信授权失败, ${JSON.stringify(res)}`);
-        });
-        
-        //
-        this.weChatJsSdkAuth().catch(e => {
-            this.Toast(`微信授权服务请求失败, ${e.toString()}`);
-        });
     },
 
     methods: {
+        checkIfShowScan() {
+            this.ifShowScanIcon = window.location.href.search(/\/sanjiang/) >= 0;
+
+            // check if need show
+            if(!this.ifShowScanIcon)
+            {
+                return;
+            }
+
+            // check if all ready authed
+            if(this.weChatAuthState)
+            {
+                return;
+            }
+
+            if(!wx)
+            {
+                return this.Toast("微信js sdk导入失败");
+            }
+
+            if(!this.isWeChat)
+            {
+                return;
+            }
+            
+            //
+            wx.ready(() => {
+                this.Toast("微信授权成功");
+
+                //
+                this.weChatAuthState = 1;
+            });
+            
+            wx.error(res => {
+                alert(`微信授权失败, ${JSON.stringify(res)}`);
+            });
+            
+            //
+            this.weChatJsSdkAuth().catch(e => {
+                this.Toast(`微信授权服务请求失败, ${e.toString()}`);
+            });
+        },
+
         async weChatJsSdkAuth()
         {
             //
