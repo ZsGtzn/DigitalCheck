@@ -48,7 +48,9 @@ export default {
 
         jumpToSanjiang: function() {
             // this should be used at future
-            this.$router.push({path: "scan/sanjiang"});
+            // this.$router.push({path: "scan/sanjiang"});
+
+            window.location.href = "https://zyb.ziubao.com/invoice/#/scan/sanjiang";
         },
 
         jumpToChangzhiVehiclePark: function() {
@@ -66,6 +68,7 @@ export default {
 
 .item {
     width: 50%;
+    height: calc(50% * 188 / 377);
     box-sizing: border-box;
     padding: 10px;
 }
