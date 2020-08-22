@@ -5,10 +5,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.2.0.js" async="async"></script>
-    <script src="/public_web/static/js/vue-router.js"></script>
-    <script src="/public_web/static/js/vue.min.js"></script>
-    <script src="https://unpkg.com/mint-ui/lib/index.js"></script>
-    <link rel="stylesheet" type="text/css" href="https://unpkg.com/mint-ui/lib/style.css">
+    <script src="<%= htmlWebpackPlugin.options.globals.rootPath %>/static/vue/vue-router.js"></script>
+    <script src="<%= htmlWebpackPlugin.options.globals.rootPath %>/static/vue/vue.min.js"></script>
+    <script src="<%= htmlWebpackPlugin.options.globals.rootPath %>/static/mint-ui/mint-ui.js"></script>
+    <link rel="stylesheet" type="text/css" href="<%= htmlWebpackPlugin.options.globals.rootPath %>/static/mint-ui/mint-ui.css">
     <title>电子发票</title>
   </head>
   <body style="margin:0;padding:0;">

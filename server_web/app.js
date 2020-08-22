@@ -14,7 +14,7 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use('/public_web', express.static(path.join(__dirname, 'public_web')));
+app.use('/invoice', express.static(path.join(__dirname, 'invoice')));
 app.use('/public_manager', express.static(path.join(__dirname, 'public_manager')));
 
 app.use('/', indexRouter);

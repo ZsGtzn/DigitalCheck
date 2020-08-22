@@ -3,6 +3,7 @@ const HtmlWebpackplugin = require('html-webpack-plugin');
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const CopyPlugin = require('copy-webpack-plugin');
 const globals = require("../globals");
+const WriteFilePlugin = require('write-file-webpack-plugin');
 
 module.exports = {
     // 指定打包模式
@@ -18,7 +19,7 @@ module.exports = {
     ],
     output: {
         // 配置打包文件输出的目录
-        path: path.resolve(__dirname, '../../server_web/public_web'),
+        path: path.resolve(__dirname, `../../server_web/${globals.rootPath}`),
         // 生成的js文件名称
         filename: 'js/[name].[hash:8].js',
         // chunkname就是未被列在entry中，但有些场景需要被打包出来的文件命名配置。
@@ -28,10 +29,11 @@ module.exports = {
     externals: {
         'vue': 'Vue',
         'vue-router': 'VueRouter',
-        'mint-ui': 'Mint',
+        'mint-ui': 'MINT',
     },
     devServer: { 
-        contentBase: false,
+        contentBase: path.join(__dirname, "../static"),
+        contentBasePublicPath: `${globals.rootPath}/static`,
         compress: true,
         hot: true,
         host: '0.0.0.0',
@@ -79,16 +81,17 @@ module.exports = {
         new VueLoaderPlugin(),
         new HtmlWebpackplugin({
             filename: 'index.html', // 打包后的文件名，默认是index.html   
-            template: path.resolve(__dirname, '../index.html'), // 导入被打包的文件模板
-            templateParameters: globals // 这一步就是注入的变量, 会从这里面拿
+            template: path.resolve(__dirname, '../index.ejs'), // 导入被打包的文件模板
+            globals: globals // 这一步就是注入的变量
         }),
         new CopyPlugin({
-            pattern: [
+            patterns: [
                 { from: 'static', to: 'static' },
             ],
             options: {
-                writeToDisk: true,
+                
             }
         }),
+        new WriteFilePlugin(),
     ]
 }

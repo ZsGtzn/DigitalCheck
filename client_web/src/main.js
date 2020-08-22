@@ -6,12 +6,12 @@ import axios from './net/axios'
 import touch from './directives/touch';
 
 // 引入全部组件
-import MintUI, { Toast } from 'mint-ui'
+import MINT, { Toast } from 'mint-ui'
 
 // this style is used for putuobus invoice
 // import './style/putuobus/blue.scss';
 
-Vue.use(MintUI);
+Vue.use(MINT);
 
 // 引入全部组件
 Vue.use(touch);

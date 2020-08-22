@@ -2,7 +2,7 @@
     "name": "digit_invoice",
     "version": "0.0.1",
     "scripts": {
-        "mockServer": "java -Dmockserver.enableCORSForAllResponses=true -jar \"./client_mock/jar/mockserver-netty-5.11.1-jar-with-dependencies.jar\" -serverPort 3000",
+        "mockServer": "java -Dmockserver.enableCORSForAllResponses=true -jar \"./client_mock/jar/mockserver-netty-5.10.0-jar-with-dependencies.jar\" -serverPort 3000",
         "mockClient": "cd client_mock && node index.js",
         "devClientWeb": "cd client_web && npm run dev",
         "buildClientWeb": "cd client_web && npm run build",
