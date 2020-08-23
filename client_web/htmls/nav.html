@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>电子发票</title>
+</head>
+
+<body style="margin:0;padding:0;">
+    <noscript>
+        <strong>We're sorry but Digital Invoice doesn't work properly without JavaScript enabled. Please enable it to
+            continue.</strong>
+    </noscript>
+
+    <style type="text/css">
+        .item {
+            width: 50%;
+            height: calc(50% * 188 / 377);
+            box-sizing: border-box;
+            padding: 10px;
+        }
+
+        p {
+            color: #999999;
+            font-size: 15px;
+            line-height: 30px;
+            padding: 20px;
+        }
+    </style>
+
+    <div style="height:100%;overflow:auto;">
+        <div style="display:flex;">
+            <img id="sanjiang" class="item" src="../assets/nav/sanjiang.png" />
+            <img id="bus" class="item" src="../assets/nav/bus.png" />
+        </div>
+        <div style="display:flex;">
+            <img id="putuobus" class="item" src="../assets/nav/putuobus.png" />
+            <img id="changzhi" class="item" src="../assets/nav/changzhi.png" />
+        </div>
+        <div style="margin-top: 20px;">
+            <p>
+                1.如您开具的增值税普通发票用于企业报销，根据国家税务相关政策要填定纳税人名称及纳税识别号;如您的单位是非企业性质或您要求开具个人名义抬头的，请您填写您的姓名，手机号码、电子邮箱，方便发送电子发票。
+            </p>
+            <p>
+                2.因您个人填写发票信息有误等原因开具的发票，由您本人自行承担，请您仔细核对确认后开具。
+            </p>
+            <p>
+                3.自游宝咨询服务热线∶0580-226622。
+            </p>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("bus").addEventListener('click', function () {
+            //
+            window.location.href = "https://zyb.ziubao.com/#/order-list?type=bus";
+        }, false);
+
+        document.getElementById("sanjiang").addEventListener('click', function () {
+            //
+            window.location.href = "../#/scan/sanjiang";
+        }, false);
+
+        document.getElementById("changzhi").addEventListener('click', function () {
+            //
+            window.location.href = "../#/scan/changzhiVehiclePark";
+        }, false);
+
+        document.getElementById("putuobus").addEventListener('click', function () {
+            //
+            window.location.href = "../#/scan/putuobus";
+        }, false);
+    </script>
+</body>
+
+</html>
