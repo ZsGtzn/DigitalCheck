@@ -31,7 +31,7 @@ export default {
             scanImg: scanImg,
             weChatAuthState: 0,
             isWeChat: isWeChat(),
-            ifZiubaoPlatform: false,
+            ifZiubaoPlatform: true,
         }
     },
 
