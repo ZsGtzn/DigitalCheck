@@ -31,22 +31,35 @@
         height="100%"
         :data="invoiceList">
         <el-table-column
-            prop="buyername"
+            prop="buyerName"
             label="姓名"
             width="300">
         </el-table-column>
         <el-table-column
-            prop="order_num"
+            prop="serialNum"
             label="票据索引"
             width="250">
         </el-table-column>
         <el-table-column
-            prop="invoice_time"
+            prop="invoiceTime"
             label="开票时间"
             width="180">
         </el-table-column>
         <el-table-column
-            prop="invoice_amount"
+            prop="submitTime"
+            label="申请时间"
+            width="180">
+        </el-table-column>
+        <el-table-column
+            label="状态"
+            width="180">
+            <template slot-scope="scope">
+                <span style="margin-left: 10px" v-if="scope.row.invoiceUrl = ''">开票中</span>
+                <span style="margin-left: 10px" v-else>开票成功</span>
+            </template>
+        </el-table-column>
+        <el-table-column
+            prop="invoiceAmount"
             label="开票金额"
             width="100">
         </el-table-column>
