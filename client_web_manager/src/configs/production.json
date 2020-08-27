@@ -4,7 +4,7 @@
             "host": "https://invoice.ziubao.com"
         },
         "sanjiangInvoice": {
-            "host": "https://sjgroup.ziubao.com"
+            "host": "https://invoice.ziubao.com"
         }
     }
 }
