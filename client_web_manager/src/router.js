@@ -16,6 +16,11 @@ const routerInstance = new Router({
         {
             path: '/sanjiang',
             component: () => import('./views/SanJiang.vue'),
+        },
+
+        {
+            path: '/sanjiangVehiclePark',
+            component: () => import('./views/SanjiangVehiclePark.vue'),
         }
     ]
 });
