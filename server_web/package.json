@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "build": "rm -rf dist && webpack --mode production --config webpack.server.config.js",
+    "build": "rm -rf dist && webpack --mode production --config webpack.config.js",
     "start": "node ./bin/www.js"
   },
   "dependencies": {
