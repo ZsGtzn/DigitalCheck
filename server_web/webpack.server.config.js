@@ -3,13 +3,9 @@ const nodeExternals = require('webpack-node-externals');
 const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = (env, argv) => {
-    const SERVER_PATH = (argv.mode === 'production') ? 
-    path.resolve(__dirname, './bin/www-prod') : 
-    path.resolve(__dirname, './bin/www-dev');
-    
     return {
         entry: {
-            server: SERVER_PATH,
+            server: path.resolve(__dirname, './bin/www'),
         },
         output: {
             path: path.join(__dirname, 'dist'),
