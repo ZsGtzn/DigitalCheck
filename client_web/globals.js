@@ -1,3 +1,3 @@
 module.exports = {
-    rootPath: "/invoice",
+    rootPath: "/invoice/main",
 }
