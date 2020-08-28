@@ -233,17 +233,21 @@ export default {
 
             //
             let serverUrl = ""
-            if(this.type == 'sanjiang')
+            if(this.type == 'sanjiang') // 三江船票
             {
                 serverUrl = "/invoiceApi/sjky/doInvoice";
             }
-            else if(this.type == 'putuobus')
+            else if(this.type == 'putuobus') // 普陀山旅游巴士
             {
                 serverUrl = "/invoiceApi/zlkc/doInvoice";
             }
-            else if(this.type == 'changzhiVehiclePark')
+            else if(this.type == 'changzhiVehiclePark') // 长峙岛停车场
             {
                 serverUrl = "/invoiceApi/czpark/doInvoice";
+            }
+            else if(this.type == 'sanjiangVehiclePark') // 三江停车场
+            {
+                serverUrl = "/invoiceApi/sjpark/doInvoice";
             }
             else
             {

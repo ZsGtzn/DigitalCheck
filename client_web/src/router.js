@@ -14,13 +14,6 @@ const routerInstance = new Router({
     base: process.env.BASE_URL,
     routes: [
         {
-            path: '/nav',
-            component: () => import('./views/Nav.vue'),
-            props: true,
-            meta: { requireCheckPayAttension: true },
-        },
-
-        {
             path: '/scan/:type',
             component: () => import('./views/Scan.vue'),
             props: true,

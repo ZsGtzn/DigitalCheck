@@ -56,11 +56,10 @@
             width="100">
         </el-table-column>
         <el-table-column
-            prop="parkNo"
-            label="车牌号"
+            label="停车场"
             width="100">
             <template slot-scope="scope">
-                <span style="margin-left: 10px">{{`${scope}#停车场`}}</span>
+                <span style="margin-left: 10px">{{`${scope.parkNo}#停车场`}}</span>
             </template>
         </el-table-column>
         <el-table-column

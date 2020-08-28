@@ -5,6 +5,7 @@
         <label for="selectAll" @click="selectALl">全选</label>
     </div>
     <mt-loadmore :top-method="loadTop" :bottom-all-loaded="true" ref="loadmore" class="passengerInvoice">
+        <!-- 三江码头船票 -->
         <template v-if="type==='sanjiang'">
             <span class="warning">以下情况不支持开票及注意事项：1.请您在乘船次日起45天内开电子发票，逾期作废；2.全退订单不开票（退票未产生手续费的）；3.已取票的不开票；4.退票产生手续费的可开票；5.如遇到发票不能显示的问题，请与客服联系，联系方式：0580-2626888</span>
             <ul style="margin: 5px;padding: 0px;">
@@ -13,10 +14,21 @@
                 </li>
             </ul>
         </template>
+
+        <!-- 长峙岛停车场 -->
         <template v-else-if="type==='changzhiVehiclePark'">
             <ul style="margin: 5px;padding: 0px;">
                 <li v-for="(item, index) of checkedPassenger" :key="index" class="listItem" @click="selectInvoice(item)">
                     <ChangzhiVehicleDetail :item="item"></ChangzhiVehicleDetail>
+                </li>
+            </ul>
+        </template>
+
+        <!-- 三江码头停车场 -->
+        <template v-else-if="type==='sanjiangVehiclePark'">
+            <ul style="margin: 5px;padding: 0px;">
+                <li v-for="(item, index) of checkedPassenger" :key="index" class="listItem" @click="selectInvoice(item)">
+                    <SanJiangVehicleDetail :item="item"></SanJiangVehicleDetail>
                 </li>
             </ul>
         </template>
@@ -29,12 +41,14 @@
 
 const RouteDetail = () => import("../components/RouteDetail.vue");
 const ChangzhiVehicleDetail = () => import("../components/ChangzhiVehicleDetail.vue");
+const SanJiangVehicleDetail = () => import("../components/SanjiangVehicleDetail.vue");
+
 import { downloadutil } from "../utils";
 
 export default {
     name: 'InvoiceList',
     
-    components: { RouteDetail, ChangzhiVehicleDetail },
+    components: { RouteDetail, ChangzhiVehicleDetail, SanJiangVehicleDetail },
 
     props: ['type', 'identifier'],
 
@@ -47,20 +61,7 @@ export default {
 
     created()
     {
-        switch(this.type)
-        {
-            case 'sanjiang': {
-                this.fetchSanJiangData();
-            }
-            break;
-            case 'changzhiVehiclePark': {
-                this.changzhiVehicleParkData();
-            }
-            break;
-            default: {
-                alert(`错误的平台类型`);
-            }
-        }  
+        this.fetchData();
     },
 
     watch: {
@@ -78,6 +79,28 @@ export default {
     },
 
     methods: {
+        fetchData() {
+            switch(this.type)
+            {
+                case 'sanjiang': {
+                    this.fetchSanJiangData();
+                }
+                break;
+                case 'changzhiVehiclePark': {
+                    this.changzhiVehicleParkData();
+                }
+                break;
+                case 'sanjiangVehiclePark': {
+                    this.sanjiangVehicleParkData();
+                }
+                break;
+                default: {
+                    alert(`错误的平台类型`);
+                }
+            }  
+        },
+
+        // 三江码头船票
         fetchSanJiangData()
         {
             this.axios.invoice.get(`/invoiceApi/sjky/passengerList?IDCard=${this.identifier}&state`).then(response => {
@@ -94,6 +117,7 @@ export default {
             });
         },
 
+        // 长峙岛停车场
         changzhiVehicleParkData() 
         {
             this.axios.invoice.get(`/invoiceApi/czpark/recordList?plateNo=${this.identifier}`).then(response => {
@@ -111,22 +135,27 @@ export default {
             });
         },
 
+        // 三江停车场
+        sanjiangVehicleParkData()
+        {
+            this.axios.invoice.get(`/invoiceApi/sjpark/recordList?plateNo=${this.identifier}`).then(response => {
+                if(response.code === 0)
+                {
+                    return this.checkedPassenger = response.data.map(ele => Object.assign(ele, {
+                        ifSelected: false,
+                        serialNum: ele.uniqueNo,
+                    }));
+                }
+
+                this.Toast(response.msg);
+            }).catch(e => {
+                this.Toast(`获取开票列表失败, ${e.toString()}`);
+            });
+        },
+
         loadTop()
         {
-            switch(this.type)
-            {
-                case 'sanjiang': {
-                    this.fetchSanJiangData();
-                }
-                break;
-                case 'changzhiVehiclePark': {
-                    this.changzhiVehicleParkData();
-                }
-                break;
-                default: {
-                    alert(`错误的平台类型`);
-                }
-            }  
+            this.fetchData();
 
             //
             this.$refs.loadmore.onTopLoaded();
