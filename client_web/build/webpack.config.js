@@ -3,7 +3,6 @@ const HtmlWebpackplugin = require('html-webpack-plugin');
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const CopyPlugin = require('copy-webpack-plugin');
 const globals = require("../globals");
-const WriteFilePlugin = require('write-file-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
 
 module.exports = {
@@ -96,6 +95,5 @@ module.exports = {
             }
         }),
         new ManifestPlugin(),
-        new WriteFilePlugin(),
     ]
 }
