@@ -1,7 +1,7 @@
 <template>
     <div id="main">
         <div class="invoiceDetailFrame">
-            <p class="notify">开票完成后，电子发票生成需要几秒钟时间，请耐心等待。{{type == 'sanjiang' ? "随车客无开票凭证的客户，请前往自游宝微信公众号 '个人中心-我要开票-三江船票开票' 进行开票" : ""}}</p>
+            <p class="notify">开票完成后，电子发票生成需要几秒钟时间，请耐心等待。<br/>{{type == 'sanjiang' ? "随车客无开票凭证的客户，请前往自游宝微信公众号 '个人中心-我要开票-三江船票开票' 进行开票。" : ""}}</p>
             <div class="invoiceTargetType">
                 提交方式
                 <mt-radio
