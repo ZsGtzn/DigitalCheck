@@ -59,7 +59,7 @@
             label="停车场"
             width="100">
             <template slot-scope="scope">
-                <span style="margin-left: 10px">{{`${scope.parkNo}#停车场`}}</span>
+                <span style="margin-left: 10px">{{`${scope.row.parkNo}#停车场`}}</span>
             </template>
         </el-table-column>
         <el-table-column
