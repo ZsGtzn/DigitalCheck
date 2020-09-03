@@ -5,6 +5,7 @@ import config from "./configs";
 import store from "./store";
 import { fetchAuthToken, clearAuthToken, getWxUserInfo } from "./storage/local";
 import axios from './net/axios';
+import { MessageBox } from 'mint-ui';
 
 //
 Vue.use(Router)
@@ -106,11 +107,36 @@ routerInstance.beforeEach((to, from, next) => {
                     {
                         return next();
                     }
-        
+                    
                     //
-                    next({
-                        path: "/favorQR"
-                    })
+                    const key = "ziubao_if_channel_favor_show";
+                    const ifShow = localStorage.getItem(key);
+                    if (ifShow == "hidden")
+                    {
+                        return next();
+                    }
+
+                    //
+                    localStorage.setItem(key, "hidden");
+
+                    //
+                    MessageBox({
+                        title: "提示",
+                        message: '关注自游宝（水上客运网上售票平台，方便查实时航班，网上免费购票）',
+                        showCancelButton: true,
+                        confirmButtonText: "是",
+                        cancelButtonText: "否",
+                    }).then(action => {
+                        if (action == 'confirm')
+                        {
+                            next({
+                                path: "/favorQR"
+                            });
+                        }
+                        else {
+                            next();
+                        }
+                    });
                 } else {
                     next()
                 }

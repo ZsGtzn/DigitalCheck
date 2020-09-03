@@ -5,6 +5,9 @@
         <mt-field placeholder="请输入您的身份证号码" style="border-radius:10px;" v-model="identityNo"></mt-field>
 
         <div style="text-align: center; position: absolute; bottom: 0px; left: 0px; width: 100%;">
+            <p>
+                电子发票咨询热线：<a href="tel:05802266222">0580-2266222</a>。
+            </p>
             <mt-button type="primary" id="checkInvoice" @click="search">查询</mt-button>
         </div>
     </div>
@@ -71,7 +74,6 @@ export default {
 }
 
 #checkInvoice {
-    font-size:11px;
     width:100%;
 }
 
@@ -81,5 +83,12 @@ export default {
     position: relative;
     box-sizing: border-box;
     padding: 10px;
+}
+
+p {
+    color: #999999;
+    font-size: 15px;
+    line-height: 30px;
+    margin: 10px 0px 10px 0px;
 }
 </style>

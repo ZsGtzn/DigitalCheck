@@ -74,7 +74,6 @@ export default {
 }
 
 #checkInvoice {
-    font-size:11px;
     width:100%;
 }
 
@@ -85,4 +84,5 @@ export default {
     box-sizing: border-box;
     padding: 10px;
 }
+
 </style>
