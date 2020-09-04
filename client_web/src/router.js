@@ -63,6 +63,11 @@ const routerInstance = new Router({
                     reason: route.query.reason,
                 }
             },
+        },
+
+        {
+            path: '/putuoNavigator',
+            component: () => import('./views/PutuoNavigator.vue'),
         }
     ]
 });
