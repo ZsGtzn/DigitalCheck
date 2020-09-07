@@ -27,5 +27,5 @@ export const saveMobile = mobile => {
 }
 
 export const getMobile = () => {
-    localStorage.getItem(mobileKey) || "";
+    return localStorage.getItem(mobileKey) || "";
 }
