@@ -8,28 +8,28 @@
     />
     <div style="overflow:auto;width:100%;height:100%;">
         <div id="invoiceDetail">
-            <span class="title">流水号</span><span style="font-size:10px;color:#e91010;">￥{{invoiceDetail.uniqueNo}}</span>
+            <span class="title">流水号</span><span style="font-size:10px;color:#e91010;">{{invoiceDetail.serialNum}}</span>
         </div>
         <div id="invoiceDetail">
-            <span class="title">车牌号</span><span style="font-size:12.5px;">{{invoiceDetail.plateNo}}</span>
+            <span class="title">消费金额</span><span style="font-size:20px;color:#e91010;">￥{{invoiceDetail.total_Fee}}</span>
         </div>
         <div id="invoiceDetail">
-            <span class="title">停车场</span><span style="font-size:12.5px;">{{`${invoiceDetail.parkNo}#停车场`}}</span>
+            <span class="title">商户单号</span><span style="font-size:12.5px;">{{invoiceDetail.out_Trade_No}}</span>
         </div>
         <div id="invoiceDetail">
-            <span class="title">进入时间</span><span style="font-size:12.5px;">{{invoiceDetail.inPassTime}}</span>
+            <span class="title">车牌号</span><span style="font-size:12.5px;">{{invoiceDetail.busNo}}</span>
         </div>
         <div id="invoiceDetail">
-            <span class="title">驶出时间</span><span style="font-size:12.5px;">{{invoiceDetail.passTime}}</span>
+            <span class="title">开票金额</span><span style="font-size:12.5px;">￥{{invoiceDetail.invoiceAmount}}</span>
         </div>
         <div id="invoiceDetail">
-            <span class="title">开票金额</span><span style="font-size:12.5px;">{{invoiceDetail.invoiceAmount}}</span>
+            <span class="title">交易方式</span><span style="font-size:12.5px;">{{invoiceDetail.trade_Type}}</span>
         </div>
         <div id="invoiceDetail">
-            <span class="title">实际支付金额</span><span style="font-size:12.5px;">{{invoiceDetail.actualPay}}</span>
+            <span class="title">交易时间</span><span style="font-size:12.5px;">{{invoiceDetail.time_End}}</span>
         </div>
     </div>
-    <mt-button :disabled="true" type="danger" v-if="!invoiceDetail || !invoiceDetail.uniqueNo || invoiceDetail.uniqueNo.length == 0" id="unableCheckInvoice">无法开票</mt-button>
+    <mt-button :disabled="true" type="danger" v-if="!invoiceDetail || !invoiceDetail.serialNum || invoiceDetail.serialNum.length == 0" id="unableCheckInvoice">无法开票</mt-button>
     <mt-button :disabled="true" v-else-if="invoiceDetail.isInvoice && invoiceDetail.invoiceUrl.length == 0" type="primary" id="checkingInvoice">开票中</mt-button>
     <div v-if="invoiceDetail.invoiceUrl && invoiceDetail.invoiceUrl.length > 0">
         <div style="background-color:#f1f1f1;height:1px;margin:10px;"></div>
@@ -50,7 +50,7 @@
 
 <script>
 export default {
-    name: "SanjiangVehicleDetail",
+    name: "PutuoNavigatorDetail",
 
     inject: ['showOpenBrowserHint', 'download', 'preview'],
 

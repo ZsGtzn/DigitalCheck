@@ -3,9 +3,9 @@
       <mt-field class="filed" label="手机号码" placeholder="手机号码" v-model="mobile"></mt-field>
       <mt-field class="filed" label="验证码" placeholder="验证码" v-model="verifyCode"></mt-field>
       <div class="verifyCode">
-          <mt-button style="font-size: 0.5em;">获取验证码</mt-button>
+          <mt-button style="font-size: 0.5em;" @click="fetchVerifyCode">获取验证码</mt-button>
       </div>
-      <mt-button type="primary" class="submit">登录</mt-button>
+      <mt-button type="primary" class="submit" @click="login">登录</mt-button>
   </div>
 </template>
 
@@ -23,9 +23,10 @@ function getMobile() {
 
 
 import store from "../store";
+import { fetchAuthToken } from "../storage/local";
 
 export default {
-    name: "Navigator",
+    name: "PutuoNavigator",
 
     data() {
         return  {
@@ -34,14 +35,24 @@ export default {
         }
     },
 
+    created() {
+        const authToken = fetchAuthToken();
+        if(authToken && authToken.length > 0)
+        {
+            return this.$router.push({
+                path: `/invoiceList/putuoNavigator/${this.mobile}`
+            });
+        }
+    },
+
     methods: {
         fetchVerifyCode() {
-            this.axios.putuoNavigatorAuth.post("invoice-test/invoiceApi/wx/sendVerifyCode", {
+            this.axios.putuoNavigator.post("invoice/invoiceApi/wx/sendVerifyCode", {
                 mobile: this.mobile,
             }).then(response => {
                 if(response.code === 0)
                 {
-                    this.Toast("验证码已发送");
+                    return this.Toast("验证码已发送");
                 }
 
                 this.Toast(response.msg);
@@ -51,7 +62,7 @@ export default {
         },
 
         login() {
-            this.axios.putuoNavigatorAuth.post("/invoice-test/invoiceApi/wx/verifyCodeLogin", {
+            this.axios.putuoNavigator.post("/invoice/invoiceApi/wx/verifyCodeLogin", {
                 mobile: this.mobile,
                 verifyCode: this.verifyCode,
                 openid: store.state.auth.wxUserInfo ? store.state.auth.wxUserInfo.openid : "",
@@ -59,7 +70,7 @@ export default {
                 if(response.code === 0)
                 {
                     return this.$router.push({
-                        path: `/invoiceList/putuo/${this.identityNo}`
+                        path: `/invoiceList/putuoNavigator/${this.mobile}`
                     });
                 }
 

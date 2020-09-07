@@ -99,7 +99,7 @@ export const setInvoiceInfoPersonIdentifier = (personIdentifier) => {
 
 //
 export const getInvoiceInfoType = () => {
-    return localStorage.getItem(InvoiceInfoTypeKey) || "1";
+    return localStorage.getItem(InvoiceInfoTypeKey) || "2";
 }
 
 export const getInvoiceInfoUsername = () => {

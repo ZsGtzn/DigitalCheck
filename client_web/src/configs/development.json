@@ -1,12 +1,12 @@
 {
 	"axios": {
         "invoice": {
-            "host": "http://123.157.78.187:8090"
+            "host": "https://invoice.ziubao.com"
         },
         "weChatJsSdkAuth": {
-            "host": "http://192.168.0.110:4000"
+            "host": "https://shop.ziubao.com"
         },
-        "putuoNavigatorAuth": {
+        "putuoNavigator": {
             "host": "https://zyb.ziubao.com"
         }
     },

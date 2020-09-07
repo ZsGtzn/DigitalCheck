@@ -6,7 +6,7 @@
         "weChatJsSdkAuth": {
             "host": "https://shop.ziubao.com"
         },
-        "putuoNavigatorAuth": {
+        "putuoNavigator": {
             "host": "https://zyb.ziubao.com"
         }
     },

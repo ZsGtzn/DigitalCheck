@@ -8,10 +8,13 @@
     />
     <div style="overflow:auto;width:100%;height:100%;">
         <div id="invoiceDetail">
-            <span class="title">流水号</span><span style="font-size:10px;color:#e91010;">￥{{invoiceDetail.uniqueNo}}</span>
+            <span class="title">流水号</span><span style="font-size:10px;color:#e91010;">{{invoiceDetail.uniqueNo}}</span>
         </div>
         <div id="invoiceDetail">
             <span class="title">车牌号</span><span style="font-size:12.5px;">{{invoiceDetail.plateNo}}</span>
+        </div>
+        <div id="invoiceDetail">
+            <span class="title">停车场</span><span style="font-size:12.5px;">{{`${invoiceDetail.parkNo}#停车场`}}</span>
         </div>
         <div id="invoiceDetail">
             <span class="title">进入时间</span><span style="font-size:12.5px;">{{invoiceDetail.inPassTime}}</span>
@@ -20,10 +23,10 @@
             <span class="title">驶出时间</span><span style="font-size:12.5px;">{{invoiceDetail.passTime}}</span>
         </div>
         <div id="invoiceDetail">
-            <span class="title">开票金额</span><span style="font-size:12.5px;">{{invoiceDetail.invoiceAmount}}</span>
+            <span class="title">开票金额</span><span style="font-size:12.5px;">￥{{invoiceDetail.invoiceAmount}}</span>
         </div>
         <div id="invoiceDetail">
-            <span class="title">实际支付金额</span><span style="font-size:12.5px;">{{invoiceDetail.actualPay}}</span>
+            <span class="title">实际支付金额</span><span style="font-size:12.5px;">￥{{invoiceDetail.actualPay}}</span>
         </div>
     </div>
     <mt-button :disabled="true" type="danger" v-if="!invoiceDetail || !invoiceDetail.uniqueNo || invoiceDetail.uniqueNo.length == 0" id="unableCheckInvoice">无法开票</mt-button>
@@ -47,7 +50,7 @@
 
 <script>
 export default {
-    name: "ChangeZhiVehicleDetail",
+    name: "SanjiangVehicleDetail",
 
     inject: ['showOpenBrowserHint', 'download', 'preview'],
 

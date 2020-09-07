@@ -32,6 +32,16 @@
                 </li>
             </ul>
         </template>
+
+        <!-- 普陀山导游 -->
+        <template v-else-if="type==='putuoNavigator'">
+            <mt-button type="danger" size="small" style="width:100%;margin:5px 0px 5px 0px;box-sizing:border-box;" @click="reLogin">切换账号</mt-button>
+            <ul style="margin: 5px;padding: 0px;">
+                <li v-for="(item, index) of checkedPassenger" :key="index" class="listItem" @click="selectInvoice(item)">
+                    <PutuoNavigatorDetail :item="item"></PutuoNavigatorDetail>
+                </li>
+            </ul>
+        </template>
     </mt-loadmore>
     <mt-button type="primary" id="checkInvoice" @click="checkInvoice">开票</mt-button>
 </div>
@@ -39,16 +49,18 @@
 
 <script>
 
-const RouteDetail = () => import("../components/RouteDetail.vue");
-const ChangzhiVehicleDetail = () => import("../components/ChangzhiVehicleDetail.vue");
-const SanJiangVehicleDetail = () => import("../components/SanjiangVehicleDetail.vue");
+const RouteDetail = () => import("../components/list/RouteDetail.vue");
+const ChangzhiVehicleDetail = () => import("../components/list/ChangzhiVehicleDetail.vue");
+const SanJiangVehicleDetail = () => import("../components/list/SanjiangVehicleDetail.vue");
+const PutuoNavigatorDetail = () => import("../components/list/PutuoNavigatorDetail.vue");
 
 import { downloadutil } from "../utils";
+import { clearAuthToken } from "../storage/local";
 
 export default {
     name: 'InvoiceList',
     
-    components: { RouteDetail, ChangzhiVehicleDetail, SanJiangVehicleDetail },
+    components: { RouteDetail, ChangzhiVehicleDetail, SanJiangVehicleDetail, PutuoNavigatorDetail },
 
     props: ['type', 'identifier'],
 
@@ -92,6 +104,10 @@ export default {
                 break;
                 case 'sanjiangVehiclePark': {
                     this.sanjiangVehicleParkData();
+                }
+                break;
+                case 'putuoNavigator': {
+                    this.putuoNavigatorData();
                 }
                 break;
                 default: {
@@ -153,6 +169,24 @@ export default {
             });
         },
 
+        // 普陀导游
+        putuoNavigatorData()
+        {
+            this.axios.putuoNavigator.get(`/invoice/invoiceApi/zlkcMesh/getOrderList?mobile=${this.identifier}`).then(response => {
+                if(response.code === 0)
+                {
+                    return this.checkedPassenger = response.data.map(ele => Object.assign(ele, {
+                        ifSelected: false,
+                        serialNum: ele.out_Trade_No,
+                    }));
+                }
+
+                this.Toast(response.msg);
+            }).catch(e => {
+                this.Toast(`获取开票列表失败, ${e.toString()}`);
+            });
+        },
+
         loadTop()
         {
             this.fetchData();
@@ -201,6 +235,17 @@ export default {
                     invoiceList: JSON.stringify(multipleSelection) 
                 } 
             });
+        },
+
+        reLogin()
+        {
+            //
+            clearAuthToken();
+
+            //
+            this.$router.push({
+                path: "/putuoNavigator",
+            })
         }
     },
 

@@ -31,8 +31,6 @@ const getScanPutuobusOrderNo = () => {
 
 export default {
     name: "PutuoBus",
-
-    props: ['type'],
     
     components: {},
 
@@ -60,7 +58,7 @@ export default {
 
             //
             this.$router.push({
-                path: `/invoiceSingle/${this.type}/${this.identityNo}`
+                path: `/invoiceSingle/putuobus/${this.identityNo}`
             });
         }
     }

@@ -33,8 +33,6 @@ const getScanChangzhiVehicleParkVehicleNumber = () => {
 export default {
     name: "ChangzhiVehiclePark",
 
-    props: ['type'],
-
     inject: ['checkVehicleNumber'],
 
     components: {},
@@ -60,7 +58,7 @@ export default {
             {
                 //
                 this.$router.push({
-                    path: `/invoiceList/${this.type}/${this.identityNo}`
+                    path: `/invoiceList/changzhiVehiclePark/${this.identityNo}`
                 });
             }
         }

@@ -2,22 +2,22 @@
     <div style="width:100%;height:100%;">
         <!-- 三江码头船票 -->
         <template v-if="type=='sanjiang'">
-            <san-jiang :type="type"></san-jiang>
+            <san-jiang></san-jiang>
         </template>
 
         <!-- 普陀山旅游巴士 -->
         <template v-else-if="type=='putuobus'">
-            <putuo-bus :type="type"></putuo-bus>
+            <putuo-bus></putuo-bus>
         </template>
 
         <!-- 长峙岛停车场 -->
         <template v-else-if="type=='changzhiVehiclePark'">
-            <changzhi-vehicle-park :type="type"></changzhi-vehicle-park>
+            <changzhi-vehicle-park></changzhi-vehicle-park>
         </template>
 
         <!-- 三江码头停车场 -->
         <template v-else-if="type=='sanjiangVehiclePark'">
-            <SanjiangVehiclePark :type="type"></SanjiangVehiclePark>
+            <SanjiangVehiclePark></SanjiangVehiclePark>
         </template>
     </div>
 </template>

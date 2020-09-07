@@ -74,12 +74,12 @@ const routerInstance = new Router({
 
 //
 routerInstance.beforeEach((to, from, next) => {
-    // putuobus do not need check channel flavor
+    // putuobus do not need check wechat auth and channel flavor
     if(to.path.search(/\/putuobus/) >= 0)
     {
         return next();
     }
-    
+
     // just wechat need to check channel flavor
     if(!isWeChat())
     {

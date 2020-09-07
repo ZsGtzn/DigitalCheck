@@ -32,8 +32,6 @@ const getScanSanjiangPersonIdentifier = () => {
 
 export default {
     name: "SanJiang",
-
-    props: ['type'],
     
     inject: ['checkPersonIdentifier'],
 
@@ -59,7 +57,7 @@ export default {
             //
             if (this.checkPersonIdentifier(this.identityNo)) {
                 this.$router.push({
-                    path: `/invoiceList/${this.type}/${this.identityNo}`
+                    path: `/invoiceList/sanjiang/${this.identityNo}`
                 });
             }
         }

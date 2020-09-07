@@ -228,7 +228,9 @@ export default {
             {
                 buyerName = this.companyHead;
             }
-
+            
+            //
+            let axiosType = "invoice";
 
             //
             let serverUrl = ""
@@ -248,13 +250,21 @@ export default {
             {
                 serverUrl = "/invoiceApi/sjpark/doInvoice";
             }
+            else if(this.type == 'putuoNavigator')
+            {
+                //
+                axiosType = "putuoNavigator";
+
+                //
+                serverUrl = "/invoice/invoiceApi/zlkcMesh/doInvoice";
+            }
             else
             {
                 this.Toast(`无效的平台, ${this.type}`);
             }
 
             //
-            return this.axios.invoice.post(serverUrl, {
+            return this.axios[axiosType].post(serverUrl, {
                 orderInfoList: this.$attrs.invoiceList,
                 serialNum: serialNumList,
                 buyerName: buyerName,

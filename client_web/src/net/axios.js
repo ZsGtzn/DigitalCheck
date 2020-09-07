@@ -1,9 +1,10 @@
 import developmentConfig from '../configs/development.json'
 import productionConfig from '../configs/production.json'
 import axios from "axios"
-import { fetchAuthToken, updateAuthToken } from "../storage/local"
+import { fetchAuthToken, updateAuthToken, clearAuthToken } from "../storage/local"
 import store from "../store"
 import { isWeChat } from "../utils"
+import router from "../router";
 
 //
 var hostConfigMap;
@@ -70,7 +71,7 @@ class Axios
     }
 
 
-    // check if token is expired, if expired, clear auth corresponding data
+    // check if wechat token is expired, if expired, clear auth corresponding data
     if(isWeChat() && res.data && (res.data.code == 101 || res.data.code == 102))
     {
         //
@@ -78,6 +79,18 @@ class Axios
 
         //
         return location.reload();
+    }
+
+    // check if mobile token is expired, if expired, clear auth corresponding data
+    if (res.data && (res.data.code == 103 || res.data.code == 104))
+    {
+        // 
+        clearAuthToken();
+
+        //
+        return router.push({
+            path: "/putuoNavigator",
+        });
     }
 
     //
