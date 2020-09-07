@@ -3,7 +3,7 @@
       <mt-field class="filed" label="手机号码" placeholder="手机号码" v-model="mobile"></mt-field>
       <mt-field class="filed" label="验证码" placeholder="验证码" v-model="verifyCode"></mt-field>
       <div class="verifyCode">
-          <mt-button style="font-size: 0.5em;" @click="fetchVerifyCode">获取验证码</mt-button>
+          <mt-button size="small" plain @click="fetchVerifyCode">获取验证码</mt-button>
       </div>
       <mt-button type="primary" class="submit" @click="login">登录</mt-button>
   </div>
@@ -11,19 +11,8 @@
 
 <script>
 
-const mobileKey = "ziubao_putuo_navigator_mobile_key";
-
-function saveMobile(mobile) {
-    localStorage.setItem(mobileKey, mobile);
-}
-
-function getMobile() {
-    localStorage.getItem(mobileKey) || "";
-}
-
-
 import store from "../store";
-import { fetchAuthToken } from "../storage/local";
+import { fetchAuthMobileState, activeAuthMobileState, getMobile, saveMobile } from "../storage/mobile";
 
 export default {
     name: "PutuoNavigator",
@@ -36,8 +25,7 @@ export default {
     },
 
     created() {
-        const authToken = fetchAuthToken();
-        if(authToken && authToken.length > 0)
+        if(fetchAuthMobileState() == 'yes')
         {
             return this.$router.push({
                 path: `/invoiceList/putuoNavigator/${this.mobile}`
@@ -62,6 +50,10 @@ export default {
         },
 
         login() {
+            //
+            saveMobile(this.mobile);
+
+            //
             this.axios.putuoNavigator.post("/invoice/invoiceApi/wx/verifyCodeLogin", {
                 mobile: this.mobile,
                 verifyCode: this.verifyCode,
@@ -69,6 +61,10 @@ export default {
             }).then(response => {
                 if(response.code === 0)
                 {
+                    //
+                    activeAuthMobileState();
+
+                    //
                     return this.$router.push({
                         path: `/invoiceList/putuoNavigator/${this.mobile}`
                     });

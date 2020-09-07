@@ -55,7 +55,7 @@ const SanJiangVehicleDetail = () => import("../components/list/SanjiangVehicleDe
 const PutuoNavigatorDetail = () => import("../components/list/PutuoNavigatorDetail.vue");
 
 import { downloadutil } from "../utils";
-import { clearAuthToken } from "../storage/local";
+import { inactiveAuthMobileState } from "../storage/mobile";
 
 export default {
     name: 'InvoiceList',
@@ -240,7 +240,7 @@ export default {
         reLogin()
         {
             //
-            clearAuthToken();
+            inactiveAuthMobileState();
 
             //
             this.$router.push({

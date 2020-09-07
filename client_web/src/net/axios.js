@@ -1,7 +1,9 @@
 import developmentConfig from '../configs/development.json'
 import productionConfig from '../configs/production.json'
 import axios from "axios"
-import { fetchAuthToken, updateAuthToken, clearAuthToken } from "../storage/local"
+import { fetchAuthToken, updateAuthToken } from "../storage/local"
+import { inactiveAuthMobileState } from "../storage/mobile";
+
 import store from "../store"
 import { isWeChat } from "../utils"
 import router from "../router";
@@ -84,8 +86,8 @@ class Axios
     // check if mobile token is expired, if expired, clear auth corresponding data
     if (res.data && (res.data.code == 103 || res.data.code == 104))
     {
-        // 
-        clearAuthToken();
+        //
+        inactiveAuthMobileState();
 
         //
         return router.push({
