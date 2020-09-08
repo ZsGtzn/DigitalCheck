@@ -265,7 +265,7 @@ export default {
             inactiveAuthMobileState();
 
             //
-            this.$router.push({
+            this.$router.replace({
                 path: "/putuoNavigator",
             })
         },

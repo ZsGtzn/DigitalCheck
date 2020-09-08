@@ -30,11 +30,26 @@ export default {
         // 因为当守卫执行前，组件实例还没被创建
         if(fetchAuthMobileState() == 'yes')
         {
-            // use replace, no not add this record into history
-            return next({
-                replace: true,
-                path: `/invoiceList/putuoNavigator/${getMobile()}`,
-            });
+            (async () => {
+                // wait until wechat auth is finished
+                while(!store.state.auth.ifWechatAuthFinish)
+                {
+                    await new Promise(resolve => {
+                        setTimeout(() => {
+                            resolve();
+                        }, 50);
+                    })
+                }
+
+                // use replace, no not add this record into history
+                next({
+                    replace: true,
+                    path: `/invoiceList/putuoNavigator/${getMobile()}`,
+                });
+            })();
+            
+            //
+            return;
         }
 
         next();

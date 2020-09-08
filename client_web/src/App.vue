@@ -24,6 +24,7 @@
 import scanImg from "./assets/scan/scan.png";
 import { isWeChat, getUrlQuery } from "./utils.js";
 import config from "./configs";
+
 export default {
     name: 'App',
     data() {
@@ -32,9 +33,9 @@ export default {
             weChatAuthState: 0,
             isWeChat: isWeChat(),
             ifZiubaoPlatform: true,
+            ifWechatAuthFinish: true,
         }
     },
-
 
     created() {
         try {
@@ -50,7 +51,8 @@ export default {
 
             //
             wx.ready(() => {
-                this.Toast("微信授权成功");
+                //
+                this.ifWechatAuthFinish = true;
 
                 //
                 this.weChatAuthState = 1;
@@ -58,7 +60,11 @@ export default {
 
             //
             wx.error(res => {
-                this.Toast(`微信授权失败, ${JSON.stringify(res)}`);
+                //
+                this.ifWechatAuthFinish = true;
+                
+                //
+                this.Toast(`微信api授权失败, ${JSON.stringify(res)}`);
             });
 
             //
@@ -69,9 +75,15 @@ export default {
         
     },
 
+    watch: {
+        ifWechatAuthFinish(newVal) {
+            this.$store.commit("auth/setIfWechatAuthFinish", newVal)
+        }
+    },
+
     methods: {
         checkIfShowScan() {
-             try {
+            try {
                 // already pass wechat auth
                 if(this.weChatAuthState == 1) {
                     return;
@@ -91,6 +103,10 @@ export default {
 
                 //
                 this.weChatJsSdkAuth().catch(e => {
+                    //
+                    this.ifWechatAuthFinish = true;
+
+                    //
                     this.Toast(`微信授权服务请求失败, ${e.toString()}`);
                 });
             } catch(e) {
@@ -100,6 +116,8 @@ export default {
 
         async weChatJsSdkAuth()
         {
+            this.ifWechatAuthFinish = false;
+
             //
             const { statusCode, data, message } = await this.axios.weChatJsSdkAuth.get(`/wxShare/getJSSdkSignature.do?url=${btoa(window.location.href)}`);
             
@@ -124,7 +142,7 @@ export default {
         {
             if(this.weChatAuthState !== 1)
             {
-                return this.Toast("微信授权失败,无法使用扫一扫功能,请刷新页面或者使用微信自带的扫一扫");
+                return this.Toast("微信api授权失败,无法使用扫一扫功能,请刷新页面或者使用微信自带的扫一扫");
             }
 
             //
