@@ -24,7 +24,6 @@
                 >冲红</mt-button>
             </div>
         </div>
-        <mt-button v-else :disabled="true" type="danger" id="invalidInvoice">票务数据异常</mt-button>
     </div>
 </template>
 

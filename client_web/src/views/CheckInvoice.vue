@@ -158,43 +158,6 @@ export default {
     methods: {
         queryCommitInvoiceCheck()
         {
-            let message = "请核对您的开票信息<br>";
-            switch(this.invoiceTargetType) {
-                case "1": {
-                    message += `姓名: ${this.username}<br>手机号码: ${this.mobile}<br>`
-                }
-                break;
-                case "2": {
-                    message += `公司抬头: ${this.companyHead}<br>手机号码: ${this.mobile}<br>税号: ${this.taxNo}<br>`
-                }
-                break;
-                case "3": {
-                    message += `公司抬头: ${this.username}<br>手机号码: ${this.mobile}<br>`
-                }
-            }
-            message += `备注: ${this.remark}<br>`;
-
-            //
-            this.MessageBox({
-                title: "提示",
-                message,
-                showCancelButton: true,
-                confirmButtonText: "确认",
-                cancelButtonText: "修改",
-            }).then(action => {
-                if (action == 'confirm')
-                {
-                    this.commitInvoiceCheck();
-                }
-                else {
-                    //
-
-                }
-            });
-        },
-
-        commitInvoiceCheck()
-        {
             //
             setInvoiceInfoType(this.invoiceTargetType);
             setInvoiceInfoUsername(this.username);
@@ -243,7 +206,45 @@ export default {
                     return this.Toast("请填写公司抬头");
                 }
             }
+            
+            //
+            let message = "请核对您的开票信息<br>";
+            switch(this.invoiceTargetType) {
+                case "1": {
+                    message += `姓名: ${this.username}<br>手机号码: ${this.mobile}<br>`
+                }
+                break;
+                case "2": {
+                    message += `公司抬头: ${this.companyHead}<br>手机号码: ${this.mobile}<br>税号: ${this.taxNo}<br>`
+                }
+                break;
+                case "3": {
+                    message += `公司抬头: ${this.username}<br>手机号码: ${this.mobile}<br>`
+                }
+            }
+            message += `备注: ${this.remark}<br>`;
 
+            //
+            this.MessageBox({
+                title: "提示",
+                message,
+                showCancelButton: true,
+                confirmButtonText: "确认",
+                cancelButtonText: "修改",
+            }).then(action => {
+                if (action == 'confirm')
+                {
+                    this.commitInvoiceCheck();
+                }
+                else {
+                    //
+
+                }
+            });
+        },
+
+        commitInvoiceCheck()
+        {
             //
             let serialNumList = "";
             for(let [index, value] of this.invoiceList.entries())

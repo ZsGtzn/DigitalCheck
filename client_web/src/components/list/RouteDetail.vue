@@ -60,10 +60,10 @@
 </template>
 
 <script>
+import { downloadUtil } from "../../utils";
+
 export default {
     name: "routeDetail",
-
-    inject: ['showOpenBrowserHint', 'download', 'preview'],
 
     props: {
         item: {
@@ -78,7 +78,7 @@ export default {
     },
 
     methods: {
-        
+        ...downloadUtil,
     }
 };
 </script>
