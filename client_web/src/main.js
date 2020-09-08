@@ -4,6 +4,7 @@ import router from './router'
 import store from './store'
 import axios from './net/axios'
 import touch from './directives/touch';
+import _ from 'lodash';
 
 // 引入全部组件
 import MINT, { Toast, MessageBox } from 'mint-ui'
@@ -33,8 +34,8 @@ requireComponent.keys().forEach(fileName => {
     const componentConfig = requireComponent(fileName)
 
     // 获取组件的 PascalCase 命名
-    const componentName = upperFirst(
-        camelCase(
+    const componentName = _.upperFirst(
+        _.camelCase(
             // 获取和目录深度无关的文件名
             fileName
                 .split('/')

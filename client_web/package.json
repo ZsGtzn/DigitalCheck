@@ -1,7 +1,6 @@
 {
   "dependencies": {
-    "element-ui": "^2.13.1",
-    "mint-ui": "^2.2.13"
+    "lodash": "^4.17.20"
   },
   "devDependencies": {
     "@babel/core": "^7.4.5",

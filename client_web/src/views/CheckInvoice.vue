@@ -62,7 +62,7 @@
             </div>
             <p class="totalCashAmountFrame">预计开票金额（以审核为准）：<span class="totalCashAmount">￥{{totalCashAmount}}</span></p>
         </div>
-        <mt-button type="primary" class="commitInvoiceCheck" @click="commitInvoiceCheck">提交</mt-button>
+        <mt-button type="primary" class="commitInvoiceCheck" @click="queryCommitInvoiceCheck">提交</mt-button>
     </div>
 </template>
 
@@ -156,6 +156,43 @@ export default {
     },
 
     methods: {
+        queryCommitInvoiceCheck()
+        {
+            let message = "请核对您的开票信息<br>";
+            switch(this.invoiceTargetType) {
+                case "1": {
+                    message += `姓名: ${this.username}<br>手机号码: ${this.mobile}<br>`
+                }
+                break;
+                case "2": {
+                    message += `公司抬头: ${this.companyHead}<br>手机号码: ${this.mobile}<br>税号: ${this.taxNo}<br>`
+                }
+                break;
+                case "3": {
+                    message += `公司抬头: ${this.username}<br>手机号码: ${this.mobile}<br>`
+                }
+            }
+            message += `备注: ${this.remark}<br>`;
+
+            //
+            this.MessageBox({
+                title: "提示",
+                message,
+                showCancelButton: true,
+                confirmButtonText: "确认",
+                cancelButtonText: "修改",
+            }).then(action => {
+                if (action == 'confirm')
+                {
+                    this.commitInvoiceCheck();
+                }
+                else {
+                    //
+
+                }
+            });
+        },
+
         commitInvoiceCheck()
         {
             //
@@ -288,7 +325,7 @@ export default {
                 this.Toast(response.msg);
             }).catch(e => {
                 this.Toast(`开票请求失败, ${e.toString()}`);
-            });;
+            });
         }
     }
 }

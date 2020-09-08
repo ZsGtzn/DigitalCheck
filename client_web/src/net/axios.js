@@ -7,124 +7,142 @@ import { inactiveAuthMobileState } from "../storage/mobile";
 import store from "../store"
 import { isWeChat } from "../utils"
 import router from "../router";
+import { Indicator } from "mint-ui";
 
 //
 var hostConfigMap;
 
-if(process.env.NODE_ENV === 'development') 
-{
+if (process.env.NODE_ENV === 'development') {
     hostConfigMap = developmentConfig.axios;
 }
 
-if(process.env.NODE_ENV === 'production') 
-{
+if (process.env.NODE_ENV === 'production') {
     hostConfigMap = productionConfig.axios;
 }
 
 //
-class Axios 
-{
-  constructor(host)
-  {
-    this.host = host;
-    //
-    this.http = axios.create({
-      baseURL: host,
-      // withCredentials: true
-    })
-  }
-
-  async apiAxios(method, url, params) {
-    //
-    let headers = {
-        'Authorization' : fetchAuthToken() || "",
-    }
-    if(method === 'POST' || method === 'PUT')
-    {
-        headers = Object.assign(headers, {
-            'Content-Type': 'application/json;charset=utf-8',
+class Axios {
+    constructor(host) {
+        this.host = host;
+        //
+        this.http = axios.create({
+            baseURL: host,
+            // withCredentials: true
         });
-    }
-    else
-    {
-        headers = Object.assign(headers, {
-            'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
+
+        //
+        this.http.interceptors.request.use(function (request) {
+            //
+            Indicator.open({
+                spinnerType: 'snake'
+            });
+
+            //
+            return request;
+        }, function (error) {
+            //
+            Indicator.close();
+
+            //
+            return Promise.reject(error);
         });
-    }
 
-    //
-    const res = await this.http({
-      method: method,
-      url: url,
-      headers: headers,
-      data: method === 'POST' || method === 'PUT' ? params : null,
-      params: method === 'GET' || method === 'DELETE' ? params : null
-    });
+        this.http.interceptors.response.use(function (response) {
+            //
+            Indicator.close();
 
-    if (res.status < 200 || res.status >= 300) {
-      await Promise.reject('invalid status code');
-    }
+            //
+            return response;
+        }, function (error) {
+            //
+            Indicator.close();
 
-    // refresh auth token
-    const authToken = res.headers['Authorization'] || res.headers['authorization'];    
-    if(authToken && authToken.length > 0)
-    {
-        updateAuthToken(authToken);
-    }
-
-
-    // check if wechat token is expired, if expired, clear auth corresponding data
-    if(isWeChat() && res.data && (res.data.code == 101 || res.data.code == 102))
-    {
-        //
-        store.commit("auth/clearWxUserInfo");
-
-        //
-        return location.reload();
-    }
-
-    // check if mobile token is expired, if expired, clear auth corresponding data
-    if (res.data && (res.data.code == 103 || res.data.code == 104))
-    {
-        //
-        inactiveAuthMobileState();
-
-        //
-        return router.push({
-            path: "/putuoNavigator",
+            // 
+            return Promise.reject(error)
         });
     }
 
-    //
-    return res.data;
-  }
+    async apiAxios(method, url, params) {
+        //
+        let headers = {
+            'Authorization': fetchAuthToken() || "",
+        }
+        if (method === 'POST' || method === 'PUT') {
+            headers = Object.assign(headers, {
+                'Content-Type': 'application/json;charset=utf-8',
+            });
+        }
+        else {
+            headers = Object.assign(headers, {
+                'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
+            });
+        }
 
-  async get (url, params) 
-  {
-    return this.apiAxios('GET', url, params)
-  }
+        //
+        const res = await this.http({
+            method: method,
+            url: url,
+            headers: headers,
+            data: method === 'POST' || method === 'PUT' ? params : null,
+            params: method === 'GET' || method === 'DELETE' ? params : null
+        });
 
-  async post (url, params) 
-  {
-    return this.apiAxios('POST', url, params)
-  }
+        if (res.status < 200 || res.status >= 300) {
+            await Promise.reject('invalid status code');
+        }
 
-  async put (url, params) 
-  {
-    return this.apiAxios('PUT', url, params)
-  }
+        // refresh auth token
+        const authToken = res.headers['Authorization'] || res.headers['authorization'];
+        if (authToken && authToken.length > 0) {
+            updateAuthToken(authToken);
+        }
 
-  async delete (url, params) 
-  {
-    return this.apiAxios('DELETE', url, params)
-  }
+
+        // check if wechat token is expired, if expired, clear auth corresponding data
+        if (isWeChat() && res.data && (res.data.code == 101 || res.data.code == 102)) {
+            //
+            store.commit("auth/clearWxUserInfo");
+
+            //
+            return location.reload();
+        }
+
+        // check if mobile token is expired, if expired, clear auth corresponding data
+        if (res.data && (res.data.code == 103 || res.data.code == 104)) {
+            //
+            inactiveAuthMobileState();
+
+            //
+            return router.push({
+                path: "/putuoNavigator",
+            });
+        }
+
+        //
+        return res.data;
+    }
+
+    async get(url, params) {
+        return this.apiAxios('GET', url, params)
+    }
+
+    async post(url, params) {
+        return this.apiAxios('POST', url, params)
+    }
+
+    async put(url, params) {
+        return this.apiAxios('PUT', url, params)
+    }
+
+    async delete(url, params) {
+        return this.apiAxios('DELETE', url, params)
+    }
 }
 
 
 //
 const axiosInstance = {};
-for(let name in hostConfigMap)
-{
+for (let name in hostConfigMap) {
     //
     const config = hostConfigMap[name];
 

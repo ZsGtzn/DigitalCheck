@@ -14,7 +14,7 @@ export const getUrlQuery = (key) => {
 }
 
 
-export const downloadutil = {
+export const downloadUtil = {
     showOpenBrowserHint(event) {
         if (window.gtzn.ifNeedToJumpOutBrowser) {
             event.stopPropagation();
@@ -48,5 +48,5 @@ export const downloadutil = {
 
     preview(routeInfo) {
         window.location.href = routeInfo.invoiceUrl;
-    },
+    }
 }

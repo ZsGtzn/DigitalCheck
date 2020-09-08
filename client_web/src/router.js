@@ -80,6 +80,11 @@ routerInstance.beforeEach((to, from, next) => {
         return next();
     }
 
+    // putuoNavigator do not need check wechat auth and channel flavor
+    if (to.path.search(/\/putuoNavigator/) >= 0) {
+        return next();
+    }
+    
     // just wechat need to check channel flavor
     if(!isWeChat())
     {

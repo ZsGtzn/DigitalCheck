@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div style="overflow:auto;width:100%;height:100%;">
         <p class="warningHead" style="text-align:text-align">电子发票温馨提示</p>
         <span class="warning">1、如您开具的增值税普通发票用于企业报销，根据国家税务相关政策要求填定纳税人识别号。</span>
         <span class="warning">2、因您个人填写发票信息有误等原因开具的发票，由您本人自行承担，请您仔细核对确认后开具。</span>

@@ -54,7 +54,6 @@ const ChangzhiVehicleDetail = () => import("../components/list/ChangzhiVehicleDe
 const SanJiangVehicleDetail = () => import("../components/list/SanjiangVehicleDetail.vue");
 const PutuoNavigatorDetail = () => import("../components/list/PutuoNavigatorDetail.vue");
 
-import { downloadutil } from "../utils";
 import { inactiveAuthMobileState } from "../storage/mobile";
 
 export default {
@@ -76,6 +75,19 @@ export default {
         this.fetchData();
     },
 
+    computed: {
+        multipleSelection: function() {
+            return this.checkedPassenger.filter(ele => {
+                if(ele.ifSelected)
+                {
+                    return true;
+                }
+
+                return false;
+            });
+        },
+    },
+
     watch: {
         ifAllSelected: function(newValue, oldValue) {
             for(let ele of this.checkedPassenger)
@@ -90,6 +102,26 @@ export default {
         }
     },
 
+    provide() {
+        return {
+            rollback(invoiceDetail) {
+                //
+                this.axios.invoice.post("", {
+                    serialNum: invoiceDetail.serialNum,
+                }).then(response => {
+                    if(response.code === 0)
+                    {
+                        return this.Toast("冲红成功");
+                    }
+
+                    this.Toast(response.msg);
+                }).catch(e => {
+                    this.Toast(`冲红请求失败, ${e.toString()}`);
+                });
+            }
+        }
+    },
+    
     methods: {
         fetchData() {
             switch(this.type)
@@ -212,17 +244,7 @@ export default {
 
         checkInvoice() {
             //
-            let multipleSelection = this.checkedPassenger.filter(ele => {
-                if(ele.ifSelected)
-                {
-                    return true;
-                }
-
-                return false;
-            })
-
-            //
-            if(multipleSelection.length == 0)
+            if(this.multipleSelection.length == 0)
             {
                 return this.Toast("请至少选择一笔订单");
             }
@@ -232,7 +254,7 @@ export default {
                 path: `/checkInvoice/${this.type}`, 
                 query: { 
                     type: this.type,
-                    invoiceList: JSON.stringify(multipleSelection) 
+                    invoiceList: JSON.stringify(this.multipleSelection) 
                 } 
             });
         },
@@ -246,11 +268,7 @@ export default {
             this.$router.push({
                 path: "/putuoNavigator",
             })
-        }
-    },
-
-    provide: function() {
-        return downloadutil;
+        },
     }
 }
 </script>
