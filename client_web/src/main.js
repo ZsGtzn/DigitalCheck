@@ -6,11 +6,18 @@ import axios from './net/axios'
 import touch from './directives/touch';
 import _ from 'lodash';
 
+//
+process.env.zlkc = 0;
+
 // 引入全部组件
 import MINT, { Toast, MessageBox } from 'mint-ui'
 
 // this style is used for putuobus invoice
-// import './style/putuobus/blue.scss';
+if(process.env.zlkc)
+{
+    import('./style/putuobus/blue.scss');
+}
+
 
 Vue.use(MINT);
 

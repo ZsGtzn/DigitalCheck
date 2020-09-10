@@ -1,5 +1,4 @@
-import developmentConfig from '../configs/development.json'
-import productionConfig from '../configs/production.json'
+import config from '../configs/index'
 import axios from "axios"
 import { fetchAuthToken, updateAuthToken } from "../storage/local"
 import { inactiveAuthMobileState } from "../storage/mobile";
@@ -10,15 +9,7 @@ import router from "../router";
 import { Indicator } from "mint-ui";
 
 //
-var hostConfigMap;
-
-if (process.env.NODE_ENV === 'development') {
-    hostConfigMap = developmentConfig.axios;
-}
-
-if (process.env.NODE_ENV === 'production') {
-    hostConfigMap = productionConfig.axios;
-}
+var hostConfigMap = config.axios;
 
 //
 class Axios {

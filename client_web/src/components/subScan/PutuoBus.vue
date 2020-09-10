@@ -13,7 +13,10 @@
 </template>
 
 <script>
-import putuobusMainImg from "../../assets/scan/putuobusMainZiubao.png";
+
+//
+import ziubaoImg from "../../assets/scan/putuobusMainZiubao.png";
+import zlkcImg from "../../assets/scan/putuobusMain.png"
 
 /**
  * localstorage
@@ -28,7 +31,6 @@ const getScanPutuobusOrderNo = () => {
     return localStorage.getItem(ScanPutuobusOrderNoKey) || "";
 }
 
-
 export default {
     name: "PutuoBus",
     
@@ -37,12 +39,19 @@ export default {
     data() {
         return {
             identityNo: getScanPutuobusOrderNo(),
-            putuobusMainImg: putuobusMainImg,
+            putuobusMainImg: "",
         };
     },
 
     created() {
-
+        if(process.env.zlkc)
+        {
+            this.putuobusMainImg = zlkcImg;
+        }
+        else
+        {
+            this.putuobusMainImg = ziubaoImg;
+        }
     },
 
     methods: {
