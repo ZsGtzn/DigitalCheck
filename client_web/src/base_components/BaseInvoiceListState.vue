@@ -62,15 +62,6 @@ export default {
     height: 30px;
 }
 
-#downloadInvoice {
-    @include checkInvoiceBase;
-}
-
-#invalidInvoice {
-    @include checkInvoiceBase;
-    height: 30px;
-}
-
 //
 @mixin pdf {
     width: 25%;

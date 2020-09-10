@@ -5,9 +5,8 @@ import store from './store'
 import axios from './net/axios'
 import touch from './directives/touch';
 import _ from 'lodash';
+import "../globals";
 
-//
-process.env.zlkc = 0;
 
 // 引入全部组件
 import MINT, { Toast, MessageBox } from 'mint-ui'

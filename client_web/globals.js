@@ -1,3 +1,5 @@
+process.env.zlkc = 0;
+
 module.exports = {
-    rootPath: "/invoice/main",
+    rootPath: process.env.zlkc ? "/zlkc" : "/invoice/main",
 }

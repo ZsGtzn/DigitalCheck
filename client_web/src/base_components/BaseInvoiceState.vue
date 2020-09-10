@@ -42,6 +42,24 @@ export default {
 
 <style lang="scss" scoped>
 //
+@mixin checkInvoiceBase {
+    width: 100%;
+    font-size:8px;
+}
+
+#unableCheckInvoice {
+    @include checkInvoiceBase;
+}
+
+#checkingInvoice {
+    @include checkInvoiceBase;
+}
+
+#checkInvoice {
+    @include checkInvoiceBase;
+}
+
+//
 @mixin pdf {
     width: 100%;
     padding: auto;
