@@ -17,11 +17,11 @@
                     >下载</mt-button>
                     <div style="width:10px;" />
                 </div>
-                <mt-button
+                <!-- <mt-button
                     type="primary"
                     class="rollback"
                     @click="rollback(item)"
-                >冲红</mt-button>
+                >冲红</mt-button> -->
             </div>
         </div>
     </div>
