@@ -44,7 +44,7 @@ export default {
     },
 
     created() {
-        if(process.env.zlkc)
+        if(process.env.ziubao_invoice_platform == "zlkc")
         {
             this.putuobusMainImg = zlkcImg;
         }

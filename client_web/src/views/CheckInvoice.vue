@@ -1,35 +1,35 @@
 <template>
     <div id="main">
         <div class="invoiceDetailFrame">
-            <p class="notify">开票完成后，电子发票生成需要几秒钟时间，请耐心等待。<br/>{{type == 'sanjiang' ? "随车客无开票凭证的客户，请前往自游宝微信公众号 '个人中心-我要开票-三江船票开票' 进行开票。" : ""}}</p>
+            <p class="notify">
+                开票完成后，电子发票生成需要几秒钟时间，请耐心等待。
+                <br />
+                {{type == 'sanjiang' ? "随车客无开票凭证的客户，请前往自游宝微信公众号 '个人中心-我要开票-三江船票开票' 进行开票。" : ""}}
+            </p>
             <div class="invoiceTargetType">
                 提交方式
-                <mt-radio
-                    title=""
-                    v-model="invoiceTargetType"
-                    :options="invoiceTargetOptions">
-                </mt-radio>
+                <mt-radio title v-model="invoiceTargetType" :options="invoiceTargetOptions"></mt-radio>
             </div>
-            
-            <div class="invoiceDetail" v-if="invoiceTargetType==='1'">
-                <mt-field placeholder="*姓名" v-model="username"></mt-field>
+
+            <div class="invoiceDetail" v-if="invoiceTargetType === '1'">
+                <mt-field placeholder="开票抬头（必填）" v-model="username"></mt-field>
                 <div class="divider"></div>
-                <mt-field placeholder="*手机号码" v-model="mobile"></mt-field>
+                <mt-field placeholder="接收电子发票手机号（必填）" v-model="mobile"></mt-field>
                 <div class="divider"></div>
                 <mt-field placeholder="身份证（选填）" v-model="personIdentifier"></mt-field>
                 <div class="divider"></div>
                 <mt-field placeholder="邮箱地址（选填）" type="email" v-model="email"></mt-field>
                 <div class="divider"></div>
-                <mt-field placeholder="备注（选填）" v-model="remark"></mt-field>
+                <mt-field placeholder="备注（默认自动填出发日期、乘客信息）" v-model="remark"></mt-field>
             </div>
-            <div class="invoiceDetail" v-else-if="invoiceTargetType==='2'">
-                <mt-field placeholder="*公司抬头" v-model="companyHead"></mt-field>
+            <div class="invoiceDetail" v-else-if="invoiceTargetType === '2'">
+                <mt-field placeholder="公司抬头（必填）" v-model="companyHead"></mt-field>
                 <div class="divider"></div>
-                <mt-field placeholder="*手机号码" v-model="mobile"></mt-field>
+                <mt-field placeholder="接收电子发票手机号（必填）" v-model="mobile"></mt-field>
                 <div class="divider"></div>
-                <mt-field placeholder="*税号" v-model="taxNo"></mt-field>
+                <mt-field placeholder="税号（必填）" v-model="taxNo"></mt-field>
                 <div class="divider"></div>
-                <mt-field placeholder="邮件地址" type="email" v-model="email"></mt-field>
+                <mt-field placeholder="接收电子发票邮箱地址（选填）" type="email" v-model="email"></mt-field>
                 <div class="divider"></div>
                 <mt-field placeholder="公司地址（选填）" v-model="companyAddress"></mt-field>
                 <div class="divider"></div>
@@ -39,14 +39,14 @@
                 <div class="divider"></div>
                 <mt-field placeholder="银行账号（选填）" v-model="companyBankAccount"></mt-field>
                 <div class="divider"></div>
-                <mt-field placeholder="备注（选填）" v-model="remark"></mt-field>
+                <mt-field placeholder="备注（默认自动填出发日期、乘客信息）" v-model="remark"></mt-field>
             </div>
             <div class="invoiceDetail" v-else>
-                <mt-field placeholder="*公司抬头" v-model="companyHead"></mt-field>
+                <mt-field placeholder="公司抬头（必填）" v-model="companyHead"></mt-field>
                 <div class="divider"></div>
-                <mt-field placeholder="*手机号码" v-model="mobile"></mt-field>
+                <mt-field placeholder="接收电子发票手机号（必填）" v-model="mobile"></mt-field>
                 <div class="divider"></div>
-                <mt-field placeholder="邮件地址" type="email" v-model="email"></mt-field>
+                <mt-field placeholder="接收电子发票邮箱地址（选填）" type="email" v-model="email"></mt-field>
                 <div class="divider"></div>
                 <mt-field placeholder="税号（选填）" v-model="taxNo"></mt-field>
                 <div class="divider"></div>
@@ -58,16 +58,90 @@
                 <div class="divider"></div>
                 <mt-field placeholder="银行账号（选填）" v-model="companyBankAccount"></mt-field>
                 <div class="divider"></div>
-                <mt-field placeholder="备注（选填）" v-model="remark"></mt-field>
+                <mt-field placeholder="备注（默认自动填出发日期、乘客信息）" v-model="remark"></mt-field>
             </div>
-            <p class="totalCashAmountFrame">预计开票金额（以审核为准）：<span class="totalCashAmount">￥{{totalCashAmount}}</span></p>
+            <p class="totalCashAmountFrame">
+                预计开票金额（以审核为准）：
+                <span class="totalCashAmount">￥{{totalCashAmount}}</span>
+            </p>
         </div>
         <mt-button type="primary" class="commitInvoiceCheck" @click="queryCommitInvoiceCheck">提交</mt-button>
+        <mt-popup class="popupWrapper" position="bottom" v-model="confirmPopupVisible">
+            <slot>
+                <div class="popupWrapperSlot">
+                    <p style="margin:10px;color:red;">请仔细核对您的发票信息,点击确认进行提交</p>
+                    <div style="background-color:#f1f1f1;height:1px;margin:10px;"></div>
+                    <div class="popupConfirmContextWrapper">
+                        <template v-if="invoiceTargetType == '1'">
+                            <div class="confirmWrapper">
+                                <span class="confirmLabel">开票抬头</span>
+                                <p class="comfirmContent">{{username}}</p>
+                            </div>
+                            <div class="confirmWrapper">
+                                <span class="confirmLabel">接收电子发票手机号</span>
+                                <p class="comfirmContent">{{mobile}}</p>
+                            </div>
+                        </template>
+                        <template v-else-if="invoiceTargetType == '2'">
+                            <div class="confirmWrapper">
+                                <span class="confirmLabel">公司抬头</span>
+                                <p class="comfirmContent">{{companyHead}}</p>
+                            </div>
+                            <div class="confirmWrapper">
+                                <span class="confirmLabel">接收电子发票手机号</span>
+                                <p class="comfirmContent">{{mobile}}</p>
+                            </div>
+                            <div class="confirmWrapper">
+                                <span class="confirmLabel">税号</span>
+                                <p class="comfirmContent">{{taxNo}}</p>
+                            </div>
+                        </template>
+                        <template v-else-if="invoiceTargetType == '3'">
+                            <div class="confirmWrapper">
+                                <span class="confirmLabel">公司抬头</span>
+                                <p class="comfirmContent">{{companyHead}}</p>
+                            </div>
+                            <div class="confirmWrapper">
+                                <span class="confirmLabel">接收电子发票手机号</span>
+                                <p class="comfirmContent">{{mobile}}</p>
+                            </div>
+                        </template>
+                        <div class="confirmWrapper">
+                            <span class="confirmLabel">备注</span>
+                            <div style="display:block;width:100%;height:100%;" v-if="type == 'sanjiang'">
+                                <template v-for="(item, index) of formattedRemark">
+                                    <p class="comfirmContent" v-bind:key="`${index}_0`">{{item[0]}}</p>
+                                    <p class="comfirmContent" v-bind:key="`${index}_1`">{{item[1]}}</p>
+                                </template>
+                            </div>
+                            <template v-else>
+                                <p class="comfirmContent">{{remark}}</p>
+                            </template>
+                        </div>
+                    </div>
+                    <div style="background-color:#f1f1f1;height:1px;margin:10px;"></div>
+                    <div class="popupConfirmButtonWrapper">
+                        <mt-button
+                            type="danger"
+                            size="small"
+                            class="confirmButton"
+                            @click="commitInvoiceCheck"
+                        >确认</mt-button>
+                        <mt-button
+                            type="primary"
+                            size="small"
+                            class="cancelButton"
+                            @click="confirmPopupVisible = false"
+                        >修改</mt-button>
+                    </div>
+                </div>
+            </slot>
+        </mt-popup>
     </div>
 </template>
 
 <script>
-import { 
+import {
     setInvoiceInfoType,
     setInvoiceInfoUsername,
     setInvoiceInfoCompanyHead,
@@ -77,30 +151,26 @@ import {
     setInvoiceInfoCompanyTelephone,
     setInvoiceInfoCompanyBank,
     setInvoiceInfoCompanyBankAccount,
-    setInvoiceInfoRemark,
     setInvoiceInfoMobile,
-    setInvoiceInfoPersonIdentifier, 
-    getInvoiceInfoType, 
-    getInvoiceInfoUsername, 
-    getInvoiceInfoCompanyHead, 
-    getInvoiceInfoEmail, 
-    getInvoiceInfoTaxNo, 
-    getInvoiceInfoCompanyAddress, 
-    getInvoiceInfoCompanyTelephone, 
-    getInvoiceInfoCompanyBank, 
-    getInvoiceInfoCompanyBankAccount, 
-    getInvoiceInfoRemark, 
-    getInvoiceInfoMobile, 
-    getInvoiceInfoPersonIdentifier, 
-} from "../storage/local";
-
-
+    setInvoiceInfoPersonIdentifier,
+    getInvoiceInfoType,
+    getInvoiceInfoUsername,
+    getInvoiceInfoCompanyHead,
+    getInvoiceInfoEmail,
+    getInvoiceInfoTaxNo,
+    getInvoiceInfoCompanyAddress,
+    getInvoiceInfoCompanyTelephone,
+    getInvoiceInfoCompanyBank,
+    getInvoiceInfoCompanyBankAccount,
+    getInvoiceInfoMobile,
+    getInvoiceInfoPersonIdentifier,
+} from '../storage/local'
 
 export default {
     name: 'Main',
     data() {
         return {
-            type: "",
+            type: '',
 
             //
             invoiceTargetType: getInvoiceInfoType(),
@@ -114,7 +184,7 @@ export default {
             companyTelephone: getInvoiceInfoCompanyTelephone(),
             companyBank: getInvoiceInfoCompanyBank(),
             companyBankAccount: getInvoiceInfoCompanyBankAccount(),
-            remark: getInvoiceInfoRemark(),
+            remark: '',
             mobile: getInvoiceInfoMobile(),
             personIdentifier: getInvoiceInfoPersonIdentifier(),
 
@@ -125,214 +195,194 @@ export default {
             invoiceTargetOptions: [
                 {
                     label: '个人',
-                    value: "1"
+                    value: '1',
                 },
                 {
                     label: '公司',
-                    value: "2"
+                    value: '2',
                 },
                 {
                     label: '政府、事业、部队',
-                    value: "3"
-                }
+                    value: '3',
+                },
             ],
 
-            // 
-            totalCashAmount: "",
+            //
+            totalCashAmount: '',
+
+            //
+            confirmPopupVisible: false,
+
+            //
+            formattedRemark: undefined,
         }
     },
 
     created() {
         //
-        this.type = this.$attrs.type;
-        this.invoiceList = JSON.parse(this.$attrs.invoiceList);
+        this.type = this.$attrs.type
+        this.invoiceList = JSON.parse(this.$attrs.invoiceList)
 
         //
-        this.totalCashAmount = 0;
-        for(let ele of this.invoiceList)
+        this.totalCashAmount = 0
+        for (let ele of this.invoiceList) {
+            this.totalCashAmount += ele.invoiceAmount
+        }
+
+        // auto set remark
+        if(!this.remark || this.remark.length == 0)
         {
-            this.totalCashAmount += ele.invoiceAmount;
+            //
+            if (this.type == 'sanjiang') {
+                //
+                this.formattedRemark = [];
+
+                //
+                for (let [index, item] of this.invoiceList.entries()) {
+                    //
+                    this.formattedRemark.push([item.name, item.date + '_' + item.time]);
+
+                    //
+                    this.remark += `乘客姓名: ${item.name}, 出发时间: ${
+                        item.date + '_' + item.time
+                    }`;
+
+                    //
+                    if (index != this.invoiceList.length - 1) {
+                        this.remark += ', '
+                    }
+                }
+            }
         }
     },
 
     methods: {
-        queryCommitInvoiceCheck()
-        {
+        queryCommitInvoiceCheck() {
             //
-            setInvoiceInfoType(this.invoiceTargetType);
-            setInvoiceInfoUsername(this.username);
-            setInvoiceInfoCompanyHead(this.companyHead);
-            setInvoiceInfoEmail(this.email);
-            setInvoiceInfoTaxNo(this.taxNo);
-            setInvoiceInfoCompanyAddress(this.companyAddress);
-            setInvoiceInfoCompanyTelephone(this.companyTelephone);
-            setInvoiceInfoCompanyBank(this.companyBank);
-            setInvoiceInfoCompanyBankAccount(this.companyBankAccount);
-            setInvoiceInfoRemark(this.remark);
-            setInvoiceInfoMobile(this.mobile);
-            setInvoiceInfoPersonIdentifier(this.personIdentifier);
-
+            setInvoiceInfoType(this.invoiceTargetType)
+            setInvoiceInfoUsername(this.username)
+            setInvoiceInfoCompanyHead(this.companyHead)
+            setInvoiceInfoEmail(this.email)
+            setInvoiceInfoTaxNo(this.taxNo)
+            setInvoiceInfoCompanyAddress(this.companyAddress)
+            setInvoiceInfoCompanyTelephone(this.companyTelephone)
+            setInvoiceInfoCompanyBank(this.companyBank)
+            setInvoiceInfoCompanyBankAccount(this.companyBankAccount)
+            setInvoiceInfoMobile(this.mobile)
+            setInvoiceInfoPersonIdentifier(this.personIdentifier)
 
             //
-            if(!this.mobile || this.mobile.length === 0)
-            {
-                return this.Toast("请填写手机号码");
+            if (!this.mobile || this.mobile.length === 0) {
+                return this.Toast('请填写手机号码')
             }
 
             //
-            if(this.invoiceTargetType === "1")
-            {
-                if(!this.username || this.username.length === 0)
-                {
-                    return this.Toast("请填写姓名");
+            if (this.invoiceTargetType === '1') {
+                if (!this.username || this.username.length === 0) {
+                    return this.Toast('请填写姓名')
                 }
-            }  
-            else if(this.invoiceTargetType === "2")
-            {
-                if(!this.companyHead || this.companyHead.length === 0)
-                {
-                    return this.Toast("请填写公司抬头");
+            } else if (this.invoiceTargetType === '2') {
+                if (!this.companyHead || this.companyHead.length === 0) {
+                    return this.Toast('请填写公司抬头')
                 }
 
-                if(!this.taxNo || this.taxNo.length === 0)
-                {
-                    return this.Toast("请填写税号");
+                if (!this.taxNo || this.taxNo.length === 0) {
+                    return this.Toast('请填写税号')
+                }
+            } else {
+                if (!this.companyHead || this.companyHead.length === 0) {
+                    return this.Toast('请填写公司抬头')
                 }
             }
-            else
-            {
-                if(!this.companyHead || this.companyHead.length === 0)
-                {
-                    return this.Toast("请填写公司抬头");
-                }
-            }
-            
-            //
-            let message = "请核对您的开票信息<br>";
-            switch(this.invoiceTargetType) {
-                case "1": {
-                    message += `姓名: ${this.username}<br>手机号码: ${this.mobile}<br>`
-                }
-                break;
-                case "2": {
-                    message += `公司抬头: ${this.companyHead}<br>手机号码: ${this.mobile}<br>税号: ${this.taxNo}<br>`
-                }
-                break;
-                case "3": {
-                    message += `公司抬头: ${this.username}<br>手机号码: ${this.mobile}<br>`
-                }
-            }
-            message += `备注: ${this.remark}<br>`;
 
-            //
-            this.MessageBox({
-                title: "提示",
-                message,
-                showCancelButton: true,
-                confirmButtonText: "确认",
-                cancelButtonText: "修改",
-            }).then(action => {
-                if (action == 'confirm')
-                {
-                    this.commitInvoiceCheck();
-                }
-                else {
-                    //
-
-                }
-            });
+            // prompt
+            this.confirmPopupVisible = true
         },
 
-        commitInvoiceCheck()
-        {
+        commitInvoiceCheck() {
             //
-            let serialNumList = "";
-            for(let [index, value] of this.invoiceList.entries())
-            {
-                serialNumList += value.serialNum;
-                if(index !== this.invoiceList.length - 1)
-                {
-                    serialNumList += ",";
+            let serialNumList = ''
+            for (let [index, value] of this.invoiceList.entries()) {
+                serialNumList += value.serialNum
+                if (index !== this.invoiceList.length - 1) {
+                    serialNumList += ','
                 }
             }
 
             //
-            let buyerName;
-            if(this.invoiceTargetType == "1")
-            {
-                buyerName = this.username;
+            let buyerName
+            if (this.invoiceTargetType == '1') {
+                buyerName = this.username
+            } else {
+                buyerName = this.companyHead
             }
-            else
-            {
-                buyerName = this.companyHead;
-            }
-            
-            //
-            let axiosType = "invoice";
 
             //
-            let serverUrl = ""
-            if(this.type == 'sanjiang') // 三江船票
-            {
-                serverUrl = "/invoiceApi/sjky/doInvoice";
-            }
-            else if(this.type == 'putuobus') // 普陀山旅游巴士
-            {
-                serverUrl = "/invoiceApi/zlkc/doInvoice";
-            }
-            else if(this.type == 'changzhiVehiclePark') // 长峙岛停车场
-            {
-                serverUrl = "/invoiceApi/czpark/doInvoice";
-            }
-            else if(this.type == 'sanjiangVehiclePark') // 三江停车场
-            {
-                serverUrl = "/invoiceApi/sjpark/doInvoice";
-            }
-            else if(this.type == 'putuoNavigator')
-            {
-                //
-                axiosType = "putuoNavigator";
+            let axiosType = 'invoice'
+
+            //
+            let serverUrl = ''
+            if (this.type == 'sanjiang') {
+                // 三江船票
+                serverUrl = '/invoiceApi/sjky/doInvoice'
+            } else if (this.type == 'putuobus') {
+                // 普陀山旅游巴士
+                serverUrl = '/invoiceApi/zlkc/doInvoice'
+            } else if (this.type == 'changzhiVehiclePark') {
+                // 长峙岛停车场
+                serverUrl = '/invoiceApi/czpark/doInvoice'
+            } else if (this.type == 'sanjiangVehiclePark') {
+                // 三江停车场
+                serverUrl = '/invoiceApi/sjpark/doInvoice'
+            } else if (this.type == 'putuoNavigator') {
+                // 普陀山导游
+                axiosType = 'putuoNavigator'
 
                 //
-                serverUrl = "/invoice/invoiceApi/zlkcMesh/doInvoice";
-            }
-            else
-            {
-                this.Toast(`无效的平台, ${this.type}`);
+                serverUrl = '/invoice/invoiceApi/zlkcMesh/doInvoice'
+            } else {
+                this.Toast(`无效的平台, ${this.type}`)
             }
 
             //
-            return this.axios[axiosType].post(serverUrl, {
-                orderInfoList: this.$attrs.invoiceList,
-                serialNum: serialNumList,
-                buyerName: buyerName,
-                type: parseInt(this.invoiceTargetType),
-                email: this.email,
-                taxnum: parseInt(this.invoiceTargetType) == 1 ? this.personIdentifier : this.taxNo,
-                companyAddress: this.companyAddress,
-                landline: this.companyTelephone,
-                bankAddress: this.companyBank,
-                bankAccount: this.companyBankAccount,
-                remark: this.remark,
-                mobile: this.mobile,
-            }).then(response => {
-                if(response.code === 0)
-                {
-                    setTimeout(() => {
-                        this.$router.go(-1);
-                    }, 500);
-                }
+            return this.axios[axiosType]
+                .post(serverUrl, {
+                    orderInfoList: this.$attrs.invoiceList,
+                    serialNum: serialNumList,
+                    buyerName: buyerName,
+                    type: parseInt(this.invoiceTargetType),
+                    email: this.email,
+                    taxnum:
+                        parseInt(this.invoiceTargetType) == 1
+                            ? this.personIdentifier
+                            : this.taxNo,
+                    companyAddress: this.companyAddress,
+                    landline: this.companyTelephone,
+                    bankAddress: this.companyBank,
+                    bankAccount: this.companyBankAccount,
+                    remark: this.remark,
+                    mobile: this.mobile,
+                })
+                .then((response) => {
+                    if (response.code === 0) {
+                        setTimeout(() => {
+                            this.$router.go(-1)
+                        }, 500)
+                    }
 
-                this.Toast(response.msg);
-            }).catch(e => {
-                this.Toast(`开票请求失败, ${e.toString()}`);
-            });
-        }
-    }
+                    this.Toast(response.msg)
+                })
+                .catch((e) => {
+                    this.Toast(`开票请求失败, ${e.toString()}`)
+                })
+        },
+    },
 }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
+$popupWrapperHorizonOffset: 20px;
+$popupWrapperVerticalOffset: 80px;
 
 .cubeBase {
     box-sizing: border-box;
@@ -402,5 +452,69 @@ export default {
 .divider {
     margin: 2px;
     border: 0.5px solid #ddd;
+}
+
+/********************************** 确认框 **********************************/
+.popupWrapper {
+    width: calc(100% - 2 * #{$popupWrapperHorizonOffset});
+    height: calc(100% - 2 * #{$popupWrapperVerticalOffset});
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    bottom: $popupWrapperVerticalOffset;
+}
+
+.popupWrapperSlot {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+
+/** 信息框 */
+.popupConfirmContextWrapper {
+    width: 100%;
+    height: calc(100% - 50px);
+    overflow: auto;
+    font-size: 12px;
+}
+
+//
+.confirmWrapper {
+    display: flex;
+}
+
+.confirmLabel {
+    box-sizing: border-box;
+    width: 150px;
+    padding: 10px 5px 10px 5px;
+}
+
+.comfirmContent {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 10px 5px 10px 5px;
+    margin: 0px;
+}
+
+/**按钮 */
+.popupConfirmButtonWrapper {
+    flex-grow: 1;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+}
+
+.confirmButton {
+    width: 100%;
+    box-sizing: border-box;
+    margin: 0px 10px 5px 10px;
+}
+
+.cancelButton {
+    width: 100%;
+    box-sizing: border-box;
+    margin: 0px 10px 5px 10px;
 }
 </style>

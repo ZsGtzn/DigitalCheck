@@ -85,10 +85,6 @@ export const setInvoiceInfoCompanyBankAccount = (companyBankAccount) => {
     localStorage.setItem(InvoiceInfoCompanyBankAccountKey, companyBankAccount);
 }
 
-export const setInvoiceInfoRemark = (remark) => {
-    localStorage.setItem(InvoiceInfoRemarkKey, remark);
-}
-
 export const setInvoiceInfoMobile = (mobile) => {
     localStorage.setItem(InvoiceInfoMobileKey, mobile);
 }
@@ -132,10 +128,6 @@ export const getInvoiceInfoCompanyBank = () => {
 
 export const getInvoiceInfoCompanyBankAccount = () => {
     return localStorage.getItem(InvoiceInfoCompanyBankAccountKey) || "";
-}
-
-export const getInvoiceInfoRemark = () => {
-    return localStorage.getItem(InvoiceInfoRemarkKey) || "";
 }
 
 export const getInvoiceInfoMobile = () => {

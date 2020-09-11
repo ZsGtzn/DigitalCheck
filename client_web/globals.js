@@ -1,5 +1,9 @@
-process.env.zlkc = 0;
+process.env.ziubao_invoice_platform = "ziubao";
 
+//
+const rootPath = process.env.ziubao_invoice_platform == "zlkc" ? "/zlkc" : "/invoice/main";
+
+//
 module.exports = {
-    rootPath: process.env.zlkc ? "/zlkc" : "/invoice/main",
+    rootPath,
 }

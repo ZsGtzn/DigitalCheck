@@ -12,7 +12,7 @@ import "../globals";
 import MINT, { Toast, MessageBox } from 'mint-ui'
 
 // this style is used for putuobus invoice
-if(process.env.zlkc)
+if (process.env.ziubao_invoice_platform == "zlkc")
 {
     import('./style/putuobus/blue.scss');
 }
