@@ -29,7 +29,7 @@
             <span class="title">实际支付金额</span><span style="font-size:12.5px;">￥{{invoiceDetail.actualPay}}</span>
         </div>
     </div>
-    <BaseInvoiceListState :item="invoiceDetail"></BaseInvoiceListState>
+    <BaseInvoiceListState :ifShowRollback="true" :item="invoiceDetail"></BaseInvoiceListState>
 </div>
 </template>
 

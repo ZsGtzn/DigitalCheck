@@ -19,7 +19,7 @@
                 >下载发票</mt-button>
             </div>
             <div style="height:5px;width:100%" />
-            <!-- <mt-button type="primary" class="rollback" @click="rollback(item)">冲红</mt-button> -->
+            <mt-button v-show="ifShowRollback" type="primary" class="rollback" @click="rollback(item)">冲红</mt-button>
         </div>
     </div>
 </template>
@@ -32,7 +32,7 @@ export default {
 
     props: ['item'],
 
-    inject: ['rollback', 'checkInvoice'],
+    inject: [ 'rollback', 'checkInvoice', 'ifShowRollback' ],
 
     methods: {
         ...downloadUtil,
