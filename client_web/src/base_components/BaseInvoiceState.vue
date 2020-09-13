@@ -18,8 +18,10 @@
                     })"
                 >下载发票</mt-button>
             </div>
-            <div style="height:5px;width:100%" />
-            <mt-button v-show="ifShowRollback" type="primary" class="rollback" @click="rollback(item)">冲红</mt-button>
+            <template v-show="ifShowRollback">
+                <div style="height:5px;width:100%" />
+                <mt-button type="primary" class="rollback" @click="rollback(item)">冲红</mt-button>
+            </template>
         </div>
     </div>
 </template>
@@ -30,9 +32,9 @@ import { downloadUtil } from "../utils";
 export default {
     name: "BaseInvoiceState",
 
-    props: ['item'],
+    props: ['item', 'ifShowRollback'],
 
-    inject: [ 'rollback', 'checkInvoice', 'ifShowRollback' ],
+    inject: [ 'rollback', 'checkInvoice' ],
 
     methods: {
         ...downloadUtil,

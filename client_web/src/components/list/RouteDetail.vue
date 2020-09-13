@@ -44,16 +44,20 @@
 
         <div v-if="routeInfo.invoiceUrl && routeInfo.invoiceUrl.length > 0">
             <div style="background-color:#f1f1f1;height:1px;margin:10px;"></div>
-            <div 
-                @click.capture="showOpenBrowserHint" 
-                style="text-align:right;display:flex;justify-content:flex-end;box-sizing:border-box;padding:10px;" >
-                <mt-button type="primary" class="preview" @click.capture="preview(routeInfo)">查看</mt-button>
+            <div style="text-align:right;display:flex;justify-content:flex-end;box-sizing:border-box;padding:10px;">
+                <div 
+                    @click.capture="showOpenBrowserHint"
+                    style="text-align:right;display:flex;justify-content:flex-end;box-sizing:border-box;">
+                    <mt-button type="primary" class="preview" @click.capture="preview(routeInfo)">查看</mt-button>
+                    <div style="width:10px;" />
+                    <mt-button
+                        type="primary"
+                        class="download"
+                        @click.capture="download(routeInfo)"
+                    >下载</mt-button>
+                </div>
                 <div style="width:10px;" />
-                <mt-button
-                    type="primary"
-                    class="download"
-                    @click.capture="download(routeInfo)"
-                >下载</mt-button>
+                <mt-button type="primary" class="rollback" @click="rollback(routeInfo)">冲红</mt-button>
             </div>
         </div>
     </div>
@@ -70,6 +74,8 @@ export default {
             required: true
         }
     },
+    
+    inject: [ 'rollback' ],
 
     data: function() {
         return {
@@ -94,6 +100,11 @@ export default {
 .preview {
     @include pdf;
     background-color: #32ddb3;
+}
+
+.rollback {
+    @include pdf;
+    background-color: #6d4acf;
 }
 
 .download {

@@ -106,7 +106,7 @@ export default {
         return {
             rollback(invoiceDetail) {
                 //
-                this.axios.invoice.post("", {
+                this.axios.putuoNavigator.post("/invoice/invoiceApi/sjky/doMinusInvoice", {
                     serialNum: invoiceDetail.serialNum,
                 }).then(response => {
                     if(response.code === 0)
@@ -155,7 +155,7 @@ export default {
                 if(response.code === 0)
                 {
                     return this.checkedPassenger = response.data.map(ele => Object.assign(ele, {
-                        ifSelected: false
+                        ifSelected: false,
                     }));
                 }
 
