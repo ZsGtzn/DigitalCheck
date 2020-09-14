@@ -51,7 +51,7 @@ export const downloadUtil = {
     preview(routeInfo) {
         // 创建隐藏的可下载链接
         var eleLink = document.createElement("a");
-        eleLink.target = "_blank";
+        
         //
         if (window.gtzn.platform == "android") {
             eleLink.href = `${rootPath}/static/pdf/web/viewer.html?file=${encodeURI(routeInfo.invoiceUrl)}`;
