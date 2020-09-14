@@ -54,9 +54,9 @@ export const downloadUtil = {
         
         //
         if (window.gtzn.platform == "android") {
-            eleLink.href = `${rootPath}/static/pdf/web/viewer.html?file=${encodeURI(routeInfo.invoiceUrl)}`;
+            eleLink.href = `${rootPath}/static/pdf/web/viewer.html?file=${encodeURI(routeInfo.invoiceUrl.replace("https", "http"))}`;
         } else {
-            eleLink.href = `${rootPath}/static/pdf/web/viewer.html?file=${encodeURI(routeInfo.invoiceUrl)}`;
+            eleLink.href = `${rootPath}/static/pdf/web/viewer.html?file=${encodeURI(routeInfo.invoiceUrl.replace("https", "http"))}`;
         }
 
         // 触发点击
