@@ -39,20 +39,33 @@ export default {
 
     provide() {
         return {
-            rollback(invoiceDetail) {
+            async rollback(invoiceDetail) {
                 //
-                this.axios.invoice.post("", {
-                    serialNum: invoiceDetail.serialNum,
-                }).then(response => {
-                    if(response.code === 0)
-                    {
-                        return this.Toast("冲红成功");
-                    }
-
-                    this.Toast(response.msg);
-                }).catch(e => {
-                    this.Toast(`冲红请求失败, ${e.toString()}`);
+                const action = await this.MessageBox({
+                    title: "提示",
+                    message: '冲红只能进行一次',
+                    showCancelButton: true,
+                    confirmButtonText: "是",
+                    cancelButtonText: "否",
                 });
+
+                //
+                if (action == 'confirm')
+                {
+                    //
+                    this.axios.putuoNavigator.post("/invoice/invoiceApi/sjky/doMinusInvoice", {
+                        serialNum: invoiceDetail.serialNum,
+                    }).then(response => {
+                        if(response.code === 0)
+                        {
+                            return this.Toast("冲红成功");
+                        }
+
+                        this.Toast(response.msg);
+                    }).catch(e => {
+                        this.Toast(`冲红请求失败, ${e.toString()}`);
+                    });
+                }
             },
 
             checkInvoice: () => {
