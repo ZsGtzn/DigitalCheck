@@ -1,6 +1,6 @@
 <template>
   <div class="login">
-      <mt-field class="filed" label="手机号码" placeholder="手机号码" v-model="mobile"></mt-field>
+      <mt-field class="filed" label="手机号码" type="tel" placeholder="手机号码" v-model="mobile"></mt-field>
       <mt-field class="filed" label="验证码" placeholder="验证码" v-model="verifyCode"></mt-field>
       <div class="verifyCode">
           <mt-button size="small" plain @click="fetchVerifyCode">获取验证码</mt-button>
@@ -72,6 +72,15 @@ export default {
         },
 
         login() {
+            // check phone
+            if(!this.mobile || this.mobile.length == 0)
+            {
+                return this.Toast("手机号不能为空");
+            }
+            if(!this.verifyCode || this.verifyCode.length == 0)
+            {
+                return this.Toast("验证码不能为空");
+            }
             //
             saveMobile(this.mobile);
 

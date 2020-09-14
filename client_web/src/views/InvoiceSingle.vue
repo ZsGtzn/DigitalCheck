@@ -1,6 +1,6 @@
 <template>
-    <div style="display:flex;flex-direction:column;justify-content:flex-end;height:100%;width:100%;">
-        <PutuoBus v-if="type =='putuobus'" :item="invoiceDetail"></PutuoBus>
+    <div id="main">
+        <PutuoBus id="singleWrapper" v-if="type =='putuobus'" :item="invoiceDetail"></PutuoBus>
         <BaseInvoiceState :item="invoiceDetail"></BaseInvoiceState>
     </div>
     
@@ -14,8 +14,6 @@ export default {
     name: "InvoiceSingle",
 
     props: ['type', 'identifier'],
-
-    inject: ['showOpenBrowserHint', 'download', 'preview'],
 
     components: { PutuoBus },
 
@@ -41,9 +39,19 @@ export default {
         return {
             async rollback(invoiceDetail) {
                 //
+                if(invoiceDetail.isRed == true)
+                {
+                    return this.MessageBox({
+                        title: "提示",
+                        message: '已冲红过一次，无法再次进行冲红！',
+                        confirmButtonText: "确认",
+                    });
+                }
+
+                //
                 const action = await this.MessageBox({
                     title: "提示",
-                    message: '冲红只能进行一次',
+                    message: '冲红只能进行一次，是否进行冲红？',
                     showCancelButton: true,
                     confirmButtonText: "是",
                     cancelButtonText: "否",
@@ -89,7 +97,7 @@ export default {
                 {
                     this.invoiceDetail = response.data;
                     this.invoiceDetail.serialNum = this.invoiceDetail.out_Trade_No;
-
+                    
                     //
                     return;
                 }
@@ -106,11 +114,20 @@ export default {
 <style lang="scss" scope>
 
 //
-.title {
-    display: inline-block;
-    width: 80px;
-    font-size:15px;
-    font-weight: bold;
+#main {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+//
+#singleWrapper {
+    overflow: auto;
+    width: 100%;
 }
 
 </style>

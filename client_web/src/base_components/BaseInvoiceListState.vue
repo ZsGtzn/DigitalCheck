@@ -1,28 +1,42 @@
 <template>
     <div>
-        <mt-button :disabled="true" type="danger" v-if="!item || !item.serialNum || item.serialNum.length == 0" id="unableCheckInvoice">无法开票</mt-button>
-        <mt-button :disabled="true" v-else-if="item.isInvoice && item.invoiceUrl.length == 0" type="primary" id="checkingInvoice">开票中</mt-button>
-        <div v-else-if="item.invoiceUrl && item.invoiceUrl.length > 0">
+        <div style="display:flex;align-items:center;height:50px;box-sizing:border-box;padding:10px;">
+            <input
+                type="checkbox"
+                :disabled="routeInfo.isInvoice"
+                v-model="routeInfo.ifSelected"
+            />
+            <div style="flex-grow:1;"></div>
+            <div 
+            style="color:#ffffff;font-size:11px;width:100px;height:30px;border-radius: 0px 0px 10px 10px;display:flex;justify-content:center;align-items:center;"
+            :class="[!routeInfo.isInvoice? 'checkedInvoice' : 'unCheckedInvoice']">
+                <span v-if="!routeInfo.isInvoice">未开票</span>
+                <span v-else-if="routeInfo.isInvoice && (!routeInfo.invoiceUrl || routeInfo.invoiceUrl.length == 0)">开票中</span>
+                <span v-else>已开票</span>
+            </div>
+        </div>
+        <slot></slot>
+        <div v-if="routeInfo.invoiceUrl && routeInfo.invoiceUrl.length > 0">
             <div style="background-color:#f1f1f1;height:1px;margin:10px;"></div>
             <div style="text-align:right;display:flex;justify-content:flex-end;box-sizing:border-box;padding:10px;">
-                <div 
-                    style="width:100%;text-align:right;display:flex;justify-content:flex-end;box-sizing:border-box;"
+                <div
                     @click.capture="showOpenBrowserHint">
-                    <mt-button type="primary" class="preview" @click.capture="preview(item)">查看</mt-button>
-                    <div style="width:10px;" />
                     <mt-button
                         type="primary"
                         class="download"
-                        @click.capture="download(item)"
+                        @click.capture="download(routeInfo)"
                     >下载</mt-button>
-                    <div style="width:10px;" />
                 </div>
-                <mt-button
-                    v-show="ifShowRollback"
-                    type="primary"
-                    class="rollback"
-                    @click="rollback(item)"
-                >冲红</mt-button>
+                <div style="width:10px;" />
+                <mt-button type="primary" class="preview" @click="preview(routeInfo)">查看</mt-button>
+                <template v-if="ifShowRollback">
+                    <div style="width:10px;" />
+                    <mt-button
+                        type="primary"
+                        class="rollback"
+                        @click="rollback(routeInfo)"
+                    >冲红</mt-button>
+                </template>
             </div>
         </div>
     </div>
@@ -34,9 +48,23 @@ import { downloadUtil } from "../utils";
 export default {
     name: "BaseInvoiceListState",
 
-    props: [ 'ifShowRollback', 'item' ],
+    props: {
+        item: {
+            required: true,
+            type: Object,
+        },
+        ifShowRollback: {
+            default: false,
+        }
+    },
 
     inject: ['rollback'],
+
+    data() {
+        return {
+            routeInfo: this.item,
+        }
+    },
 
     methods: {
         ...downloadUtil,
@@ -45,30 +73,22 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-//
-@mixin checkInvoiceBase {
-    width: 50px;
-    font-size:8px;
-    margin: 5px;
-    float: right;
+
+.checkedInvoice {
+    background-color: #0084e9;
+
 }
 
-#unableCheckInvoice {
-    @include checkInvoiceBase;
-    height: 30px;
-}
-
-#checkingInvoice {
-    @include checkInvoiceBase;
-    height: 30px;
+.unCheckedInvoice {
+    background-color: #e8110f
 }
 
 //
 @mixin pdf {
-    width: 25%;
+    width: 60px;
     height: 30px;
     padding: auto;
-    font-size:8px;
+    font-size: 15px;
 }
 
 .preview {

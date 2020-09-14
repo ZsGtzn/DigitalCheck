@@ -20,7 +20,7 @@
                 <div class="divider"></div>
                 <mt-field placeholder="邮箱地址（选填）" type="email" v-model="email"></mt-field>
                 <div class="divider"></div>
-                <mt-field placeholder="备注（默认自动填出发日期、乘客信息）" v-model="remark"></mt-field>
+                <mt-field placeholder="备注（默认自动填出发日期、乘客信息）" type="textarea" v-model="remark"></mt-field>
             </div>
             <div class="invoiceDetail" v-else-if="invoiceTargetType === '2'">
                 <mt-field placeholder="公司抬头（必填）" v-model="companyHead"></mt-field>
@@ -39,7 +39,7 @@
                 <div class="divider"></div>
                 <mt-field placeholder="银行账号（选填）" v-model="companyBankAccount"></mt-field>
                 <div class="divider"></div>
-                <mt-field placeholder="备注（默认自动填出发日期、乘客信息）" v-model="remark"></mt-field>
+                <mt-field placeholder="备注（默认自动填出发日期、乘客信息）" type="textarea" v-model="remark"></mt-field>
             </div>
             <div class="invoiceDetail" v-else>
                 <mt-field placeholder="公司抬头（必填）" v-model="companyHead"></mt-field>
@@ -58,7 +58,7 @@
                 <div class="divider"></div>
                 <mt-field placeholder="银行账号（选填）" v-model="companyBankAccount"></mt-field>
                 <div class="divider"></div>
-                <mt-field placeholder="备注（默认自动填出发日期、乘客信息）" v-model="remark"></mt-field>
+                <mt-field placeholder="备注（默认自动填出发日期、乘客信息）" type="textarea" v-model="remark"></mt-field>
             </div>
             <p class="totalCashAmountFrame">
                 预计开票金额（以审核为准）：
@@ -108,15 +108,7 @@
                         </template>
                         <div class="confirmWrapper">
                             <span class="confirmLabel">备注</span>
-                            <div style="display:block;width:100%;height:100%;" v-if="type == 'sanjiang'">
-                                <template v-for="(item, index) of formattedRemark">
-                                    <p class="comfirmContent" v-bind:key="`${index}_0`">{{item[0]}}</p>
-                                    <p class="comfirmContent" v-bind:key="`${index}_1`">{{item[1]}}</p>
-                                </template>
-                            </div>
-                            <template v-else>
-                                <p class="comfirmContent">{{remark}}</p>
-                            </template>
+                            <p class="comfirmContent">{{remark}}</p>
                         </div>
                     </div>
                     <div style="background-color:#f1f1f1;height:1px;margin:10px;"></div>
@@ -212,9 +204,6 @@ export default {
 
             //
             confirmPopupVisible: false,
-
-            //
-            formattedRemark: undefined,
         }
     },
 
@@ -227,32 +216,6 @@ export default {
         this.totalCashAmount = 0
         for (let ele of this.invoiceList) {
             this.totalCashAmount += ele.invoiceAmount
-        }
-
-        // auto set remark
-        if(!this.remark || this.remark.length == 0)
-        {
-            //
-            if (this.type == 'sanjiang') {
-                //
-                this.formattedRemark = [];
-
-                //
-                for (let [index, item] of this.invoiceList.entries()) {
-                    //
-                    this.formattedRemark.push([item.name, item.date + '_' + item.time]);
-
-                    //
-                    this.remark += `乘客姓名: ${item.name}, 出发时间: ${
-                        item.date + '_' + item.time
-                    }`;
-
-                    //
-                    if (index != this.invoiceList.length - 1) {
-                        this.remark += ', '
-                    }
-                }
-            }
         }
     },
 
@@ -483,22 +446,26 @@ $popupWrapperVerticalOffset: 80px;
 //
 .confirmWrapper {
     display: flex;
+    align-items: center;
+    width: 100%;
 }
 
 .confirmLabel {
     box-sizing: border-box;
-    width: 150px;
+    width: 100px;
     padding: 10px 5px 10px 5px;
 }
 
 .comfirmContent {
     box-sizing: border-box;
-    width: 100%;
+    width: calc(100% - 100px);
+    word-break: break-all;
+    white-space: pre-wrap;
     padding: 10px 5px 10px 5px;
     margin: 0px;
 }
 
-/**按钮 */
+/** 按钮 */
 .popupConfirmButtonWrapper {
     flex-grow: 1;
     display: flex;

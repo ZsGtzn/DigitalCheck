@@ -2,7 +2,7 @@
     <div id="main">
         <img :src="putuobusMainImg" style="width:100%;margin:10px 0px 10px 0px;" />
 
-        <mt-field placeholder="请您输入商户单号" style="border-radius:10px;" v-model="identityNo"></mt-field>
+        <mt-field placeholder="请您输入商户单号" style="width:100%;border-radius:10px;" v-model="identityNo"></mt-field>
       
         <div style="text-align: center; position: absolute; bottom: 0px; left: 0px; width: 100%;">
             <span id="tip">咨询服务电话：0580-6696969</span>

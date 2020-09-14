@@ -1,3 +1,5 @@
+import { rootPath, } from "../globals";
+
 // 判断是否是微信
 export const isWeChat = function () { 
     var ua = navigator.userAgent.toLowerCase();
@@ -47,6 +49,21 @@ export const downloadUtil = {
     },
 
     preview(routeInfo) {
-        window.location.href = routeInfo.invoiceUrl;
+        // 创建隐藏的可下载链接
+        var eleLink = document.createElement("a");
+        eleLink.target = "_blank";
+        //
+        if (window.gtzn.platform == "android") {
+            eleLink.href = `${rootPath}/static/pdf/web/viewer.html?file=${encodeURI(routeInfo.invoiceUrl)}`;
+        } else {
+            eleLink.href = `${rootPath}/static/pdf/web/viewer.html?file=${encodeURI(routeInfo.invoiceUrl)}`;
+        }
+
+        // 触发点击
+        document.body.appendChild(eleLink);
+        eleLink.click();
+
+        // 然后移除
+        document.body.removeChild(eleLink);
     }
 }

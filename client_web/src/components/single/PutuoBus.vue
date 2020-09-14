@@ -1,25 +1,25 @@
 <template>
-    <div style="overflow:auto;width:100%;height:100%;">
+    <div>
         <p class="warningHead" style="text-align:text-align">电子发票温馨提示</p>
         <span class="warning">1、如您开具的增值税普通发票用于企业报销，根据国家税务相关政策要求填定纳税人识别号。</span>
         <span class="warning">2、因您个人填写发票信息有误等原因开具的发票，由您本人自行承担，请您仔细核对确认后开具。</span>
         <div id="invoiceDetail">
-            <span class="title">消费金额</span><span style="font-size:20px;color:#e91010;">￥{{item.total_Fee || ""}}</span>
+            <span class="title">消费金额</span><span class="content" style="font-size:20px;color:#e91010;">￥{{item.total_Fee || ""}}</span>
         </div>
         <div id="invoiceDetail">
-            <span class="title">商户单号</span><span style="font-size:12.5px;">{{item.out_Trade_No || ""}}</span>
+            <span class="title">商户单号</span><span class="content">{{item.serialNum || ""}}</span>
         </div>
         <div id="invoiceDetail">
-            <span class="title">车牌号</span><span style="font-size:12.5px;">{{item.busNo || ""}}</span>
+            <span class="title">车牌号</span><span class="content">{{item.busNo || ""}}</span>
         </div>
         <div id="invoiceDetail">
-            <span class="title">开票金额</span><span style="font-size:12.5px;">￥{{item.invoiceAmount || ""}}</span>
+            <span class="title">开票金额</span><span class="content">￥{{item.invoiceAmount || ""}}</span>
         </div>
         <div id="invoiceDetail">
-            <span class="title">交易方式</span><span style="font-size:12.5px;">{{item.trade_Type || ""}}</span>
+            <span class="title">交易方式</span><span class="content">{{item.trade_Type || ""}}</span>
         </div>
         <div id="invoiceDetail">
-            <span class="title">交易时间</span><span style="font-size:12.5px;">{{item.time_End || ""}}</span>
+            <span class="title">交易时间</span><span class="content">{{item.time_End || ""}}</span>
         </div>
     </div>
 </template>
@@ -59,6 +59,19 @@ export default {
     background-color: #ffffff;
     border-radius: 10px;
     margin: 10px;
+}
+
+//
+.title {
+    display: inline-block;
+    width: 80px;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.content {
+    font-size: 12.5px;
+    width: calc(100% - 80px);
 }
 
 </style>

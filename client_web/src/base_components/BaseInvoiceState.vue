@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div id="baseInvoiceStateBottom">
         <mt-button :disabled="true" type="danger" v-if="!item || !item.serialNum || item.serialNum.length == 0" id="unableCheckInvoice">无法开票</mt-button>
         <mt-button v-else-if="item.isInvoice && item.invoiceUrl.length == 0" type="primary" disabled="true" id="checkingInvoice">开票中</mt-button>
         <mt-button v-else-if="!item.isInvoice" type="primary" id="checkInvoice" @click="checkInvoice">开票</mt-button>
@@ -7,8 +7,6 @@
             <div
                 @click.capture="showOpenBrowserHint"
                 id="downloadInvoice">
-                <mt-button type="primary" class="preview" @click.capture="preview(item)">查看发票</mt-button>
-                <div style="height:5px;width:100%" />
                 <mt-button
                     type="primary"
                     class="download"
@@ -18,7 +16,9 @@
                     })"
                 >下载发票</mt-button>
             </div>
-            <template v-show="ifShowRollback">
+            <div style="height:5px;width:100%" />
+            <mt-button type="primary" class="preview" @click="preview(item)">查看发票</mt-button>
+            <template v-if="ifShowRollback">
                 <div style="height:5px;width:100%" />
                 <mt-button type="primary" class="rollback" @click="rollback(item)">冲红</mt-button>
             </template>
@@ -32,13 +32,47 @@ import { downloadUtil } from "../utils";
 export default {
     name: "BaseInvoiceState",
 
-    props: ['item', 'ifShowRollback'],
+    props: {
+        item: {
+            required: true,
+            type: Object,
+        },
+        ifShowRollback: {
+            default: false,
+        }
+    },
 
-    inject: [ 'rollback', 'checkInvoice' ],
+    inject: [ 'rollback'],
 
     methods: {
         ...downloadUtil,
-    }
+    },
+
+    created() {
+        
+    },
+
+    watch: {
+        item: function() {
+            //
+            if(this.item.invoiceUrl && this.item.invoiceUrl.length > 0)
+            {
+                let baseInvoiceStateBottom = document.getElementById("baseInvoiceStateBottom");
+                let singleWrapper = document.getElementById("singleWrapper");
+
+                //
+                baseInvoiceStateBottom.style.height = '100px';
+                singleWrapper.style.height = 'calc(100% - 100px)';
+                
+                //
+                if(this.ifShowRollback)
+                {
+                    baseInvoiceStateBottom.style.height = '150px';
+                    singleWrapper.style.height = 'calc(100% - 150px)';
+                }
+            }
+        }
+    },
 }
 </script>
 
@@ -53,11 +87,11 @@ export default {
     @include checkInvoiceBase;
 }
 
-#checkingInvoice {
+#checkInvoice {
     @include checkInvoiceBase;
 }
 
-#checkInvoice {
+#checkingInvoice {
     @include checkInvoiceBase;
 }
 
@@ -82,4 +116,16 @@ export default {
     @include pdf;
     background-color: #6d4acf;
 }
+
+//
+#baseInvoiceStateBottom {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    bottom: 0px;
+    width: 100%;
+    height: 50px;
+}
+
 </style>

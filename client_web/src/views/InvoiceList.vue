@@ -106,9 +106,19 @@ export default {
         return {
             async rollback(invoiceDetail) {
                 //
+                if(invoiceDetail.isRed == true)
+                {
+                    return this.MessageBox({
+                        title: "提示",
+                        message: '已冲红过一次，无法再次进行冲红！',
+                        confirmButtonText: "确认",
+                    });
+                }
+
+                //
                 const action = await this.MessageBox({
                     title: "提示",
-                    message: '冲红只能进行一次',
+                    message: '冲红只能进行一次，是否进行冲红？',
                     showCancelButton: true,
                     confirmButtonText: "是",
                     cancelButtonText: "否",
