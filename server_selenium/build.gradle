@@ -1,0 +1,74 @@
+plugins {
+    id 'org.springframework.boot' version '2.3.0.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+    id 'java'
+    id 'war'
+}
+
+group = 'com.gtzn'
+version = '0.0.1'
+sourceCompatibility = '1.8'
+
+// fetch annotation associated code and auto inject
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+// disable spring boot default logging module
+configurations {
+    all*.exclude module: 'spring-boot-starter-logging'
+    all*.exclude module: 'logback-classic'
+    all*.exclude module: 'log4j-over-slf4j'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // web development needed
+    implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation 'org.springframework.session:spring-session-core'
+    // store and retrieve data in a relational database(annotation Repository, Entity...)
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+    //
+    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
+
+    // injected tomcat and provide servlet associated annotaion support(annotation RestController...)
+    implementation("org.springframework.boot:spring-boot-starter-tomcat")
+    
+    // auto setter, getter and constructor inject
+    compileOnly 'org.projectlombok:lombok'
+    // auto setter, getter and constructor inject annotation support
+    annotationProcessor 'org.projectlombok:lombok'
+    
+    // mssql Java DataBase Connectivity
+    runtimeOnly 'com.microsoft.sqlserver:mssql-jdbc'
+
+    // json interpretor
+    implementation 'com.fasterxml.jackson.core:jackson-core:2.9.8'
+    implementation 'com.fasterxml.jackson.core:jackson-annotations:2.9.8'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.9.8'
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.9.8'
+
+    // log4js
+    implementation 'org.apache.logging.log4j:log4j-api:2.13.3'
+    implementation 'org.apache.logging.log4j:log4j-core:2.13.3'
+    implementation 'com.lmax:disruptor:3.4.2'
+    implementation 'org.apache.logging.log4j:log4j-web'
+    
+    // hot reload
+    implementation 'org.springframework.boot:spring-boot-devtools:2.3.2.RELEASE'
+
+    //
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+}
+
+test {
+    useJUnitPlatform()
+}

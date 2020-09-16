@@ -14,6 +14,11 @@
                 <span v-else-if="routeInfo.isInvoice && (!routeInfo.invoiceUrl || routeInfo.invoiceUrl.length == 0)">开票中</span>
                 <span v-else>已开票</span>
             </div>
+            <div 
+            style="margin-left:10px;color:#ffffff;font-size:11px;width:100px;height:30px;border-radius: 0px 0px 10px 10px;display:flex;justify-content:center;align-items:center;"
+            class="reded" v-if="routeInfo.isRed">
+                <span>已冲红</span>
+            </div>
         </div>
         <slot></slot>
         <div v-if="routeInfo.invoiceUrl && routeInfo.invoiceUrl.length > 0">
@@ -32,10 +37,11 @@
                 <template v-if="ifShowRollback">
                     <div style="width:10px;" />
                     <mt-button
+                        :plain="routeInfo.isRed"
                         type="primary"
                         class="rollback"
                         @click="rollback(routeInfo)"
-                    >冲红</mt-button>
+                    >作废</mt-button>
                 </template>
             </div>
         </div>
@@ -83,6 +89,10 @@ export default {
     background-color: #e8110f
 }
 
+.reded {
+    background-color: #e8110f
+}
+
 //
 @mixin pdf {
     width: 60px;
@@ -103,6 +113,6 @@ export default {
 
 .rollback {
     @include pdf;
-    background-color: #6d4acf;
+    background-color: #e8110f;
 }
 </style>

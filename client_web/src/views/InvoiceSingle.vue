@@ -43,7 +43,7 @@ export default {
                 {
                     return this.MessageBox({
                         title: "提示",
-                        message: '已冲红过一次，无法再次进行冲红！',
+                        message: '已作废过一次，无法再次进行作废！',
                         confirmButtonText: "确认",
                     });
                 }
@@ -51,7 +51,7 @@ export default {
                 //
                 const action = await this.MessageBox({
                     title: "提示",
-                    message: '冲红只能进行一次，是否进行冲红？',
+                    message: '作废只能进行一次，是否进行作废？',
                     showCancelButton: true,
                     confirmButtonText: "是",
                     cancelButtonText: "否",
@@ -66,12 +66,12 @@ export default {
                     }).then(response => {
                         if(response.code === 0)
                         {
-                            return this.Toast("冲红成功");
+                            return this.Toast("作废成功");
                         }
 
                         this.Toast(response.msg);
                     }).catch(e => {
-                        this.Toast(`冲红请求失败, ${e.toString()}`);
+                        this.Toast(`作废请求失败, ${e.toString()}`);
                     });
                 }
             },

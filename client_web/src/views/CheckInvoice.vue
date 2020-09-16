@@ -11,18 +11,7 @@
                 <mt-radio title v-model="invoiceTargetType" :options="invoiceTargetOptions"></mt-radio>
             </div>
 
-            <div class="invoiceDetail" v-if="invoiceTargetType === '1'">
-                <mt-field placeholder="开票抬头（必填）" v-model="username"></mt-field>
-                <div class="divider"></div>
-                <mt-field placeholder="接收电子发票手机号（必填）" v-model="mobile"></mt-field>
-                <div class="divider"></div>
-                <mt-field placeholder="身份证（选填）" v-model="personIdentifier"></mt-field>
-                <div class="divider"></div>
-                <mt-field placeholder="邮箱地址（选填）" type="email" v-model="email"></mt-field>
-                <div class="divider"></div>
-                <mt-field placeholder="备注（默认自动填出发日期、乘客信息）" type="textarea" v-model="remark"></mt-field>
-            </div>
-            <div class="invoiceDetail" v-else-if="invoiceTargetType === '2'">
+            <div class="invoiceDetail" v-if="invoiceTargetType === '2'">
                 <mt-field placeholder="公司抬头（必填）" v-model="companyHead"></mt-field>
                 <div class="divider"></div>
                 <mt-field placeholder="接收电子发票手机号（必填）" v-model="mobile"></mt-field>
@@ -38,6 +27,17 @@
                 <mt-field placeholder="开户银行（选填）" v-model="companyBank"></mt-field>
                 <div class="divider"></div>
                 <mt-field placeholder="银行账号（选填）" v-model="companyBankAccount"></mt-field>
+                <div class="divider"></div>
+                <mt-field placeholder="备注（默认自动填出发日期、乘客信息）" type="textarea" v-model="remark"></mt-field>
+            </div>
+            <div class="invoiceDetail" v-else-if="invoiceTargetType === '1'">
+                <mt-field placeholder="开票抬头（必填）" v-model="username"></mt-field>
+                <div class="divider"></div>
+                <mt-field placeholder="接收电子发票手机号（必填）" v-model="mobile"></mt-field>
+                <div class="divider"></div>
+                <mt-field placeholder="身份证（选填）" v-model="personIdentifier"></mt-field>
+                <div class="divider"></div>
+                <mt-field placeholder="邮箱地址（选填）" type="email" v-model="email"></mt-field>
                 <div class="divider"></div>
                 <mt-field placeholder="备注（默认自动填出发日期、乘客信息）" type="textarea" v-model="remark"></mt-field>
             </div>
