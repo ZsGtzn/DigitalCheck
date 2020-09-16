@@ -4,6 +4,7 @@ package com.gtzn.restful.crawl;
 import com.gtzn.restful.Utils;
 import com.gtzn.restful.bean.Company;
 
+import lombok.Synchronized;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -44,6 +45,7 @@ public class CompanyCrawl {
         driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
     }
 
+    @Synchronized
     public List<Company> fetchCompanyInfo(final String shortName) throws Exception {
         /**
          * 查询首页
