@@ -45,6 +45,7 @@
         <logger name="org.mybatis" level="info"></logger>
 
         <root level="all">
+            <appender-ref ref="console"/>
             <appender-ref ref="normal"/>
         </root>
 

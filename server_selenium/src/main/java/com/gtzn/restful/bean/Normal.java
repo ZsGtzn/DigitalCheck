@@ -5,7 +5,8 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class NormalHttpReturn {
+public class Normal {
     int code;
     String msg;
+    String data;
 }

@@ -67,6 +67,10 @@ dependencies {
 
     //
     implementation fileTree(include: ['*.jar'], dir: 'libs')
+
+    // browser driver and web api
+    implementation 'org.seleniumhq.selenium:selenium-java:3.14.0'
+    implementation 'org.seleniumhq.selenium:selenium-chrome-driver:3.14.0'
 }
 
 test {
