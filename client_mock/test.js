@@ -36,7 +36,8 @@ mockServerClientInstance.mockAnyResponse({
                 "takeState": 0, 
                 "ticketType": "车运", 
                 "time": "10:10", 
-                "invoiceUrl": ""
+                "invoiceUrl": "",
+                "isRed": false,
             }, 
             { 
                 "IDNum": "210905197807210546", 
@@ -57,7 +58,8 @@ mockServerClientInstance.mockAnyResponse({
                 "takeState": 0, 
                 "ticketType": "全票", 
                 "time": "10:10", 
-                "invoiceUrl": "https://sjgroup.ziubao.com/pdf/20200505001998-029.pdf"
+                "invoiceUrl": "https://sjgroup.ziubao.com/pdf/20200505001998-029.pdf",
+                "isRed": false,
             }
         ],
         "msg":"查询成功"

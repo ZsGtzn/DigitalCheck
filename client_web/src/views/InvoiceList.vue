@@ -9,7 +9,7 @@
         <template v-if="type==='sanjiang'">
             <span class="warning">以下情况不支持开票及注意事项：1.请您在乘船次日起45天内开电子发票，逾期作废；2.全退订单不开票（退票未产生手续费的）；3.已取票的不开票；4.退票产生手续费的可开票；5.如遇到发票不能显示的问题，请与客服联系，联系方式：0580-2626888</span>
             <ul style="margin: 5px;padding: 0px;">
-                <li v-for="(item, index) of checkedPassenger" :key="index" class="listItem" @click="selectInvoice(item)">
+                <li v-for="(item, index) of checkedPassenger" :key="`${now}_${index}`" class="listItem" @click="selectInvoice(item)">
                     <route-detail :item="item"></route-detail>
                 </li>
             </ul>
@@ -18,7 +18,7 @@
         <!-- 长峙岛停车场 -->
         <template v-else-if="type==='changzhiVehiclePark'">
             <ul style="margin: 5px;padding: 0px;">
-                <li v-for="(item, index) of checkedPassenger" :key="index" class="listItem" @click="selectInvoice(item)">
+                <li v-for="(item, index) of checkedPassenger" :key="`${now}_${index}`" class="listItem" @click="selectInvoice(item)">
                     <ChangzhiVehicleDetail :item="item"></ChangzhiVehicleDetail>
                 </li>
             </ul>
@@ -27,7 +27,7 @@
         <!-- 三江码头停车场 -->
         <template v-else-if="type==='sanjiangVehiclePark'">
             <ul style="margin: 5px;padding: 0px;">
-                <li v-for="(item, index) of checkedPassenger" :key="index" class="listItem" @click="selectInvoice(item)">
+                <li v-for="(item, index) of checkedPassenger" :key="`${now}_${index}`" class="listItem" @click="selectInvoice(item)">
                     <SanJiangVehicleDetail :item="item"></SanJiangVehicleDetail>
                 </li>
             </ul>
@@ -37,7 +37,7 @@
         <template v-else-if="type==='putuoNavigator'">
             <mt-button type="danger" size="small" style="width:100%;margin:5px 0px 5px 0px;box-sizing:border-box;" @click="reLogin">切换账号</mt-button>
             <ul style="margin: 5px;padding: 0px;">
-                <li v-for="(item, index) of checkedPassenger" :key="index" class="listItem" @click="selectInvoice(item)">
+                <li v-for="(item, index) of checkedPassenger" :key="`${now}_${index}`" class="listItem" @click="selectInvoice(item)">
                     <PutuoNavigatorDetail :item="item"></PutuoNavigatorDetail>
                 </li>
             </ul>
@@ -67,6 +67,7 @@ export default {
         return {
             checkedPassenger: [],
             ifAllSelected: false,
+            now: Date.now(),
         }
     },
 
@@ -147,6 +148,10 @@ export default {
     
     methods: {
         fetchData() {
+            //
+            this.now = Date.now();
+            
+            //
             switch(this.type)
             {
                 case 'sanjiang': {
@@ -168,7 +173,7 @@ export default {
                 default: {
                     alert(`错误的平台类型`);
                 }
-            }  
+            }
         },
 
         // 三江码头船票
