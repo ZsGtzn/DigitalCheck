@@ -40,9 +40,6 @@ public class CompanyCrawl {
 
         //
         driver = new ChromeDriver();
-
-        //
-        driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
     }
 
     @Synchronized
@@ -71,10 +68,22 @@ public class CompanyCrawl {
         }
 
         /**
+         * 判断是否已经登录
+         */
+        WebElement personalSetting = driver.findElement(By.xpath("/html/body/header/div/ul/li[9]/a"));
+        String fullNameXPath = "/html/body/div[2]/div/div[1]/section/div[2]/div/section/a/div/div/span";
+        String taxNoXPath = "/html/body/div[2]/div/div[1]/section/div[2]/div/section/a/div/div/p";
+        if(personalSetting != null)
+        {
+            fullNameXPath = "/html/body/div[1]/div/div[1]/section/div[2]/div/section/a/div/div/span";
+            taxNoXPath = "/html/body/div[1]/div/div[1]/section/div[2]/div/section/a/div/div/p";
+        }
+
+        /**
          * 获取结果
          */
-        List<WebElement> fullNameList = driver.findElements(By.xpath("/html/body/div[2]/div/div[1]/section/div[2]/div/section/a/div/div/span"));
-        List<WebElement> taxNoList = driver.findElements(By.xpath("/html/body/div[2]/div/div[1]/section/div[2]/div/section/a/div/div/p"));
+        List<WebElement> fullNameList = driver.findElements(By.xpath(fullNameXPath));
+        List<WebElement> taxNoList = driver.findElements(By.xpath(taxNoXPath));
 
         //
         List<Company> companyList = new ArrayList<>();
