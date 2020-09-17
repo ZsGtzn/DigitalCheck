@@ -1,7 +1,7 @@
 {
 	"axios": {
         "invoice": {
-            "host": "http://localhost:3000"
+            "host": "https://invoice.ziubao.com"
         },
         "weChatJsSdkAuth": {
             "host": "https://shop.ziubao.com"

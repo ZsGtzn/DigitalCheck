@@ -22,16 +22,23 @@ export default {
             invoiceDetail: {
                 serialNum: "",
             },
+            intervalInstance: undefined,
         }
     },
 
     created() {
-        switch(this.type)
+        this.fetchData();
+
+        //
+        this.intervalInstance = setInterval(() => {
+            this.fetchData(true);
+        }, 6000);
+    },
+
+    destroyed() {
+        if(this.intervalInstance)
         {
-            case 'putuobus': {
-                this.fetchPutuoBusData();
-            }
-            break;
+            clearInterval(this.intervalInstance)
         }
     },
 
@@ -90,9 +97,19 @@ export default {
     },
     
     methods: {
-        fetchPutuoBusData: function()
+        fetchData(noWaitHttpRequest = false) {
+            switch(this.type)
+            {
+                case 'putuobus': {
+                    this.fetchPutuoBusData(noWaitHttpRequest);
+                }
+                break;
+            }
+        },
+
+        fetchPutuoBusData(noWaitHttpRequest)
         {
-            this.axios.invoice.get(`invoiceApi/zlkc/getOrderInfo?serialNum=${this.identifier}`).then(response => {
+            this.axios.invoice.get(`invoiceApi/zlkc/getOrderInfo?serialNum=${this.identifier}&state&noWaitHttpRequest=${noWaitHttpRequest ? 'yes' : 'no'}`).then(response => {
                 if(response.code === 0)
                 {
                     this.invoiceDetail = response.data;

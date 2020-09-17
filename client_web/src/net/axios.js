@@ -23,10 +23,14 @@ class Axios {
 
         //
         this.http.interceptors.request.use(function (request) {
+            
             //
-            Indicator.open({
-                spinnerType: 'snake'
-            });
+            if (request.url.indexOf("noWaitHttpRequest=yes") < 0)
+            {
+                Indicator.open({
+                    spinnerType: 'snake'
+                });
+            }
 
             //
             return request;

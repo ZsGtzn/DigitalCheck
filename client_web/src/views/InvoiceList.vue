@@ -68,12 +68,25 @@ export default {
             checkedPassenger: [],
             ifAllSelected: false,
             now: Date.now(),
+            intervalInstance: undefined,
         }
     },
 
     created()
     {
         this.fetchData();
+
+        //
+        this.intervalInstance = setInterval(() => {
+            this.fetchData(true);
+        }, 6000);
+    },
+
+    destroyed() {
+        if(this.intervalInstance)
+        {
+            clearInterval(this.intervalInstance)
+        }
     },
 
     computed: {
@@ -147,7 +160,7 @@ export default {
     },
     
     methods: {
-        fetchData() {
+        fetchData(noWaitHttpRequest = false) {
             //
             this.now = Date.now();
             
@@ -155,19 +168,19 @@ export default {
             switch(this.type)
             {
                 case 'sanjiang': {
-                    this.fetchSanJiangData();
+                    this.fetchSanJiangData(noWaitHttpRequest);
                 }
                 break;
                 case 'changzhiVehiclePark': {
-                    this.changzhiVehicleParkData();
+                    this.changzhiVehicleParkData(noWaitHttpRequest);
                 }
                 break;
                 case 'sanjiangVehiclePark': {
-                    this.sanjiangVehicleParkData();
+                    this.sanjiangVehicleParkData(noWaitHttpRequest);
                 }
                 break;
                 case 'putuoNavigator': {
-                    this.putuoNavigatorData();
+                    this.putuoNavigatorData(noWaitHttpRequest);
                 }
                 break;
                 default: {
@@ -177,9 +190,9 @@ export default {
         },
 
         // 三江码头船票
-        fetchSanJiangData()
+        fetchSanJiangData(noWaitHttpRequest)
         {
-            this.axios.invoice.get(`/invoiceApi/sjky/passengerList?IDCard=${this.identifier}&state`).then(response => {
+            this.axios.invoice.get(`/invoiceApi/sjky/passengerList?IDCard=${this.identifier}&state&noWaitHttpRequest=${noWaitHttpRequest ? 'yes' : 'no'}`).then(response => {
                 if(response.code === 0)
                 {
                     return this.checkedPassenger = response.data.map(ele => Object.assign(ele, {
@@ -194,9 +207,9 @@ export default {
         },
 
         // 长峙岛停车场
-        changzhiVehicleParkData() 
+        changzhiVehicleParkData(noWaitHttpRequest) 
         {
-            this.axios.invoice.get(`/invoiceApi/czpark/recordList?plateNo=${this.identifier}`).then(response => {
+            this.axios.invoice.get(`/invoiceApi/czpark/recordList?plateNo=${this.identifier}&noWaitHttpRequest=${noWaitHttpRequest ? 'yes' : 'no'}`).then(response => {
                 if(response.code === 0)
                 {
                     return this.checkedPassenger = response.data.map(ele => Object.assign(ele, {
@@ -212,9 +225,9 @@ export default {
         },
 
         // 三江停车场
-        sanjiangVehicleParkData()
+        sanjiangVehicleParkData(noWaitHttpRequest)
         {
-            this.axios.invoice.get(`/invoiceApi/sjpark/recordList?plateNo=${this.identifier}`).then(response => {
+            this.axios.invoice.get(`/invoiceApi/sjpark/recordList?plateNo=${this.identifier}&noWaitHttpRequest=${noWaitHttpRequest ? 'yes' : 'no'}`).then(response => {
                 if(response.code === 0)
                 {
                     return this.checkedPassenger = response.data.map(ele => Object.assign(ele, {
@@ -230,9 +243,9 @@ export default {
         },
 
         // 普陀导游
-        putuoNavigatorData()
+        putuoNavigatorData(noWaitHttpRequest)
         {
-            this.axios.putuoNavigator.get(`/invoice/invoiceApi/zlkcMesh/getOrderList?mobile=${this.identifier}`).then(response => {
+            this.axios.putuoNavigator.get(`/invoice/invoiceApi/zlkcMesh/getOrderList?mobile=${this.identifier}&noWaitHttpRequest=${noWaitHttpRequest ? 'yes' : 'no'}`).then(response => {
                 if(response.code === 0)
                 {
                     return this.checkedPassenger = response.data.map(ele => Object.assign(ele, {
