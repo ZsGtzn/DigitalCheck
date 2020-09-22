@@ -112,9 +112,10 @@ export default {
             this.axios.invoice.get(`invoiceApi/zlkc/getOrderInfo?serialNum=${this.identifier}&state&noWaitHttpRequest=${noWaitHttpRequest ? 'yes' : 'no'}`).then(response => {
                 if(response.code === 0)
                 {
-                    this.invoiceDetail = response.data;
-                    this.invoiceDetail.serialNum = this.invoiceDetail.out_Trade_No;
-                    
+                    this.invoiceDetail = Object.assign(response.data, {
+                        serialNum: response.data.out_Trade_No,
+                    });
+
                     //
                     return;
                 }
