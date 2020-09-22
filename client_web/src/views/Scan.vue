@@ -46,7 +46,10 @@ export default {
             checkVehicleNumber(vehicleNumber) {
                 if(!vehicleNumber || vehicleNumber.length == 0)
                 {
-                    return this.Toast("不能为空")
+                    this.Toast("不能为空");
+
+                    //
+                    return false;
                 }
 
                 //
@@ -56,7 +59,10 @@ export default {
             checkPersonIdentifier(identityNo) {
                 if(!identityNo || identityNo.length == 0)
                 {
-                    return this.Toast("不能为空")
+                    this.Toast("不能为空");
+
+                    //
+                    return false;
                 }
 
                 return true;
