@@ -48,10 +48,6 @@ export default {
         ...downloadUtil,
     },
 
-    created() {
-        
-    },
-
     watch: {
         item: function() {
             //

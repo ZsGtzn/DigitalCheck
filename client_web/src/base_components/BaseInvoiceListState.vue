@@ -61,7 +61,7 @@ export default {
         },
         ifShowRollback: {
             default: false,
-        }
+        },
     },
 
     inject: ['rollback'],
@@ -69,6 +69,22 @@ export default {
     data() {
         return {
             routeInfo: this.item,
+        }
+    },
+
+    watch: {
+        item: function(newValue) {
+            // current item is selected and updated item still can be selected
+            // so keep its state to be selected  
+            if(this.routeInfo 
+            && this.routeInfo.serialNum == this.item.serialNum
+            && this.routeInfo.ifSelected
+            && !this.item.isInvoice)
+            {
+               this.item.ifSelected = true;
+            }
+
+            this.routeInfo = this.item
         }
     },
 

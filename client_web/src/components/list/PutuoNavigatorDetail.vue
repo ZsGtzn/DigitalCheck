@@ -38,10 +38,10 @@ export default {
         }
     },
 
-    data: function() {
-        return {
-            invoiceDetail: this.item
-        };
+    computed: {
+        invoiceDetail: function() {
+            return this.item;
+        },
     },
 }
 </script>

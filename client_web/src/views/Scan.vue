@@ -44,10 +44,21 @@ export default {
     provide: function () {
         return {
             checkVehicleNumber(vehicleNumber) {
+                if(!vehicleNumber || vehicleNumber.length == 0)
+                {
+                    return this.Toast("不能为空")
+                }
+
+                //
                 return true;
             },
 
             checkPersonIdentifier(identityNo) {
+                if(!identityNo || identityNo.length == 0)
+                {
+                    return this.Toast("不能为空")
+                }
+
                 return true;
             },
         }
