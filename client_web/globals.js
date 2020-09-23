@@ -1,15 +1,15 @@
-process.env.ziubao_invoice_platform = "/ziubao";
+process.env.ziubao_invoice_platform = "ziubao";
 
 //
 let rootPath = ""
-if(process.env.ziubao_invoice_platform == "/zlkc") {
+if(process.env.ziubao_invoice_platform == "zlkc") {
     rootPath = "/zlkc";
 }
-else if (process.env.ziubao_invoice_platform == "/ziubao")
+else if (process.env.ziubao_invoice_platform == "ziubao")
 {
     rootPath = "/invoice/main";
 }
-else if(process.env.ziubao_invoice_platform == "/invoice-test/main")
+else if(process.env.ziubao_invoice_platform == "invoice-test/main")
 {
     rootPath = "/invoice-test/main";
 }

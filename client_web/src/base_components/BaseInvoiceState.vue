@@ -42,7 +42,7 @@ export default {
         }
     },
 
-    inject: [ 'rollback'],
+    inject: [ 'rollback', 'checkInvoice' ],
 
     methods: {
         ...downloadUtil,
@@ -50,12 +50,12 @@ export default {
 
     watch: {
         item: function() {
+            let baseInvoiceStateBottom = document.getElementById("baseInvoiceStateBottom");
+            let singleWrapper = document.getElementById("singleWrapper");
+
             //
             if(this.item.invoiceUrl && this.item.invoiceUrl.length > 0)
             {
-                let baseInvoiceStateBottom = document.getElementById("baseInvoiceStateBottom");
-                let singleWrapper = document.getElementById("singleWrapper");
-
                 //
                 baseInvoiceStateBottom.style.height = '100px';
                 singleWrapper.style.height = 'calc(100% - 100px)';
@@ -66,6 +66,11 @@ export default {
                     baseInvoiceStateBottom.style.height = '150px';
                     singleWrapper.style.height = 'calc(100% - 150px)';
                 }
+            }
+            else
+            {
+                baseInvoiceStateBottom.style.height = '50px';
+                singleWrapper.style.height = 'calc(100% - 50px)';
             }
         }
     },
