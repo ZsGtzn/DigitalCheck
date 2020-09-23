@@ -98,7 +98,6 @@ export default {
 
 .checkedInvoice {
     background-color: #0084e9;
-
 }
 
 .unCheckedInvoice {

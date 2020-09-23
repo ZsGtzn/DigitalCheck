@@ -81,7 +81,6 @@ export default {
 //
 @mixin checkInvoiceBase {
     width: 100%;
-    font-size:8px;
 }
 
 #unableCheckInvoice {
@@ -100,7 +99,7 @@ export default {
 @mixin pdf {
     width: 100%;
     padding: auto;
-    font-size:11px
+    font-size: 15px;
 }
 
 .preview {
