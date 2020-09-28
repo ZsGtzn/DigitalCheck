@@ -17,13 +17,18 @@ import java.util.List;
 @Log4j2
 @RequestMapping("/qichacha")
 public class CompanyController {
-
-    private Logger logger = LogManager.getLogger("company");
     private CompanyCrawl crawlInstance = CompanyCrawl.getInstance();
+    private static boolean proceeding = false;
 
     //
     @GetMapping("/fetchCompanyList")
     public CompanyList fetch(@RequestParam(value = "name", required = true) String name) {
+        if(proceeding)
+        {
+            return new CompanyList(1, "进行中, 请稍后再试或者检查是否需要重新登录", new ArrayList());
+        }
+        proceeding = true;
+
         //
         try
         {
@@ -34,12 +39,21 @@ public class CompanyController {
         } catch (Exception e) {
             //
             return new CompanyList(1, "获取单位信息失败: " + e.toString(), new ArrayList());
+        } finally {
+            proceeding = false;
         }
     }
 
     //
     @PostMapping("/QRCodeManulLogin")
     public Normal QRCodeManulLogin() {
+        if(proceeding)
+        {
+            return new Normal(1, "进行中, 请稍后再试或者检查是否需要重新登录", "");
+        }
+        proceeding = true;
+
+        //
         try
         {
             crawlInstance.QRCodeManulLogin();
@@ -50,6 +64,8 @@ public class CompanyController {
         {
             //
             return new Normal(1, e.toString(), "");
+        } finally {
+            proceeding = false;
         }
     }
 

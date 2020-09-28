@@ -6,16 +6,21 @@ import com.gtzn.restful.Utils;
 import com.gtzn.restful.bean.Company;
 
 import lombok.Synchronized;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 
 import javax.xml.xpath.XPath;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 public class CompanyCrawl {
+    private Logger log = LogManager.getLogger("company");
     //
     private static CompanyCrawl instance = null;
     public static CompanyCrawl getInstance() {
@@ -41,7 +46,53 @@ public class CompanyCrawl {
         }
 
         //
-        driver = new ChromeDriver();
+        ChromeOptions option = new ChromeOptions();
+//        option.addArguments("--headless");
+//        option.addArguments("--disable-gpu");
+        option.addArguments("--window-size=1920,1080");
+        option.addArguments("--no-sandbox");
+
+        //
+        driver = new ChromeDriver(option);
+
+        //
+        fetchAndSetCookie();
+    }
+
+    //
+    private void fetchAndSetCookie()
+    {
+        //
+        driver.get(Constants.qichachaMainPage);
+
+        // clear cookie
+        driver.manage().deleteAllCookies();
+
+        // init cookie
+        try
+        {
+            String cookieContent = Utils.readFile(Constants.cookieFileName);
+            String[] cookieArray = cookieContent.split("\r\n");
+            for(int i = 0; i < cookieArray.length; i += 2)
+            {
+                if(i + 1 < cookieArray.length
+                        && cookieArray[i].length() > 0
+                        && cookieArray[i + 1].length() > 0)
+                {
+                    //
+                    Cookie cookie = new Cookie(cookieArray[i], cookieArray[i + 1]);
+
+                    //
+                    driver.manage().addCookie(cookie);
+                }
+            }
+        } catch (Exception e)
+        {
+            log.error("cookie init error: " + e.toString());
+        }
+
+        //
+        driver.get(Constants.qichachaMainPage);
     }
 
     //
@@ -75,17 +126,38 @@ public class CompanyCrawl {
             }
 
             // check if need refresh qr code
-            WebElement mark = driver.findElement(By.xpath("//*[@id=\"qrcodeLoginQr\"]/div/div"));
-            if(mark.getText().equals("二维码已失效"))
+            try
             {
-                // refresh qr code
-                driver.findElement(By.xpath("//*[@id=\"qrcodeLoginQr\"]/div/a")).click();
-            }
-            else
+                WebElement mark = driver.findElement(By.xpath("//*[@id=\"qrcodeLoginQr\"]/div/div"));
+                if(mark.getText().equals("二维码已失效"))
+                {
+                    // refresh qr code
+                    driver.findElement(By.xpath("//*[@id=\"qrcodeLoginQr\"]/div/a")).click();
+                }
+            } catch (Exception e)
             {
-                throw new Exception("登录页面二维码刷新出现问题, 请联系开发人员");
+
             }
+
+            //
+            Thread.sleep(500);
         }
+
+        /**
+         * store cookie
+         */
+        Set<Cookie> setCookie = driver.manage().getCookies();
+        String cookieFileContent = "";
+
+        //
+        for (Cookie c : setCookie) {
+            // save to file
+            cookieFileContent += (c.getName() + "\r\n" + c.getValue() + "\r\n");
+        }
+        Utils.writeFile(Constants.cookieFileName, cookieFileContent);
+
+        //
+        log.info("store new cookie: " + cookieFileContent);
     }
 
     @Synchronized
@@ -145,7 +217,7 @@ public class CompanyCrawl {
 
             //
             Company company = companyList.get(i);
-            company.setTaxNo(taxNo);
+            company.setTaxnum(taxNo);
         }
 
         //

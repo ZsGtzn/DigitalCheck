@@ -12,7 +12,10 @@
             </div>
 
             <div class="invoiceDetail" v-if="invoiceTargetType === '2'">
-                <mt-field placeholder="公司抬头（必填）" v-model="companyHead"></mt-field>
+                <div class="checkTaxNo">
+                    <mt-field style="flex-grow:1" placeholder="公司抬头（必填）" v-model="companyHead"></mt-field>
+                    <mt-button type="primary" @click="checkTaxNo(true)">查询税号</mt-button>
+                </div>
                 <div class="divider"></div>
                 <mt-field placeholder="接收电子发票手机号（必填）" v-model="mobile"></mt-field>
                 <div class="divider"></div>
@@ -42,7 +45,10 @@
                 <mt-field placeholder="备注（默认自动填出发日期、乘客信息）" type="textarea" v-model="remark"></mt-field>
             </div>
             <div class="invoiceDetail" v-else>
-                <mt-field placeholder="公司抬头（必填）" v-model="companyHead"></mt-field>
+                <div class="checkTaxNo">
+                    <mt-field style="flex-grow:1" placeholder="公司抬头（必填）" v-model="companyHead"></mt-field>
+                    <mt-button type="primary" @click="checkTaxNo(true)">查询税号</mt-button>
+                </div>
                 <div class="divider"></div>
                 <mt-field placeholder="接收电子发票手机号（必填）" v-model="mobile"></mt-field>
                 <div class="divider"></div>
@@ -129,6 +135,23 @@
                 </div>
             </slot>
         </mt-popup>
+        <transition name="slide-fade">
+            <div class="companyListWrapper" v-if="checkTaxNoVisible">
+                <slot>
+                    <div class="companyList">
+                        <mt-field label="公司名称" v-model="checkTaxCompanyHead"></mt-field>
+                        <mt-button type="primary" style="width:100%;margin:10px 0px 10px 0px;" @click="checkTaxNo(false)">查询</mt-button>
+                        <div class="divider" style="margin: 10px 0px 10px 0px;"></div>
+                        <template v-for="(company, index) of companyList">
+                            <div class="companyDetail" @click="selectCompany(company)" :key="index">
+                                <p>{{company.buyer_name}}</p>
+                                <p>{{company.taxnum}}</p>
+                            </div>
+                        </template>
+                    </div>
+                </slot>
+            </div>
+        </transition>
     </div>
 </template>
 
@@ -204,6 +227,11 @@ export default {
 
             //
             confirmPopupVisible: false,
+
+            //
+            checkTaxCompanyHead: "",
+            checkTaxNoVisible: false,
+            companyList: [],
         }
     },
 
@@ -339,6 +367,52 @@ export default {
                     this.Toast(`开票请求失败, ${e.toString()}`)
                 })
         },
+
+        checkTaxNo(autoFillCheckTaxCompanyHead = false) {
+            //
+            this.checkTaxNoVisible = true;
+
+            //
+            if(autoFillCheckTaxCompanyHead)
+            {
+                this.checkTaxCompanyHead = this.companyHead;
+            }
+            
+            //
+            this.axios.invoice.get(`/invoiceApi/common/taxnumRecord?buyerName=${this.checkTaxCompanyHead}`).then((response) => {
+                if (response.code === 0) {
+                    return this.companyList = response.data;
+                }
+
+                this.Toast(response.msg);
+            })
+            .catch((e) => {
+                this.Toast(`查询税号失败, ${e.toString()}`)
+            });
+        },
+
+        selectCompany(company)
+        {
+            this.MessageBox({
+                title: "请确认您的信息",
+                message: `公司名称: ${company.buyer_name}<br>税号: ${company.taxnum}`,
+                showCancelButton: true,
+                confirmButtonText: "是",
+                cancelButtonText: "否",
+            }).then(action => {
+                if (action == 'confirm')
+                {
+                    this.companyHead = company.buyer_name;
+                    this.taxNo = company.taxnum;
+
+                    //
+                    this.checkTaxNoVisible = false;
+                }
+                else {
+                    
+                }
+            }); 
+        }
     },
 }
 </script>
@@ -483,5 +557,53 @@ $popupWrapperVerticalOffset: 80px;
     width: 100%;
     box-sizing: border-box;
     margin: 0px 10px 5px 10px;
+}
+
+.checkTaxNo {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+//
+.companyListWrapper {
+    width:100%;
+    height:100%;
+    position: absolute;
+    z-index: 1;
+}
+
+.companyList
+{
+    width:100%;
+    height:100%;
+    overflow:auto;
+    padding:10px;
+    box-sizing:border-box;
+    background-color:#f1f1f1
+}
+
+.companyDetail
+{
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+    background-color: white;
+}
+
+/* 可以设置不同的进入和离开动画 */
+/* 设置持续时间和动画函数 */
+.slide-fade-enter-active {
+  transition: all .3s ease;
+}
+.slide-fade-leave-active {
+  transition: all .3s ease;
+}
+.slide-fade-enter, .slide-fade-leave-to
+/* .slide-fade-leave-active for below version 2.1.8 */ {
+  transform: translateX(50%);
+  opacity: 0;
 }
 </style>

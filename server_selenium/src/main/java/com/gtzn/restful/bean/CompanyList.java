@@ -10,5 +10,5 @@ import java.util.List;
 public class CompanyList {
     int code;
     String msg;
-    List<Company> companyList;
+    List<Company> data;
 }

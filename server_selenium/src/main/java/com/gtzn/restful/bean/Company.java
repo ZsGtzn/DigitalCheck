@@ -6,6 +6,6 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class Company {
-    String name;
-    String taxNo;
+    String buyer_name;
+    String taxnum;
 }
