@@ -141,6 +141,8 @@
                     <div class="companyList">
                         <mt-field label="公司名称" v-model="checkTaxCompanyHead"></mt-field>
                         <mt-button type="primary" style="width:100%;margin:10px 0px 10px 0px;" @click="checkTaxNo(false)">查询</mt-button>
+                        <p style="text-align:center;" v-if="checkTaxReptileProceedingCount > 0">更多结果正在加载中...</p>
+                        <p style="text-align:center;" v-else>加载完毕</p>
                         <div class="divider" style="margin: 10px 0px 10px 0px;"></div>
                         <template v-for="(company, index) of companyList">
                             <div class="companyDetail" @click="selectCompany(company)" :key="index">
@@ -231,6 +233,7 @@ export default {
             //
             checkTaxCompanyHead: "",
             checkTaxNoVisible: false,
+            checkTaxReptileProceedingCount: 0,
             companyList: [],
         }
     },
@@ -379,6 +382,9 @@ export default {
             }
             
             //
+            this.companyList = [];
+
+            //
             this.axios.invoice.get(`/invoiceApi/common/taxnumRecord?buyerName=${this.checkTaxCompanyHead}`).then((response) => {
                 if (response.code === 0) {
                     return this.companyList = response.data;
@@ -388,6 +394,28 @@ export default {
             })
             .catch((e) => {
                 this.Toast(`查询税号失败, ${e.toString()}`)
+            })
+            .finally(() => {
+                this.checkTaxNoFromReptile(this.checkTaxCompanyHead);
+            });
+        },
+
+        checkTaxNoFromReptile(company)
+        {
+            //
+            this.checkTaxReptileProceedingCount ++;
+
+            //
+            this.axios.reptile.get(`/qichacha/fetchCompanyList?name=${company}&noWaitHttpRequest=yes`, {
+                timeout: 5000,
+            }).then((response) => {
+                if (response.code === 0 && company == this.checkTaxCompanyHead) {
+                    // merge result
+                    return this.companyList = _.uniq(response.data, item => item.buyer_name);
+                }
+            })
+            .finally(() => {
+                this.checkTaxReptileProceedingCount --;
             });
         },
 
@@ -411,7 +439,7 @@ export default {
                 else {
                     
                 }
-            }); 
+            });
         }
     },
 }
