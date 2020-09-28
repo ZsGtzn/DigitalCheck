@@ -1,14 +1,16 @@
 package com.gtzn.restful.crawl;
 
 
+import com.google.common.io.Files;
 import com.gtzn.restful.Utils;
 import com.gtzn.restful.bean.Company;
 
 import lombok.Synchronized;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
+
+import javax.xml.xpath.XPath;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -30,7 +32,7 @@ public class CompanyCrawl {
     private WebDriver driver = null;
     private CompanyCrawl()
     {
-        System.setProperty("webdriver.chrome.driver", "C:\\Users\\Administrator\\Desktop\\chromeDriver\\chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + File.separator + "chromedriver.exe");
 
         //
         if(driver != null)
@@ -42,12 +44,56 @@ public class CompanyCrawl {
         driver = new ChromeDriver();
     }
 
+    //
+    public String fetchScreenshot() throws Exception
+    {
+        File scrFile = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
+
+        //
+        Files.copy(scrFile, new File(System.getProperty("user.dir") + "\\screenShot\\" + scrFile.getName()));
+
+        //
+        return scrFile.getName();
+    }
+
+    @Synchronized
+    public void QRCodeManulLogin() throws Exception
+    {
+        //
+        driver.get(Constants.qichchaLoginPage);
+
+        // switch to QRCode loign
+        WebElement QRCodeButton = driver.findElement(By.xpath("//*[@id=\"qrcodeLogin\"]"));
+        QRCodeButton.click();
+
+        while(true)
+        {
+            // check if login success
+            if(!driver.getCurrentUrl().contains("user_login"))
+            {
+                break;
+            }
+
+            // check if need refresh qr code
+            WebElement mark = driver.findElement(By.xpath("//*[@id=\"qrcodeLoginQr\"]/div/div"));
+            if(mark.getText().equals("二维码已失效"))
+            {
+                // refresh qr code
+                driver.findElement(By.xpath("//*[@id=\"qrcodeLoginQr\"]/div/a")).click();
+            }
+            else
+            {
+                throw new Exception("登录页面二维码刷新出现问题, 请联系开发人员");
+            }
+        }
+    }
+
     @Synchronized
     public List<Company> fetchCompanyInfo(final String shortName) throws Exception {
         /**
          * 查询首页
          */
-        driver.get("https://www.qcc.com/tax");
+        driver.get(Constants.qichachaMainPage);
 
         // type in
         WebElement shortNameWebElement = driver.findElement(By.xpath("//*[@id=\"company-name\"]"));
