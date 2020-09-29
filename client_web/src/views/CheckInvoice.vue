@@ -14,7 +14,7 @@
             <div class="invoiceDetail" v-if="invoiceTargetType === '2'">
                 <div class="checkTaxNo">
                     <mt-field style="flex-grow:1" placeholder="公司抬头（必填）" v-model="companyHead"></mt-field>
-                    <mt-button type="primary" @click="checkTaxNo(true)">查询税号</mt-button>
+                    <mt-button size="small" type="primary" @click="checkTaxNo(true)">查询税号</mt-button>
                 </div>
                 <div class="divider"></div>
                 <mt-field placeholder="接收电子发票手机号（必填）" v-model="mobile"></mt-field>
@@ -47,7 +47,7 @@
             <div class="invoiceDetail" v-else>
                 <div class="checkTaxNo">
                     <mt-field style="flex-grow:1" placeholder="公司抬头（必填）" v-model="companyHead"></mt-field>
-                    <mt-button type="primary" @click="checkTaxNo(true)">查询税号</mt-button>
+                    <mt-button size="small" type="primary" @click="checkTaxNo(true)">查询税号</mt-button>
                 </div>
                 <div class="divider"></div>
                 <mt-field placeholder="接收电子发票手机号（必填）" v-model="mobile"></mt-field>
@@ -140,7 +140,8 @@
                 <slot>
                     <div class="companyList">
                         <mt-field label="公司名称" v-model="checkTaxCompanyHead"></mt-field>
-                        <mt-button type="primary" style="width:100%;margin:10px 0px 10px 0px;" @click="checkTaxNo(false)">查询</mt-button>
+                        <mt-button type="primary" size="small" style="width:100%;margin:10px 0px 10px 0px;" @click="checkTaxNo(false)">查询</mt-button>
+                        <mt-button type="primary" size="small" style="width:100%;margin:0px 0px 10px 0px;" @click="checkTaxNoVisible = false">退出</mt-button>
                         <p style="text-align:center;" v-if="checkTaxReptileProceedingCount > 0">更多结果正在加载中...</p>
                         <p style="text-align:center;" v-else>加载完毕</p>
                         <div class="divider" style="margin: 10px 0px 10px 0px;"></div>
@@ -396,7 +397,10 @@ export default {
                 this.Toast(`查询税号失败, ${e.toString()}`)
             })
             .finally(() => {
-                this.checkTaxNoFromReptile(this.checkTaxCompanyHead);
+                if(this.companyList.length == 0)
+                {
+                    this.checkTaxNoFromReptile(this.checkTaxCompanyHead);
+                }
             });
         },
 
@@ -407,7 +411,7 @@ export default {
 
             //
             this.axios.reptile.get(`/qichacha/fetchCompanyList?name=${company}&noWaitHttpRequest=yes`, {
-                timeout: 5000,
+                timeout: 2000,
             }).then((response) => {
                 if (response.code === 0 && company == this.checkTaxCompanyHead) {
                     // merge result
@@ -596,8 +600,8 @@ $popupWrapperVerticalOffset: 80px;
 
 //
 .companyListWrapper {
-    width:100%;
-    height:100%;
+    width: 100%;
+    height: 100%;
     position: absolute;
     z-index: 1;
 }

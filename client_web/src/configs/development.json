@@ -10,7 +10,7 @@
             "host": "https://zyb.ziubao.com"
         },
         "reptile": {
-            "host": "http://localhost:4000"
+            "host": "http://112.124.33.83:4568"
         }
     },
 

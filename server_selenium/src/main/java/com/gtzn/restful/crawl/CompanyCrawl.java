@@ -49,14 +49,39 @@ public class CompanyCrawl {
         ChromeOptions option = new ChromeOptions();
 //        option.addArguments("--headless");
 //        option.addArguments("--disable-gpu");
-        option.addArguments("--window-size=1920,1080");
-        option.addArguments("--no-sandbox");
+//        option.addArguments("--window-size=1920,1080");
+//        option.addArguments("--no-sandbox");
 
         //
         driver = new ChromeDriver(option);
 
         //
+        driver.manage().window().maximize();
+        int screenWidth = driver.manage().window().getSize().getWidth();
+        int screenHeight = driver.manage().window().getSize().getHeight();
+        driver.manage().window().setPosition(new Point(screenWidth, screenHeight));
+        driver.manage().window().setSize(new Dimension(1920, 1080));
+
+        //
         fetchAndSetCookie();
+    }
+
+    public void quit()
+    {
+        if(driver == null)
+        {
+            return;
+        }
+
+        //
+        log.info("********************************** web driver begin to quit **********************************");
+
+        //
+
+        driver.quit();
+
+        //
+        log.info("********************************** web driver quit success **********************************");
     }
 
     //
@@ -162,6 +187,9 @@ public class CompanyCrawl {
 
     @Synchronized
     public List<Company> fetchCompanyInfo(final String shortName) throws Exception {
+        //
+        driver.manage().window().setSize(new Dimension(1920, 1080));
+
         /**
          * 查询首页
          */
