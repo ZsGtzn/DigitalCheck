@@ -10,7 +10,7 @@
             "host": "https://zyb.ziubao.com"
         },
         "reptile": {
-            "host": "http://112.124.33.83:4568"
+            "host": "https://zyb.ziubao.com/getTaxNumberByCompany"
         }
     },
 

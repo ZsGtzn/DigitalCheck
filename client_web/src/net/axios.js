@@ -23,7 +23,6 @@ class Axios {
 
         //
         this.http.interceptors.request.use(function (request) {
-            
             //
             if (request.url.indexOf("noWaitHttpRequest=yes") < 0)
             {
@@ -57,7 +56,7 @@ class Axios {
         });
     }
 
-    async apiAxios(method, url, params) {
+    async apiAxios(method, url, params, options) {
         //
         let headers = {
             'Authorization': fetchAuthToken() || "",
@@ -74,13 +73,29 @@ class Axios {
         }
 
         //
-        const res = await this.http({
-            method: method,
-            url: url,
-            headers: headers,
-            data: method === 'POST' || method === 'PUT' ? params : null,
-            params: method === 'GET' || method === 'DELETE' ? params : null
-        });
+        if(options)
+        {
+            options = Object.assign(options, {
+                method: method,
+                url: url,
+                headers: headers,
+                data: method === 'POST' || method === 'PUT' ? params : null,
+                params: method === 'GET' || method === 'DELETE' ? params : null
+            });
+        }
+        else
+        {
+            options = {
+                method: method,
+                url: url,
+                headers: headers,
+                data: method === 'POST' || method === 'PUT' ? params : null,
+                params: method === 'GET' || method === 'DELETE' ? params : null
+            }
+        }
+
+        //
+        const res = await this.http(options);
 
         if (res.status < 200 || res.status >= 300) {
             await Promise.reject('invalid status code');
@@ -117,20 +132,20 @@ class Axios {
         return res.data;
     }
 
-    async get(url, params) {
-        return this.apiAxios('GET', url, params)
+    async get(url, params, options) {
+        return this.apiAxios('GET', url, params, options)
     }
 
-    async post(url, params) {
-        return this.apiAxios('POST', url, params)
+    async post(url, params, options) {
+        return this.apiAxios('POST', url, params, options)
     }
 
-    async put(url, params) {
-        return this.apiAxios('PUT', url, params)
+    async put(url, params, options) {
+        return this.apiAxios('PUT', url, params, options)
     }
 
-    async delete(url, params) {
-        return this.apiAxios('DELETE', url, params)
+    async delete(url, params, options) {
+        return this.apiAxios('DELETE', url, params, options)
     }
 }
 

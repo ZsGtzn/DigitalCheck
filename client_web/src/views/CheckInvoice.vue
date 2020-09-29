@@ -410,8 +410,10 @@ export default {
             this.checkTaxReptileProceedingCount ++;
 
             //
-            this.axios.reptile.get(`/qichacha/fetchCompanyList?name=${company}&noWaitHttpRequest=yes`, {
-                timeout: 2000,
+            this.axios.reptile.get(`/qichacha/fetchCompanyList?noWaitHttpRequest=yes&name=${company}`, {
+                
+            }, {
+                timeout: 5000,
             }).then((response) => {
                 if (response.code === 0 && company == this.checkTaxCompanyHead) {
                     // merge result
