@@ -112,6 +112,21 @@
                                 <p class="comfirmContent">{{mobile}}</p>
                             </div>
                         </template>
+                        <div class="confirmWrapper" style="align-items:flex-start;">
+                            <div class="confirmLabel">发票信息</div>
+                            <div class="comfirmContent">
+                                <div v-for="(item, index) of invoiceList" :key="index">
+                                    <span v-if="type == 'sanjiang'">{{item.name}}</span>
+                                    <span v-else-if="type == 'putuobus'">{{item.busNo}}</span>
+                                    <span v-else-if="type == 'changzhiVehiclePark'">{{item.plateNo}}</span>
+                                    <span v-else-if="type == 'sanjiangVehiclePark'">{{item.plateNo}}</span>
+                                    <span v-else-if="type == 'putuoNavigator'">{{item.busNo}}</span>
+                                    <div></div>
+                                    <span>{{item.serialNum}}</span>
+                                    <div style="height:5px;"></div>
+                                </div>
+                            </div>
+                        </div>
                         <div class="confirmWrapper">
                             <span class="confirmLabel">备注</span>
                             <p class="comfirmContent">{{remark}}</p>
@@ -183,6 +198,7 @@ import {
     getInvoiceInfoMobile,
     getInvoiceInfoPersonIdentifier,
 } from '../storage/local'
+import { fetchTicketList } from "../storage/ticketList";
 
 export default {
     name: 'Main',
@@ -241,8 +257,20 @@ export default {
 
     created() {
         //
-        this.type = this.$attrs.type
-        this.invoiceList = JSON.parse(this.$attrs.invoiceList)
+        this.type = this.$attrs.type;
+        
+        if(this.$attrs.invoiceList) {
+            this.invoiceList = JSON.parse(this.$attrs.invoiceList);
+        }
+        else if(this.$attrs.assembleSerialNo)
+        {
+            this.fetchInvoiceList();
+        }
+        else
+        {
+            this.invoiceList = JSON.parse(fetchTicketList());
+        }
+        
 
         //
         this.totalCashAmount = 0
@@ -294,6 +322,51 @@ export default {
             this.confirmPopupVisible = true
         },
 
+        fetchInvoiceList() {
+            //
+            let axiosType = 'invoice'
+
+            //
+            let serverUrl = ''
+            if (this.type == 'sanjiang') {
+                // 三江船票
+                serverUrl = '/invoiceApi/sjky/scanToInvoice'
+            } else if (this.type == 'putuobus') {
+                // 普陀山旅游巴士
+                serverUrl = '/invoiceApi/zlkc/scanToInvoice'
+            } else if (this.type == 'changzhiVehiclePark') {
+                // 长峙岛停车场
+                serverUrl = '/invoiceApi/czpark/scanToInvoice'
+            } else if (this.type == 'sanjiangVehiclePark') {
+                // 三江停车场
+                serverUrl = '/invoiceApi/sjpark/scanToInvoice'
+            } else if (this.type == 'putuoNavigator') {
+                // 普陀山导游
+                axiosType = 'putuoNavigator'
+
+                //
+                serverUrl = '/invoice/invoiceApi/zlkcMesh/scanToInvoice'
+            } else {
+                this.Toast(`无效的平台, ${this.type}, 无法获取到对应的订单信息`)
+            }
+
+            //
+            return this.axios[axiosType]
+                .get(serverUrl, {
+                    serialNum: this.$attrs.assembleSerialNo,
+                })
+                .then((response) => {
+                    if (response.code === 0) {
+                        return this.invoiceList = response.data;
+                    }
+
+                    this.Toast(response.msg)
+                })
+                .catch((e) => {
+                    this.Toast(`请求发票数据失败, ${e.toString()}`)
+                })
+        },
+
         commitInvoiceCheck() {
             //
             let serialNumList = ''
@@ -342,7 +415,7 @@ export default {
             //
             return this.axios[axiosType]
                 .post(serverUrl, {
-                    orderInfoList: this.$attrs.invoiceList,
+                    orderInfoList: this.invoiceList,
                     serialNum: serialNumList,
                     buyerName: buyerName,
                     type: parseInt(this.invoiceTargetType),

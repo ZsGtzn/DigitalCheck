@@ -39,7 +39,8 @@ const routerInstance = new Router({
             props: route => { 
                 return {
                     type: route.query.type,
-                    invoiceList: route.query.invoiceList
+                    invoiceList: route.query.invoiceList,
+                    assembleSerialNo: route.query.assembleSerialNo,
                 }
             },
             meta: { requireCheckPayAttension: true },

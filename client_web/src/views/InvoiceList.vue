@@ -55,6 +55,7 @@ const SanJiangVehicleDetail = () => import("../components/list/SanjiangVehicleDe
 const PutuoNavigatorDetail = () => import("../components/list/PutuoNavigatorDetail.vue");
 
 import { inactiveAuthMobileState } from "../storage/mobile";
+import { saveTicketList } from "../storage/ticketList";
 
 export default {
     name: 'InvoiceList',
@@ -293,9 +294,11 @@ export default {
                 path: `/checkInvoice/${this.type}`, 
                 query: { 
                     type: this.type,
-                    invoiceList: JSON.stringify(this.multipleSelection) 
                 } 
             });
+
+            // store selection 
+            saveTicketList(JSON.stringify(this.multipleSelection));
         },
 
         reLogin()
