@@ -68,7 +68,7 @@ const routerInstance = new Router({
 
         {
             path: '/putuoNavigator',
-            component: () => import('./views/PutuoNavigator.vue'),
+            component: () => import('./views/PuTuoNavigator.vue'),
         }
     ]
 });

@@ -1,9 +1,11 @@
 const path = require('path')
-const HtmlWebpackplugin = require('html-webpack-plugin');
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
-const CopyPlugin = require('copy-webpack-plugin');
 const globals = require("../globals");
+
+const HtmlWebpackplugin = require('html-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
+const UselessFile = require('useless-files-webpack-plugin')
 
 module.exports = {
     entry: [
@@ -29,14 +31,6 @@ module.exports = {
         'vue-router': 'VueRouter',
         'mint-ui': 'MINT',
     },
-    devServer: { 
-        contentBase: path.join(__dirname, "../static"),
-        contentBasePublicPath: `${globals.rootPath}/static`,
-        compress: true,
-        hot: true,
-        host: '0.0.0.0',
-        port: 8080,
-    },
     module: {
         rules: [
             {   // 将js或者jsx文件编译为es5
@@ -60,7 +54,16 @@ module.exports = {
                     loader: 'thread-loader'
                 },
                 {
-                    loader: 'vue-loader'
+                    loader: 'vue-loader',
+                    options: {
+                        // 在模版编译过程中，编译器可以将某些属性，如 src 路径，转换为 require 调用，以便目标资源可以由 webpack 处理
+                        transformToRequire: {
+                            video: ["src", "poster"],
+                            source: "src",
+                            img: "src",
+                            image: "xlink:href",
+                        },
+                    }
                 }]
             },
             {
@@ -93,5 +96,10 @@ module.exports = {
             }
         }),
         new ManifestPlugin(),
+        new UselessFile({
+            root: './src', // 项目目录
+            out: './fileList.json', // 输出文件列表
+            clean: false, // 删除文件
+        }),
     ]
 }
