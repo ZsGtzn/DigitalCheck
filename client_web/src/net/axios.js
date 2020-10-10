@@ -58,9 +58,11 @@ class Axios {
 
     async apiAxios(method, url, params, options) {
         //
-        let headers = {
+        let headers = Object.assign({
             'Authorization': fetchAuthToken() || "",
-        }
+        }, options ? options.headers || {} : {});
+
+        //
         if (method === 'POST' || method === 'PUT') {
             headers = Object.assign(headers, {
                 'Content-Type': 'application/json;charset=utf-8',

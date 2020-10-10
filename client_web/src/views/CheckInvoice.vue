@@ -270,15 +270,17 @@ export default {
         {
             this.invoiceList = JSON.parse(fetchTicketList());
         }
-        
-
-        //
-        this.totalCashAmount = 0
-        for (let ele of this.invoiceList) {
-            this.totalCashAmount += ele.invoiceAmount
-        }
     },
 
+
+    watch: {
+        invoiceList() {
+            for (let ele of this.invoiceList) {
+                this.totalCashAmount += ele.invoiceAmount
+            }
+        }
+    },
+        
     methods: {
         queryCommitInvoiceCheck() {
             //
@@ -330,22 +332,22 @@ export default {
             let serverUrl = ''
             if (this.type == 'sanjiang') {
                 // 三江船票
-                serverUrl = '/invoiceApi/sjky/scanToInvoice'
+                serverUrl = '/invoiceApi/sjky/canInvoiceList'
             } else if (this.type == 'putuobus') {
                 // 普陀山旅游巴士
-                serverUrl = '/invoiceApi/zlkc/scanToInvoice'
+                serverUrl = '/invoiceApi/zlkc/canInvoiceList'
             } else if (this.type == 'changzhiVehiclePark') {
                 // 长峙岛停车场
-                serverUrl = '/invoiceApi/czpark/scanToInvoice'
+                serverUrl = '/invoiceApi/czpark/canInvoiceList'
             } else if (this.type == 'sanjiangVehiclePark') {
                 // 三江停车场
-                serverUrl = '/invoiceApi/sjpark/scanToInvoice'
+                serverUrl = '/invoiceApi/sjpark/canInvoiceList'
             } else if (this.type == 'putuoNavigator') {
                 // 普陀山导游
                 axiosType = 'putuoNavigator'
 
                 //
-                serverUrl = '/invoice/invoiceApi/zlkcMesh/scanToInvoice'
+                serverUrl = '/invoice/invoiceApi/zlkcMesh/canInvoiceList'
             } else {
                 this.Toast(`无效的平台, ${this.type}, 无法获取到对应的订单信息`)
             }
@@ -354,6 +356,8 @@ export default {
             return this.axios[axiosType]
                 .get(serverUrl, {
                     serialNum: this.$attrs.assembleSerialNo,
+                }, {
+                    headers: {'X-Requested-With': 'XMLHttpRequest'},
                 })
                 .then((response) => {
                     if (response.code === 0) {
