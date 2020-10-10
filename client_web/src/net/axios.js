@@ -131,6 +131,12 @@ class Axios {
         }
 
         //
+        if (res.data && res.data.code == 105)
+        {
+            return window.location.href = res.data.data;
+        }
+
+        //
         return res.data;
     }
 

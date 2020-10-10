@@ -356,8 +356,6 @@ export default {
             return this.axios[axiosType]
                 .get(serverUrl, {
                     serialNum: this.$attrs.assembleSerialNo,
-                }, {
-                    headers: {'X-Requested-With': 'XMLHttpRequest'},
                 })
                 .then((response) => {
                     if (response.code === 0) {
@@ -419,7 +417,7 @@ export default {
             //
             return this.axios[axiosType]
                 .post(serverUrl, {
-                    orderInfoList: this.invoiceList,
+                    orderInfoList: JSON.stringify(this.invoiceList),
                     serialNum: serialNumList,
                     buyerName: buyerName,
                     type: parseInt(this.invoiceTargetType),
