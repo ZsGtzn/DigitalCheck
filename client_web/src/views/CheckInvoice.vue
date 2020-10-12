@@ -275,6 +275,10 @@ export default {
 
     watch: {
         invoiceList() {
+            //
+            this.totalCashAmount = 0
+
+            //
             for (let ele of this.invoiceList) {
                 this.totalCashAmount += ele.invoiceAmount
             }
