@@ -69,12 +69,25 @@ const routerInstance = new Router({
         {
             path: '/putuoNavigator',
             component: () => import('./views/PuTuoNavigator.vue'),
+        },
+
+        {
+            path: '/fatalError',
+            component: () => import('./views/FatalError.vue'),
         }
     ]
 });
 
 //
 routerInstance.beforeEach((to, from, next) => {
+    // 紧急
+    if (to.path.indexOf("/fatalError") < 0)
+    {
+        
+        return next("/fatalError");
+    }
+
+
     // putuobus do not need check wechat auth and channel flavor
     if(to.path.search(/\/putuobus/) >= 0)
     {
