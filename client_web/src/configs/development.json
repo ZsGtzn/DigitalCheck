@@ -7,7 +7,7 @@
             "host": "https://shop.ziubao.com"
         },
         "putuoNavigator": {
-            "host": "https://zyb.ziubao.com"
+            "host": "http://123.157.78.187:8090"
         },
         "reptile": {
             "host": "https://zyb.ziubao.com/getTaxNumberByCompany"
