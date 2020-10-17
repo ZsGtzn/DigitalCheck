@@ -7,7 +7,7 @@ if(process.env.ziubao_invoice_platform == "zlkc") {
 }
 else if (process.env.ziubao_invoice_platform == "ziubao")
 {
-    rootPath = "/invoice/main";
+    rootPath = "/main";
 }
 else if(process.env.ziubao_invoice_platform == "invoice-test/main")
 {

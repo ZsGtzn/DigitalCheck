@@ -1,5 +1,3 @@
-import { rootPath, } from "../globals";
-
 // 判断是否是微信
 export const isWeChat = function () { 
     var ua = navigator.userAgent.toLowerCase();
@@ -54,9 +52,9 @@ export const downloadUtil = {
         
         //
         if (window.gtzn.platform == "android") {
-            eleLink.href = `${rootPath}/static/pdf/web/viewer.html?file=${encodeURI(routeInfo.invoiceUrl.replace("http://", "https://"))}`;
+            eleLink.href = `static/pdf/web/viewer.html?file=${encodeURI(routeInfo.invoiceUrl.replace("http://", "https://"))}`;
         } else {
-            eleLink.href = `${rootPath}/static/pdf/web/viewer.html?file=${encodeURI(routeInfo.invoiceUrl.replace("http://", "https://"))}`;
+            eleLink.href = `static/pdf/web/viewer.html?file=${encodeURI(routeInfo.invoiceUrl.replace("http://", "https://"))}`;
         }
 
         // 触发点击

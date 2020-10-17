@@ -75,10 +75,6 @@ const routerInstance = new Router({
 
 //
 routerInstance.beforeEach((to, from, next) => {
-    /*************** temp code ***************/
-    return window.location.href = "htmls/error.html";
-    /*************** temp code ***************/
-
     // putuobus do not need check wechat auth and channel flavor
     if(to.path.search(/\/putuobus/) >= 0)
     {
