@@ -154,8 +154,14 @@
             <div class="companyListWrapper" v-if="checkTaxNoVisible">
                 <slot>
                     <div class="companyList">
-                        <mt-field label="公司名称" v-model="checkTaxCompanyHead"></mt-field>
+                        <div style="display:flex;align-items:center;">
+                            <mt-field label="公司名称" v-model="checkTaxCompanyHead" style="flex-grow:1;"></mt-field>
+                            <i style="margin:0px 0px 0px 10px;border-color: #ffffff;font-size: 25px;"
+                            id="copyCompanyHead"
+                            :data-clipboard-text="checkTaxCompanyHead" class="iconfont icon-copy"></i>
+                        </div>
                         <mt-button type="primary" size="small" style="width:100%;margin:10px 0px 10px 0px;" @click="checkTaxNo(false)">查询</mt-button>
+                        <mt-button type="danger" size="small" style="width:100%;margin:0px 0px 10px 0px;" @click="jumpToQcc">到企查查查询税号</mt-button>
                         <mt-button type="primary" size="small" style="width:100%;margin:0px 0px 10px 0px;" @click="checkTaxNoVisible = false">退出</mt-button>
                         <p style="text-align:center;" v-if="checkTaxReptileProceedingCount > 0">更多结果正在加载中...</p>
                         <p style="text-align:center;" v-else>加载完毕</p>
@@ -270,6 +276,17 @@ export default {
         {
             this.invoiceList = JSON.parse(fetchTicketList());
         }
+
+        //
+        let clipboard = new ClipboardJS('#copyCompanyHead');
+
+        clipboard.on('success', () => {
+            this.Toast("公司名称复制成功");
+        });
+
+        clipboard.on('error', e => {
+            console.log(e);
+        });
     },
 
 
@@ -465,6 +482,12 @@ export default {
             this.companyList = [];
 
             //
+            if(this.checkTaxCompanyHead.length <= 0)
+            {
+                return this.Toast("请输入公司名称");
+            }
+
+            //
             this.axios.invoice.get(`/invoiceApi/common/taxnumRecord?buyerName=${this.checkTaxCompanyHead}`).then((response) => {
                 if (response.code === 0) {
                     return this.companyList = response.data;
@@ -525,7 +548,12 @@ export default {
                     
                 }
             });
-        }
+        },
+
+        jumpToQcc()
+        {
+            window.location.href = 'https://www.qcc.com/tax';
+        },
     },
 }
 </script>
