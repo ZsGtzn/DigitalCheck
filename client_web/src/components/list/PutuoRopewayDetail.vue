@@ -3,19 +3,19 @@
     <BaseInvoiceListState :ifShowRollback="true" :item="invoiceDetail">
         <div style="overflow:auto;width:100%;height:100%;">
             <div id="invoiceDetail">
-                <span class="title">流水号</span><span style="font-size:10px;color:#e91010;">{{invoiceDetail.serialNum}}</span>
+                <span class="title">开票金额</span><span style="font-size:20px;color:#e91010;">￥{{invoiceDetail.invoiceAmount}}</span>
             </div>
             <div id="invoiceDetail">
-                <span class="title">乘坐人数</span><span style="font-size:20px;color:#e91010;">￥{{invoiceDetail.quantity}}</span>
+                <span class="title">流水号</span><span style="font-size:12.5px;">{{invoiceDetail.serialNum}}</span>
             </div>
             <div id="invoiceDetail">
-                <span class="title">支付金额</span><span style="font-size:12.5px;">{{invoiceDetail.paySum}}</span>
+                <span class="title">乘坐人数</span><span style="font-size:12.5px;">{{invoiceDetail.quantity}}</span>
             </div>
             <div id="invoiceDetail">
-                <span class="title">订单金额</span><span style="font-size:12.5px;">{{invoiceDetail.orderSum}}</span>
+                <span class="title">支付金额</span><span style="font-size:12.5px;">￥{{invoiceDetail.paySum}}</span>
             </div>
             <div id="invoiceDetail">
-                <span class="title">开票金额</span><span style="font-size:12.5px;">￥{{invoiceDetail.invoiceAmount}}</span>
+                <span class="title">订单金额</span><span style="font-size:12.5px;">￥{{invoiceDetail.orderSum}}</span>
             </div>
         </div>
     </BaseInvoiceListState>

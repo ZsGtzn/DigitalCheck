@@ -134,6 +134,8 @@ export default {
     },
 
     provide() {
+        let self = this;
+
         return {
             async rollback(invoiceDetail) {
                 //
@@ -160,7 +162,7 @@ export default {
                 {
                     let queryPath = "";
 
-                    switch(this.type)
+                    switch(self.type)
                     {
                         case 'sanjiang': 
                             {
@@ -174,7 +176,7 @@ export default {
                             }
                             break;
                         default: {
-                            return this.Toast("无效的冲红类型, " + this.type);
+                            return this.Toast("无效的冲红类型, " + self.type);
                         }
                     }
 
