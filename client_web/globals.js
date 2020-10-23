@@ -1,4 +1,4 @@
-process.env.ziubao_invoice_platform = "zlkc";
+process.env.ziubao_invoice_platform = "ziubao";
 
 //
 let rootPath = ""
