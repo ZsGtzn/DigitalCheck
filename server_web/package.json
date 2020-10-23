@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "build": "rm -rf dist && webpack --mode production --config webpack.config.js",
-    "start": "node ./bin/www.js"
+    "start": "node ./bin/www.js",
+    "dev": "supervisor ./bin/www.js"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",

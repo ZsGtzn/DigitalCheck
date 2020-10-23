@@ -14,7 +14,7 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use('/invoice', express.static(path.join(__dirname, 'invoice')));
+app.use('/main', express.static(path.join(__dirname, 'main')));
 app.use('/public_manager', express.static(path.join(__dirname, 'public_manager')));
 app.use('/zlkc', express.static(path.join(__dirname, 'zlkc')));
 

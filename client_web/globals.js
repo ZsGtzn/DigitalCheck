@@ -1,4 +1,4 @@
-process.env.ziubao_invoice_platform = "ziubao";
+process.env.ziubao_invoice_platform = "zlkc";
 
 //
 let rootPath = ""
@@ -8,10 +8,6 @@ if(process.env.ziubao_invoice_platform == "zlkc") {
 else if (process.env.ziubao_invoice_platform == "ziubao")
 {
     rootPath = "/main";
-}
-else if(process.env.ziubao_invoice_platform == "invoice-test/main")
-{
-    rootPath = "/invoice-test/main";
 }
 else {
     rootPath = "/yingqiyu-test";
