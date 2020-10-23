@@ -1,13 +1,13 @@
 {
 	"axios": {
         "invoice": {
-            "host": "http://123.157.78.187:8090"
+            "host": "https://invoice.ziubao.com"
         },
         "weChatJsSdkAuth": {
             "host": "https://shop.ziubao.com"
         },
         "putuoNavigator": {
-            "host": "http://123.157.78.187:8090"
+            "host": "https://zyb.ziubao.com"
         },
         "reptile": {
             "host": "https://zyb.ziubao.com/getTaxNumberByCompany"

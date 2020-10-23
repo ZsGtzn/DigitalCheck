@@ -116,13 +116,41 @@
                             <div class="confirmLabel">发票信息</div>
                             <div class="comfirmContent">
                                 <div v-for="(item, index) of invoiceList" :key="index">
-                                    <span v-if="type == 'sanjiang'">{{item.name}}</span>
-                                    <span v-else-if="type == 'putuobus'">{{item.busNo}}</span>
-                                    <span v-else-if="type == 'changzhiVehiclePark'">{{item.plateNo}}</span>
-                                    <span v-else-if="type == 'sanjiangVehiclePark'">{{item.plateNo}}</span>
-                                    <span v-else-if="type == 'putuoNavigator'">{{item.busNo}}</span>
-                                    <div></div>
-                                    <span>{{item.serialNum}}</span>
+                                    <!-- 三江码头 -->
+                                    <div v-if="type == 'sanjiang'">
+                                        <span>姓名: </span>
+                                        <span>{{item.name}}</span>
+                                    </div>
+                                    <!-- 普陀山旅游巴士 -->
+                                    <div v-else-if="type == 'putuobus'">
+                                        <span>大巴: </span>
+                                        <span>{{item.busNo}}</span>
+                                    </div>
+                                    <!-- 长峙停车场 -->
+                                    <div v-else-if="type == 'changzhiVehiclePark'">
+                                        <span>停车场: </span>
+                                        <span>{{item.plateNo}}</span>
+                                    </div>
+                                    <!-- 三江停车场 -->
+                                    <div v-else-if="type == 'sanjiangVehiclePark'">
+                                        <span>停车场: </span>
+                                        <span>{{item.plateNo}}</span>
+                                    </div>
+                                    <!-- 普陀山旅游 -->
+                                    <div v-else-if="type == 'putuoNavigator'">
+                                        <span>大巴: </span>
+                                        <span>{{item.busNo}}</span>
+                                    </div>
+                                    <!-- 普陀山索道 -->
+                                    <div v-else-if="type == 'putuoRopeway'">
+                                        
+                                    </div>
+
+                                    <!-- 订单号 -->
+                                    <div>
+                                        <span>流水号: </span>
+                                        <span>{{item.serialNum}}</span>
+                                    </div>
                                     <div style="height:5px;"></div>
                                 </div>
                             </div>
@@ -369,6 +397,12 @@ export default {
 
                 //
                 serverUrl = '/invoice/invoiceApi/zlkcMesh/canInvoiceList'
+            } else if (this.type == 'putuoRopeway') {
+                // 普陀山索道
+                axiosType = 'putuoNavigator'
+
+                //
+                serverUrl = '/invoice/invoiceApi/ptssd/canInvoiceList'
             } else {
                 this.Toast(`无效的平台, ${this.type}, 无法获取到对应的订单信息`)
             }
@@ -431,6 +465,12 @@ export default {
 
                 //
                 serverUrl = '/invoice/invoiceApi/zlkcMesh/doInvoice'
+            } else if (this.type == 'putuoRopeway') {
+                // 普陀山索道
+                axiosType = 'putuoNavigator'
+
+                //
+                serverUrl = '/invoice/invoiceApi/ptssd/doInvoice'
             } else {
                 this.Toast(`无效的平台, ${this.type}`)
             }

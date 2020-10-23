@@ -44,8 +44,6 @@ export default {
             required: true
         }
     },
-    
-    inject: [ 'rollback' ],
 
     computed: {
         invoiceDetail: function() {
@@ -60,34 +58,5 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@mixin pdf {
-    width: 60px;
-    height: 30px;
-    padding: auto;
-    font-size: 15px;
-}
 
-.preview {
-    @include pdf;
-    background-color: #32ddb3;
-}
-
-.rollback {
-    @include pdf;
-    background-color: #6d4acf;
-}
-
-.download {
-    @include pdf;
-    background-color: #79c9fe;
-}
-
-.checkedInvoice {
-    background-color: #0084e9;
-
-}
-
-.unCheckedInvoice {
-    background-color: #e8110f
-}
 </style>

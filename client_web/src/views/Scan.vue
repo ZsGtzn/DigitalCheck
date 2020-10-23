@@ -19,6 +19,11 @@
         <template v-else-if="type=='sanjiangVehiclePark'">
             <SanjiangVehiclePark></SanjiangVehiclePark>
         </template>
+
+        <!-- 普陀山索道 -->
+        <template v-else-if="type=='putuoRopeway'">
+            <PutuoRopeway></PutuoRopeway>
+        </template>
     </div>
 </template>
 
@@ -28,11 +33,18 @@ import ChangzhiVehiclePark from "../components/subScan/ChangzhiVehiclePark.vue";
 import PutuoBus from "../components/subScan/PutuoBus.vue";
 import SanJiang from "../components/subScan/SanJiang.vue";
 import SanjiangVehiclePark from "../components/subScan/SanjiangVehiclePark.vue";
+import PutuoRopeway from "../components/subScan/PutuoRopeway.vue";
 
 export default {
     name: "Scan",
 
-    components: {ChangzhiVehiclePark , PutuoBus, SanJiang, SanjiangVehiclePark},
+    components: { 
+        ChangzhiVehiclePark,
+        PutuoBus,
+        SanJiang,
+        SanjiangVehiclePark,
+        PutuoRopeway,
+     },
 
     props: ["type"],
 
