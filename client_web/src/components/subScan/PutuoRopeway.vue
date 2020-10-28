@@ -14,11 +14,11 @@
         </div>
 
         <div style="width:100%;display:flex;justify-content:flex-end;margin-top:10px;">
-            <mt-button size="small" v-show="idType != 'orderNum'" plain @click="idType='orderNum'">订单号查询</mt-button>
+            <mt-button size="small" v-show="idType != 'orderNum'" plain @click="idType='orderNum'">改用订单号查询</mt-button>
             <div style="width:10px;"></div>
-            <mt-button size="small" v-show="idType != 'identity'" plain @click="idType='identity'">身份证号查询</mt-button>
-            <div style="width:10px;"></div>
-            <mt-button size="small" v-show="idType != 'mobile'" plain disabled @click="idType='mobile'">手机号查询</mt-button>
+            <mt-button size="small" v-show="idType != 'identity'" plain @click="idType='identity'">改用身份证号查询</mt-button>
+            <!-- <div style="width:10px;"></div>
+            <mt-button size="small" v-show="idType != 'mobile'" plain disabled @click="idType='mobile'">改用手机号查询</mt-button> -->
         </div>
 
         <div style="text-align: center; position: absolute; bottom: 0px; left: 0px; width: 100%;">

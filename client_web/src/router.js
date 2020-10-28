@@ -75,17 +75,13 @@ const routerInstance = new Router({
 
 //
 routerInstance.beforeEach((to, from, next) => {
-    // putuobus do not need check wechat auth and channel flavor
-    if(to.path.search(/\/putuobus/) >= 0)
+    // zlkc do not need check wechat auth and channel flavor
+    if(process.env.ziubao_invoice_platform == "zlkc")
     {
         return next();
     }
 
-    // putuoNavigator do not need check wechat auth and channel flavor
-    if (to.path.search(/\/putuoNavigator/) >= 0) {
-        return next();
-    }
-    
+
     // just wechat need to check channel flavor
     if(!isWeChat())
     {
