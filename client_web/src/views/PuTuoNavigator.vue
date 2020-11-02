@@ -57,7 +57,7 @@ export default {
 
     methods: {
         fetchVerifyCode() {
-            this.axios.putuoNavigator.post("invoice/invoiceApi/wx/sendVerifyCode", {
+            this.axios.invoice.post("/invoiceApi/wx/sendVerifyCode", {
                 mobile: this.mobile,
                 type: "zlkc_invoice",
             }).then(response => {
@@ -86,7 +86,7 @@ export default {
             saveMobile(this.mobile);
 
             //
-            this.axios.putuoNavigator.post("/invoice/invoiceApi/wx/verifyCodeLogin", {
+            this.axios.invoice.post("/invoiceApi/wx/verifyCodeLogin", {
                 mobile: this.mobile,
                 verifyCode: this.verifyCode,
                 openid: store.state.auth.wxUserInfo ? store.state.auth.wxUserInfo.openid : "",

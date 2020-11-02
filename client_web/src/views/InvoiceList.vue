@@ -166,13 +166,13 @@ export default {
                     {
                         case 'sanjiang': 
                             {
-                                queryPath = "/invoice/invoiceApi/sjky/doMinusInvoice";
+                                queryPath = "/invoiceApi/sjky/doMinusInvoice";
                             }
                             break;
                         
                         case 'putuoRopeway':
                             {
-                                queryPath = "/invoice/invoiceApi/ptssd/doMinusInvoice";
+                                queryPath = "/invoiceApi/ptssd/doMinusInvoice";
                             }
                             break;
                         default: {
@@ -181,7 +181,7 @@ export default {
                     }
 
                     //
-                    this.axios.putuoNavigator.post(queryPath, {
+                    this.axios.invoice.post(queryPath, {
                         serialNum: invoiceDetail.serialNum,
                     }).then(response => {
                         if(response.code === 0)
@@ -284,7 +284,7 @@ export default {
         // 普陀导游
         putuoNavigatorData(noWaitHttpRequest)
         {
-            this.axios.putuoNavigator.get(`/invoice/invoiceApi/zlkcMesh/getOrderList?mobile=${this.identifier}&noWaitHttpRequest=${noWaitHttpRequest ? 'yes' : 'no'}`).then(response => {
+            this.axios.invoice.get(`/invoiceApi/zlkcMesh/getOrderList?mobile=${this.identifier}&noWaitHttpRequest=${noWaitHttpRequest ? 'yes' : 'no'}`).then(response => {
                 if(response.code === 0)
                 {
                     return this.checkedPassenger = response.data.map(ele => Object.assign(ele, {
@@ -336,7 +336,7 @@ export default {
                 }
             }
 
-            this.axios.putuoNavigator.get(`/invoice/invoiceApi/ptssd/orderInfo?${queryPath}&noWaitHttpRequest=${noWaitHttpRequest ? 'yes' : 'no'}`).then(response => {
+            this.axios.invoice.get(`/invoiceApi/ptssd/orderInfo?${queryPath}&noWaitHttpRequest=${noWaitHttpRequest ? 'yes' : 'no'}`).then(response => {
                 if(response.code === 0)
                 {
                     return this.checkedPassenger = response.data.map(ele => Object.assign(ele, {

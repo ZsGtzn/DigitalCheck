@@ -393,16 +393,10 @@ export default {
                 serverUrl = '/invoiceApi/sjpark/canInvoiceList'
             } else if (this.type == 'putuoNavigator') {
                 // 普陀山导游
-                axiosType = 'putuoNavigator'
-
-                //
-                serverUrl = '/invoice/invoiceApi/zlkcMesh/canInvoiceList'
+                serverUrl = '/invoiceApi/zlkcMesh/canInvoiceList'
             } else if (this.type == 'putuoRopeway') {
                 // 普陀山索道
-                axiosType = 'putuoNavigator'
-
-                //
-                serverUrl = '/invoice/invoiceApi/ptssd/canInvoiceList'
+                serverUrl = '/invoiceApi/ptssd/canInvoiceList'
             } else {
                 this.Toast(`无效的平台, ${this.type}, 无法获取到对应的订单信息`)
             }
@@ -461,16 +455,10 @@ export default {
                 serverUrl = '/invoiceApi/sjpark/doInvoice'
             } else if (this.type == 'putuoNavigator') {
                 // 普陀山导游
-                axiosType = 'putuoNavigator'
-
-                //
-                serverUrl = '/invoice/invoiceApi/zlkcMesh/doInvoice'
+                serverUrl = '/invoiceApi/zlkcMesh/doInvoice'
             } else if (this.type == 'putuoRopeway') {
                 // 普陀山索道
-                axiosType = 'putuoNavigator'
-
-                //
-                serverUrl = '/invoice/invoiceApi/ptssd/doInvoice'
+                serverUrl = '/invoiceApi/ptssd/doInvoice'
             } else {
                 this.Toast(`无效的平台, ${this.type}`)
             }

@@ -6,9 +6,6 @@
         "weChatJsSdkAuth": {
             "host": "https://shop.ziubao.com"
         },
-        "putuoNavigator": {
-            "host": "https://zyb.ziubao.com"
-        },
         "reptile": {
             "host": "https://zyb.ziubao.com/getTaxNumberByCompany"
         }

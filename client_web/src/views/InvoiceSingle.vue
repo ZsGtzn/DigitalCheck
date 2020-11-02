@@ -68,7 +68,7 @@ export default {
                 if (action == 'confirm')
                 {
                     //
-                    this.axios.putuoNavigator.post("/invoice/invoiceApi/sjky/doMinusInvoice", {
+                    this.axios.invoice.post("/invoiceApi/sjky/doMinusInvoice", {
                         serialNum: invoiceDetail.serialNum,
                     }).then(response => {
                         if(response.code === 0)
