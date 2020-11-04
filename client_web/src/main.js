@@ -1,3 +1,5 @@
+import "../globals";
+
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
@@ -5,8 +7,6 @@ import store from './store'
 import axios from './net/axios'
 import touch from './directives/touch';
 import _ from 'lodash';
-import "../globals";
-
 
 // 引入全部组件
 import MINT, { Toast, MessageBox } from 'mint-ui'

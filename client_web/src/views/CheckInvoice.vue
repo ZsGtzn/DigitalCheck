@@ -286,10 +286,19 @@ export default {
             checkTaxNoVisible: false,
             checkTaxReptileProceedingCount: 0,
             companyList: [],
+
+            //
+            altogether: 0,
         }
     },
 
     created() {
+        //
+        if(this.$attrs.altogether != null)
+        {
+            this.altogether = this.$attrs.altogether;
+        }
+
         //
         this.type = this.$attrs.type;
         
@@ -481,6 +490,7 @@ export default {
                     bankAccount: this.companyBankAccount,
                     remark: this.remark,
                     mobile: this.mobile,
+                    altogether: this.altogether,
                 })
                 .then((response) => {
                     if (response.code === 0) {

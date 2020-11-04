@@ -4,6 +4,9 @@
         <input type="checkbox" id="selectAll" v-model="ifAllSelected">
         <label for="selectAll" @click="selectALl">全选</label>
     </div>
+    <div class="conditionFrame">
+        <mt-switch v-model="altogether">是否合并开票</mt-switch>
+    </div>
     <mt-loadmore :top-method="loadTop" :bottom-all-loaded="true" ref="loadmore" class="passengerInvoice">
         <!-- 三江码头船票 -->
         <template v-if="type==='sanjiang'">
@@ -86,6 +89,7 @@ export default {
             checkedPassenger: [],
             ifAllSelected: false,
             intervalInstance: undefined,
+            altogether: 0,
         }
     },
 
@@ -389,6 +393,7 @@ export default {
                 path: `/checkInvoice/${this.type}`, 
                 query: { 
                     type: this.type,
+                    altogether: this.altogether,
                 } 
             });
 
@@ -412,7 +417,18 @@ export default {
 
 <style lang="scss" scoped>
 $selectAllHeight: 45px;
+$switcherHeight: 50px;
 $checkInvoiceHeight: 50px;
+
+//
+.conditionFrame {
+    height: $switcherHeight;
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+}
 
 //
 #main {
@@ -437,7 +453,7 @@ $checkInvoiceHeight: 50px;
 .passengerInvoice {
     position: relative;
     width: 100%;
-    height: calc(100% - #{$checkInvoiceHeight} - #{$selectAllHeight});
+    height: calc(100% - #{$checkInvoiceHeight} - #{$selectAllHeight} - #{$switcherHeight});
     overflow: auto;
 }
 
@@ -466,6 +482,7 @@ $checkInvoiceHeight: 50px;
     position: absolute;
     bottom: 0px;
     width: 100%;
+    height: $checkInvoiceHeight;
 }
 
 </style>
