@@ -393,7 +393,7 @@ export default {
                 path: `/checkInvoice/${this.type}`, 
                 query: { 
                     type: this.type,
-                    altogether: this.altogether,
+                    altogether: this.altogether ? 1 : 0,
                 } 
             });
 
