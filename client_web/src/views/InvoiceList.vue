@@ -4,10 +4,10 @@
         <input type="checkbox" id="selectAll" v-model="ifAllSelected">
         <label for="selectAll" @click="selectALl">全选</label>
     </div>
-    <div class="conditionFrame">
+    <div v-if="type ==='sanjiang'" class="conditionFrame">
         <mt-switch v-model="altogether">是否合并开票</mt-switch>
     </div>
-    <mt-loadmore :top-method="loadTop" :bottom-all-loaded="true" ref="loadmore" class="passengerInvoice">
+    <mt-loadmore :top-method="loadTop" :bottom-all-loaded="true" ref="loadmore" :class="[ type === 'sanjiang' ? 'passengerInvoiceSwitcherShow' : 'passengerInvoiceSwitcherHide']">
         <!-- 三江码头船票 -->
         <template v-if="type==='sanjiang'">
             <span class="warning">以下情况不支持开票及注意事项：1.请您在乘船次日起45天内开电子发票，逾期作废；2.全退订单不开票（退票未产生手续费的）；3.已取票的不开票；4.退票产生手续费的可开票；5.如遇到发票不能显示的问题，请与客服联系，联系方式：0580-2626888</span>
@@ -422,12 +422,15 @@ $checkInvoiceHeight: 50px;
 
 //
 .conditionFrame {
-    height: $switcherHeight;
+    height: calc(#{$switcherHeight} - 10px);
+    margin: 5px 0px;
+    background-color: white;
     width: 100%;
     padding: 10px;
     box-sizing: border-box;
     display: flex;
     align-items: center;
+    justify-content: flex-end;
 }
 
 //
@@ -453,8 +456,17 @@ $checkInvoiceHeight: 50px;
 .passengerInvoice {
     position: relative;
     width: 100%;
-    height: calc(100% - #{$checkInvoiceHeight} - #{$selectAllHeight} - #{$switcherHeight});
     overflow: auto;
+}
+
+.passengerInvoiceSwitcherShow {
+    @extend .passengerInvoice;
+    height: calc(100% - #{$checkInvoiceHeight} - #{$selectAllHeight} - #{$switcherHeight});
+}
+
+.passengerInvoiceSwitcherHide {
+    @extend .passengerInvoice;
+    height: calc(100% - #{$checkInvoiceHeight} - #{$selectAllHeight});
 }
 
 .warning {
