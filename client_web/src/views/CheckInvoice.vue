@@ -490,7 +490,7 @@ export default {
                     bankAccount: this.companyBankAccount,
                     remark: this.remark,
                     mobile: this.mobile,
-                    altogether: this.altogether,
+                    altogether: parseInt(this.altogether, 10),
                 })
                 .then((response) => {
                     if (response.code === 0) {

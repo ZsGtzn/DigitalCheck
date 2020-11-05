@@ -10,19 +10,18 @@
         </template>
         <div v-else-if="idType == 'mobile'">
             <mt-field placeholder="手机号" style="width:100%;border-radius:10px;" v-model="mobile"></mt-field>
-            <mt-field placeholder="验证码" style="width:100%;border-radius:10px;" v-model="verifyCode"></mt-field>
         </div>
 
         <div style="width:100%;display:flex;justify-content:flex-end;margin-top:10px;">
             <mt-button size="small" v-show="idType != 'orderNum'" plain @click="idType='orderNum'">改用订单号查询</mt-button>
             <div style="width:10px;"></div>
             <mt-button size="small" v-show="idType != 'identity'" plain @click="idType='identity'">改用身份证号查询</mt-button>
-            <!-- <div style="width:10px;"></div>
-            <mt-button size="small" v-show="idType != 'mobile'" plain disabled @click="idType='mobile'">改用手机号查询</mt-button> -->
+            <div style="width:10px;"></div>
+            <mt-button size="small" v-show="idType != 'mobile'" plain @click="idType='mobile'">改用手机号查询</mt-button>
         </div>
 
         <div style="text-align: center; position: absolute; bottom: 0px; left: 0px; width: 100%;">
-            <span id="tip">咨询服务电话：0580-6696969</span>
+            <span id="tip">咨询服务电话：0580-6093562</span>
             <div style="height:10px;"></div>
             <mt-button type="primary" id="checkInvoice" @click="search">查询</mt-button>
         </div>
