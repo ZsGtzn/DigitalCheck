@@ -48,7 +48,6 @@
 
         <!-- 普陀山索道 -->
         <template v-else-if="type==='putuoRopeway'">
-            <mt-button type="danger" size="small" v-show="identifier.indexOf('mobile') >= 0" style="width:100%;margin:5px 0px 5px 0px;box-sizing:border-box;" @click="reLogin">切换账号</mt-button>
             <ul style="margin: 5px;padding: 0px;">
                 <li v-for="item of checkedPassenger" :key="item.serialNum" class="listItem" @click="selectInvoice(item)">
                     <PutuoRopewayDetail :item="item"></PutuoRopewayDetail>

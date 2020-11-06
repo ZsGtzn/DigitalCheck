@@ -47,6 +47,15 @@ export default {
                 {
                     return;
                 }
+
+                //
+                if(process.env.ziubao_invoice_platform == "zlkc")
+                {
+                    this.ifZiubaoPlatform = false;
+
+                    //
+                    return;
+                }
             }
 
             //
