@@ -88,7 +88,7 @@ export default {
             checkedPassenger: [],
             ifAllSelected: false,
             intervalInstance: undefined,
-            altogether: 0,
+            altogether: 1,
         }
     },
 
