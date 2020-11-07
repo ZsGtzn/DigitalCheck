@@ -24,6 +24,11 @@
         <template v-else-if="type=='putuoRopeway'">
             <PutuoRopeway></PutuoRopeway>
         </template>
+
+        <!-- 普陀山导游 -->
+        <template v-else-if="type=='putuoNavigator'">
+            <PutuoNavigator></PutuoNavigator>
+        </template>
     </div>
 </template>
 
@@ -34,6 +39,7 @@ import PutuoBus from "../components/subScan/PutuoBus.vue";
 import SanJiang from "../components/subScan/SanJiang.vue";
 import SanjiangVehiclePark from "../components/subScan/SanjiangVehiclePark.vue";
 import PutuoRopeway from "../components/subScan/PutuoRopeway.vue";
+import PutuoNavigator from "../components/subScan/PuTuoNavigator.vue";
 
 export default {
     name: "Scan",
@@ -44,6 +50,7 @@ export default {
         SanJiang,
         SanjiangVehiclePark,
         PutuoRopeway,
+        PutuoNavigator,
      },
 
     props: ["type"],

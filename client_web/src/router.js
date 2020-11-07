@@ -14,6 +14,13 @@ Vue.use(Router)
 const routerInstance = new Router({
     base: process.env.BASE_URL,
     routes: [
+        //
+        {
+            path: '/putuoNavigator',
+            redirect: '/scan/putuoNavigator',
+        },
+
+        //
         {
             path: '/scan/:type',
             component: () => import('./views/Scan.vue'),
@@ -65,11 +72,6 @@ const routerInstance = new Router({
                     reason: route.query.reason,
                 }
             },
-        },
-
-        {
-            path: '/putuoNavigator',
-            component: () => import('./views/PuTuoNavigator.vue'),
         },
     ]
 });

@@ -11,8 +11,8 @@
 
 <script>
 
-import store from "../store";
-import { fetchAuthMobileState, activeAuthMobileState, getMobile, saveMobile } from "../storage/mobile";
+import store from "../../store";
+import { fetchAuthMobileState, activeAuthMobileState, getMobile, saveMobile } from "../../storage/mobile";
 
 export default {
     name: "PutuoNavigator",
