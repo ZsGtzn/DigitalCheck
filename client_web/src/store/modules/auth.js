@@ -23,7 +23,7 @@ export const getFromOrginUrl = () => {
 const state = {
     wxUserInfo: getWxUserInfo(),
     fromOrginUrl: getFromOrginUrl(),
-    ifWechatAuthFinish: true,
+    ifWechatJsApiAuthFinish: true,
 }
 
 const getters = {
@@ -33,7 +33,7 @@ const getters = {
 const mutations = {
     setIfWechatAuthFinish(state, data)
     {
-        state.ifWechatAuthFinish = data;
+        state.ifWechatJsApiAuthFinish = data;
     },
 
     setWxUserInfo(state, data) {

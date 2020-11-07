@@ -31,8 +31,8 @@ export default {
         if(fetchAuthMobileState() == 'yes')
         {
             (async () => {
-                // wait until wechat auth is finished
-                while(!store.state.auth.ifWechatAuthFinish)
+                // wait until wechat js api auth is finished
+                while(!store.state.auth.ifWechatJsApiAuthFinish)
                 {
                     await new Promise(resolve => {
                         setTimeout(() => {

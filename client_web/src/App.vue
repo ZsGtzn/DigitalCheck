@@ -33,7 +33,7 @@ export default {
             weChatAuthState: 0,
             isWeChat: isWeChat(),
             ifZiubaoPlatform: true,
-            ifWechatAuthFinish: true,
+            ifWechatJsApiAuthFinish: true,
         }
     },
 
@@ -61,7 +61,7 @@ export default {
             //
             wx.ready(() => {
                 //
-                this.ifWechatAuthFinish = true;
+                this.ifWechatJsApiAuthFinish = true;
 
                 //
                 this.weChatAuthState = 1;
@@ -70,7 +70,7 @@ export default {
             //
             wx.error(res => {
                 //
-                this.ifWechatAuthFinish = true;
+                this.ifWechatJsApiAuthFinish = true;
                 
                 //
                 this.Toast(`微信api授权失败, ${JSON.stringify(res)}`);
@@ -85,7 +85,7 @@ export default {
     },
 
     watch: {
-        ifWechatAuthFinish(newVal) {
+        ifWechatJsApiAuthFinish(newVal) {
             this.$store.commit("auth/setIfWechatAuthFinish", newVal)
         }
     },
@@ -113,7 +113,7 @@ export default {
                 //
                 this.weChatJsSdkAuth().catch(e => {
                     //
-                    this.ifWechatAuthFinish = true;
+                    this.ifWechatJsApiAuthFinish = true;
 
                     //
                     this.Toast(`微信授权服务请求失败, ${e.toString()}`);
@@ -125,7 +125,7 @@ export default {
 
         async weChatJsSdkAuth()
         {
-            this.ifWechatAuthFinish = false;
+            this.ifWechatJsApiAuthFinish = false;
 
             //
             const { statusCode, data, message } = await this.axios.weChatJsSdkAuth.get(`/wxShare/getJSSdkSignature.do?url=${btoa(window.location.href)}`);
