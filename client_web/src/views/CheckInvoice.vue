@@ -145,6 +145,11 @@
                                     <div v-else-if="type == 'putuoRopeway'">
                                         
                                     </div>
+                                    <!-- 海峡轮渡 -->
+                                    <div v-else-if="type == 'hxFerryShop'">
+                                        <span>手机号码: </span>
+                                        <span>{{item.sjhm}}</span>
+                                    </div>
 
                                     <!-- 订单号 -->
                                     <div>

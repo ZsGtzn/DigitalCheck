@@ -9,6 +9,9 @@
                 <span class="title">轮渡</span><span style="font-size:12.5px;">{{invoiceDetail.shipname}}</span>
             </div>
             <div id="invoiceDetail">
+                <span class="title">手机号码</span><span style="font-size:12.5px;">{{invoiceDetail.sjhm}}</span>
+            </div>
+            <div id="invoiceDetail">
                 <span class="title">交易日期</span><span style="font-size:12.5px;">{{invoiceDetail.jyrq}}</span>
             </div>
            
