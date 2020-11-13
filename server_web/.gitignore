@@ -1,8 +1,2 @@
 node_modules
-public_*
-invoice
-zlkc
-dist
-invoice-test
-yingqiyu-test
-main
+public
