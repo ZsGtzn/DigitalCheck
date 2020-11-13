@@ -38,7 +38,7 @@
 
         <!-- 普陀山导游 -->
         <template v-else-if="type==='putuoNavigator'">
-            <mt-button type="danger" size="small" style="width:100%;margin:5px 0px 5px 0px;box-sizing:border-box;" @click="reLogin">切换账号</mt-button>
+            <mt-button type="danger" size="small" style="width:100%;margin:5px 0px 5px 0px;box-sizing:border-box;" @click="putuoNavigatorReLogin">切换账号</mt-button>
             <ul style="margin: 5px;padding: 0px;">
                 <li v-for="item of checkedPassenger" :key="item.serialNum" class="listItem" @click="selectInvoice(item)">
                     <PutuoNavigatorDetail :item="item"></PutuoNavigatorDetail>
@@ -54,6 +54,16 @@
                 </li>
             </ul>
         </template>
+
+        <!-- 海峡轮渡小卖部 -->
+        <template v-else-if="type==='hxFerryShop'">
+            <mt-button type="danger" size="small" style="width:100%;margin:5px 0px 5px 0px;box-sizing:border-box;" @click="hxFerryShopReLogin">切换账号</mt-button>
+            <ul style="margin: 5px;padding: 0px;">
+                <li v-for="item of checkedPassenger" :key="item.serialNum" class="listItem" @click="selectInvoice(item)">
+                    <HxFerryShopDetail :item="item"></HxFerryShopDetail>
+                </li>
+            </ul>
+        </template>
     </mt-loadmore>
     <mt-button type="primary" id="checkInvoice" @click="checkInvoice">开票</mt-button>
 </div>
@@ -66,6 +76,7 @@ const ChangzhiVehicleDetail = () => import("../components/list/ChangzhiVehicleDe
 const SanJiangVehicleDetail = () => import("../components/list/SanjiangVehicleDetail.vue");
 const PutuoNavigatorDetail = () => import("../components/list/PutuoNavigatorDetail.vue");
 const PutuoRopewayDetail = () => import("../components/list/PutuoRopewayDetail.vue");
+const HxFerryShopDetail = () => import("../components/list/HxFerryShopDetail.vue");
 
 import { inactiveAuthMobileState } from "../storage/mobile";
 import { saveTicketList } from "../storage/ticketList";
@@ -79,6 +90,7 @@ export default {
         SanJiangVehicleDetail, 
         PutuoNavigatorDetail, 
         PutuoRopewayDetail,
+        HxFerryShopDetail,
     },
 
     props: ['type', 'identifier'],
@@ -178,6 +190,11 @@ export default {
                                 queryPath = "/invoiceApi/ptssd/doMinusInvoice";
                             }
                             break;
+                        case 'hxFerryShop':
+                            {
+                                queryPath = "/invoiceApi/hxldxmb/doMinusInvoice";
+                            }
+                            break;
                         default: {
                             return this.Toast("无效的冲红类型, " + self.type);
                         }
@@ -202,6 +219,9 @@ export default {
     },
     
     methods: {
+        /**
+         * 获取列表数据
+         */
         fetchData(noWaitHttpRequest = false) {
             switch(this.type)
             {
@@ -223,6 +243,10 @@ export default {
                 break;
                 case 'putuoRopeway': {
                     this.putuoRopewayData(noWaitHttpRequest);
+                }
+                break;
+                case 'hxFerryShop': {
+                    this.hxFerryShopData(noWaitHttpRequest);
                 }
                 break;
                 default: {
@@ -302,7 +326,7 @@ export default {
             });
         },
 
-        //
+        // 普陀山索道
         putuoRopewayData(noWaitHttpRequest)
         {
             let seperatorPosition = this.identifier.indexOf('_');
@@ -354,6 +378,27 @@ export default {
             });
         },
 
+        // 海峡轮渡小卖部
+        hxFerryShopData(noWaitHttpRequest)
+        {
+            this.axios.invoice.get(`/invoiceApi/hxldxmb/getOrderList?mobile=${this.identifier}&noWaitHttpRequest=${noWaitHttpRequest ? 'yes' : 'no'}`).then(response => {
+                if(response.code === 0)
+                {
+                    return this.checkedPassenger = response.data.map(ele => Object.assign(ele, {
+                        ifSelected: false,
+                        serialNum: ele.ddh,
+                    }));
+                }
+
+                this.Toast(response.msg);
+            }).catch(e => {
+                this.Toast(`获取开票列表失败, ${e.toString()}`);
+            });
+        },
+
+        /**
+         * 辅助功能
+         */
         loadTop()
         {
             this.fetchData();
@@ -400,14 +445,29 @@ export default {
             saveTicketList(JSON.stringify(this.multipleSelection));
         },
 
-        reLogin()
+
+        /**
+         * 重新登录
+         */
+        putuoNavigatorReLogin()
         {
             //
             inactiveAuthMobileState();
 
             //
             this.$router.replace({
-                path: "/putuoNavigator",
+                path: "/scan/putuoNavigator",
+            })
+        },
+
+        hxFerryShopReLogin()
+        {
+            //
+            inactiveAuthMobileState();
+
+            //
+            this.$router.replace({
+                path: "/scan/hxFerryShop",
             })
         },
     }

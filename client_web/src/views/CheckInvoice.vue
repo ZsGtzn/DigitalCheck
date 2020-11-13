@@ -382,6 +382,9 @@ export default {
             this.confirmPopupVisible = true
         },
 
+        /**
+         * 获取合并开票的发票列表
+         */
         fetchInvoiceList() {
             //
             let axiosType = 'invoice'
@@ -406,6 +409,9 @@ export default {
             } else if (this.type == 'putuoRopeway') {
                 // 普陀山索道
                 serverUrl = '/invoiceApi/ptssd/canInvoiceList'
+            } else if (this.type == 'hxFerryShop') {
+                // 海峡轮渡小卖部
+                serverUrl = '/invoiceApi/hxldxmb/canInvoiceList'
             } else {
                 this.Toast(`无效的平台, ${this.type}, 无法获取到对应的订单信息`)
             }
@@ -427,6 +433,9 @@ export default {
                 })
         },
 
+        /**
+         * 开票
+         */
         commitInvoiceCheck() {
             //
             let serialNumList = ''
@@ -468,6 +477,9 @@ export default {
             } else if (this.type == 'putuoRopeway') {
                 // 普陀山索道
                 serverUrl = '/invoiceApi/ptssd/doInvoice'
+            } else if (this.type == 'hxFerryShop') {
+                // 海峡轮渡小卖部
+                serverUrl = '/invoiceApi/hxldxmb/doInvoice'
             } else {
                 this.Toast(`无效的平台, ${this.type}`)
             }
@@ -506,6 +518,9 @@ export default {
                 })
         },
 
+        /**
+         * 税号查询
+         */
         checkTaxNo(autoFillCheckTaxCompanyHead = false) {
             //
             this.checkTaxNoVisible = true;

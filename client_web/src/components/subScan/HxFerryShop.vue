@@ -1,16 +1,15 @@
 <template>
     <div class="main">
-        <h1>普陀山客车旅行社</h1>
+        <h1>海峡轮渡小卖部</h1>
         <div class="login">
             <mt-field class="filed" label="手机号码" type="tel" placeholder="手机号码" v-model="mobile"></mt-field>
             <mt-field class="filed" label="验证码" placeholder="验证码" v-model="verifyCode"></mt-field>
             <div class="verifyCode">
-                <mt-button size="small" plain @click="fetchMobileVerifyCode('zlkc_invoice')">获取验证码</mt-button>
+                <mt-button size="small" plain @click="fetchMobileVerifyCode('hxldxmb_invoice')">获取验证码</mt-button>
             </div>
             <mt-button type="primary" class="submit" @click="login">登录</mt-button>
         </div>
     </div>
-  
 </template>
 
 <script>
@@ -19,7 +18,7 @@ import store from "../../store";
 import { getMobile } from "../../storage/mobile";
 
 export default {
-    name: "PutuoNavigator",
+    name: "HxFerryShop",
 
     data() {
         return  {
@@ -32,13 +31,13 @@ export default {
 
     created()
     {
-        this.checkIfNeedLogin(`/invoiceList/putuoNavigator/${getMobile()}`);
+        this.checkIfNeedLogin(`/invoiceList/hxFerryShop/${getMobile()}`);
     },
 
     methods: {
         login()
         {
-            this.mobileLogin(`/invoiceList/putuoNavigator/${this.mobile}`);
+            this.mobileLogin(`/invoiceList/hxFerryShop/${this.mobile}`);
         }
     }
 }

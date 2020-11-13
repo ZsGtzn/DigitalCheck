@@ -126,7 +126,18 @@ class Axios {
 
             //
             return router.push({
-                path: "/putuoNavigator",
+                path: "/scan/putuoNavigator",
+            });
+        }
+
+        // check if mobile token is expired, if expired, clear auth corresponding data
+        if (res.data && (res.data.code == 106)) {
+            //
+            inactiveAuthMobileState();
+
+            //
+            return router.push({
+                path: "/scan/hxFerryShop",
             });
         }
 

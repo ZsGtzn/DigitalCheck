@@ -3,19 +3,20 @@
     <BaseInvoiceListState :ifShowRollback="true" :item="invoiceDetail">
         <div style="overflow:auto;width:100%;height:100%;">
             <div id="invoiceDetail">
-                <span class="title">开票金额</span><span style="font-size:20px;color:#e91010;">￥{{invoiceDetail.invoiceAmount}}</span>
+                <span class="title">流水号</span><span style="font-size:10px;color:#e91010;">{{invoiceDetail.serialNum}}</span>
             </div>
             <div id="invoiceDetail">
-                <span class="title">流水号</span><span style="font-size:12.5px;">{{invoiceDetail.serialNum}}</span>
+                <span class="title">轮渡</span><span style="font-size:12.5px;">{{invoiceDetail.shipname}}</span>
             </div>
             <div id="invoiceDetail">
-                <span class="title">乘坐人数</span><span style="font-size:12.5px;">{{invoiceDetail.quantity}}</span>
+                <span class="title">交易日期</span><span style="font-size:12.5px;">{{invoiceDetail.jyrq}}</span>
+            </div>
+           
+            <div id="invoiceDetail">
+                <span class="title">开票金额</span><span style="font-size:12.5px;">￥{{invoiceDetail.invoiceAmount}}</span>
             </div>
             <div id="invoiceDetail">
-                <span class="title">支付金额</span><span style="font-size:12.5px;">￥{{invoiceDetail.paySum}}</span>
-            </div>
-            <div id="invoiceDetail">
-                <span class="title">检票时间</span><span style="font-size:12.5px;">{{invoiceDetail.checkTime}}</span>
+                <span class="title">支付金额</span><span style="font-size:12.5px;">￥{{invoiceDetail.je}}</span>
             </div>
         </div>
     </BaseInvoiceListState>
@@ -24,7 +25,7 @@
 
 <script>
 export default {
-    name: "PutuoRopewayDetail",
+    name: "HxFerryShopDetail",
 
     props: {
         item: {
