@@ -357,7 +357,7 @@ export default {
                 this.Toast(`获取开票列表失败, ${e.toString()}`);
             });
         },
-
+        
         /**
          * 辅助功能
          */
@@ -432,6 +432,79 @@ export default {
                 path: "/scan/hxFerryShop",
             })
         },
+    },
+
+    provide() {
+        let self = this;
+        
+        return {
+            /**
+             * 冲红
+             */
+            async rollback(invoiceDetail) {
+                //
+                if(invoiceDetail.isRed == true)
+                {
+                    return this.MessageBox({
+                        title: "提示",
+                        message: '已作废过一次，无法再次进行作废！',
+                        confirmButtonText: "确认",
+                    });
+                }
+
+                //
+                const action = await this.MessageBox({
+                    title: "提示",
+                    message: '作废只能进行一次，是否进行作废？',
+                    showCancelButton: true,
+                    confirmButtonText: "是",
+                    cancelButtonText: "否",
+                });
+
+                //
+                if (action == 'confirm')
+                {
+                    let queryPath = "";
+
+                    switch(self.type)
+                    {
+                        case 'sanjiang': 
+                            {
+                                queryPath = "/invoiceApi/sjky/doMinusInvoice";
+                            }
+                            break;
+                        
+                        case 'putuoRopeway':
+                            {
+                                queryPath = "/invoiceApi/ptssd/doMinusInvoice";
+                            }
+                            break;
+                        case 'hxFerryShop':
+                            {
+                                queryPath = "/invoiceApi/hxldxmb/doMinusInvoice";
+                            }
+                            break;
+                        default: {
+                            return this.Toast("无效的冲红类型, " + self.type);
+                        }
+                    }
+
+                    //
+                    this.axios.invoice.post(queryPath, {
+                        serialNum: invoiceDetail.serialNum,
+                    }).then(response => {
+                        if(response.code === 0)
+                        {
+                            return this.Toast("作废成功");
+                        }
+
+                        this.Toast(response.msg);
+                    }).catch(e => {
+                        this.Toast(`作废请求失败, ${e.toString()}`);
+                    });
+                }
+            },
+        }
     }
 }
 </script>
