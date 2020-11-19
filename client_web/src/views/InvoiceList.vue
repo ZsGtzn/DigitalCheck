@@ -64,6 +64,15 @@
                 </li>
             </ul>
         </template>
+
+        <!-- 墩头码头 -->
+        <template v-else-if="type==='dunTouWharf'">
+            <ul style="margin: 5px;padding: 0px;">
+                <li v-for="item of checkedPassenger" :key="item.serialNum" class="listItem" @click="selectInvoice(item)">
+                    <DunTouWharfDetail :item="item"></DunTouWharfDetail>
+                </li>
+            </ul>
+        </template>
     </mt-loadmore>
     <mt-button type="primary" id="checkInvoice" @click="checkInvoice">开票</mt-button>
 </div>
@@ -77,6 +86,7 @@ const SanJiangVehicleDetail = () => import("../components/list/SanjiangVehicleDe
 const PutuoNavigatorDetail = () => import("../components/list/PutuoNavigatorDetail.vue");
 const PutuoRopewayDetail = () => import("../components/list/PutuoRopewayDetail.vue");
 const HxFerryShopDetail = () => import("../components/list/HxFerryShopDetail.vue");
+const DunTouWharfDetail = () => import("../components/list/DunTouWharfDetail.vue");
 
 import { inactiveAuthMobileState } from "../storage/mobile";
 import { saveTicketList } from "../storage/ticketList";
@@ -91,6 +101,7 @@ export default {
         PutuoNavigatorDetail, 
         PutuoRopewayDetail,
         HxFerryShopDetail,
+        DunTouWharfDetail,
     },
 
     props: ['type', 'identifier'],
@@ -147,76 +158,6 @@ export default {
             }
         }
     },
-
-    provide() {
-        let self = this;
-
-        return {
-            async rollback(invoiceDetail) {
-                //
-                if(invoiceDetail.isRed == true)
-                {
-                    return this.MessageBox({
-                        title: "提示",
-                        message: '已作废过一次，无法再次进行作废！',
-                        confirmButtonText: "确认",
-                    });
-                }
-
-                //
-                const action = await this.MessageBox({
-                    title: "提示",
-                    message: '作废只能进行一次，是否进行作废？',
-                    showCancelButton: true,
-                    confirmButtonText: "是",
-                    cancelButtonText: "否",
-                });
-
-                //
-                if (action == 'confirm')
-                {
-                    let queryPath = "";
-
-                    switch(self.type)
-                    {
-                        case 'sanjiang': 
-                            {
-                                queryPath = "/invoiceApi/sjky/doMinusInvoice";
-                            }
-                            break;
-                        
-                        case 'putuoRopeway':
-                            {
-                                queryPath = "/invoiceApi/ptssd/doMinusInvoice";
-                            }
-                            break;
-                        case 'hxFerryShop':
-                            {
-                                queryPath = "/invoiceApi/hxldxmb/doMinusInvoice";
-                            }
-                            break;
-                        default: {
-                            return this.Toast("无效的冲红类型, " + self.type);
-                        }
-                    }
-
-                    //
-                    this.axios.invoice.post(queryPath, {
-                        serialNum: invoiceDetail.serialNum,
-                    }).then(response => {
-                        if(response.code === 0)
-                        {
-                            return this.Toast("作废成功");
-                        }
-
-                        this.Toast(response.msg);
-                    }).catch(e => {
-                        this.Toast(`作废请求失败, ${e.toString()}`);
-                    });
-                }
-            }
-        }
-    },
     
     methods: {
         /**
@@ -247,6 +188,10 @@ export default {
                 break;
                 case 'hxFerryShop': {
                     this.hxFerryShopData(noWaitHttpRequest);
+                }
+                break;
+                case 'dunTouWharf': {
+                    this.dunTouWharfData(noWaitHttpRequest);
                 }
                 break;
                 default: {
@@ -387,6 +332,23 @@ export default {
                     return this.checkedPassenger = response.data.map(ele => Object.assign(ele, {
                         ifSelected: false,
                         serialNum: ele.ddh,
+                    }));
+                }
+
+                this.Toast(response.msg);
+            }).catch(e => {
+                this.Toast(`获取开票列表失败, ${e.toString()}`);
+            });
+        },
+
+        //
+        dunTouWharfData(noWaitHttpRequest)
+        {
+            this.axios.invoice.get(`/invoiceApi/dtky/passengerList?IDCard=${this.identifier}&noWaitHttpRequest=${noWaitHttpRequest ? 'yes' : 'no'}`).then(response => {
+                if(response.code === 0)
+                {
+                    return this.checkedPassenger = response.data.map(ele => Object.assign(ele, {
+                        ifSelected: false,
                     }));
                 }
 

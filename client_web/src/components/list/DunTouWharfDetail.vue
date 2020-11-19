@@ -5,7 +5,7 @@
                 <div>
                     <div style="display:flex;">
                         <div style="margin-bottom:5px;font-size:16px;font-weight:bold;display:flex;align-items:center;">
-                            <span style="margin-right:5px;">三江</span>
+                            <span style="margin-right:5px;">墩头</span>
                             <div style="width:20px;height:2px;background-color:#000000;"></div>
                             <span style="margin:0px 5px 0px 5px;">{{invoiceDetail.endPort}}</span>
                         </div>
@@ -36,7 +36,7 @@
 <script>
 
 export default {
-    name: "routeDetail",
+    name: "DunTouWharfDetail",
 
     props: {
         item: {

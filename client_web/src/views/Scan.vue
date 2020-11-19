@@ -34,7 +34,11 @@
         <template v-else-if="type=='hxFerryShop'">
             <HxFerryShop></HxFerryShop>
         </template>
-        
+
+        <!-- 墩头码头 -->
+        <template v-else-if="type=='dunTouWharf'">
+            <DunTouWharf></DunTouWharf>
+        </template>
     </div>
 </template>
 
@@ -47,6 +51,7 @@ import SanjiangVehiclePark from "../components/subScan/SanjiangVehiclePark.vue";
 import PutuoRopeway from "../components/subScan/PutuoRopeway.vue";
 import PutuoNavigator from "../components/subScan/PuTuoNavigator.vue";
 import HxFerryShop from "../components/subScan/hxFerryShop.vue";
+import DunTouWharf from "../components/subScan/DunTouWharf.vue";
 
 //
 import store from "../store";
@@ -67,6 +72,7 @@ export default {
         PutuoRopeway,
         PutuoNavigator,
         HxFerryShop,
+        DunTouWharf,
      },
 
     props: ["type"],
@@ -78,6 +84,9 @@ export default {
     },
 
     provide: function () {
+        let self = this;
+
+        //
         return {
             /**
              * check
@@ -190,7 +199,74 @@ export default {
                 }).catch(e => {
                     this.Toast(`登录请求失败, ${e.toString()}`);
                 });
-            }
+            },
+
+            /**
+             * 冲红
+             */
+            async rollback(invoiceDetail) {
+                //
+                if(invoiceDetail.isRed == true)
+                {
+                    return this.MessageBox({
+                        title: "提示",
+                        message: '已作废过一次，无法再次进行作废！',
+                        confirmButtonText: "确认",
+                    });
+                }
+
+                //
+                const action = await this.MessageBox({
+                    title: "提示",
+                    message: '作废只能进行一次，是否进行作废？',
+                    showCancelButton: true,
+                    confirmButtonText: "是",
+                    cancelButtonText: "否",
+                });
+
+                //
+                if (action == 'confirm')
+                {
+                    let queryPath = "";
+
+                    switch(self.type)
+                    {
+                        case 'sanjiang': 
+                            {
+                                queryPath = "/invoiceApi/sjky/doMinusInvoice";
+                            }
+                            break;
+                        
+                        case 'putuoRopeway':
+                            {
+                                queryPath = "/invoiceApi/ptssd/doMinusInvoice";
+                            }
+                            break;
+                        case 'hxFerryShop':
+                            {
+                                queryPath = "/invoiceApi/hxldxmb/doMinusInvoice";
+                            }
+                            break;
+                        default: {
+                            return this.Toast("无效的冲红类型, " + self.type);
+                        }
+                    }
+
+                    //
+                    this.axios.invoice.post(queryPath, {
+                        serialNum: invoiceDetail.serialNum,
+                    }).then(response => {
+                        if(response.code === 0)
+                        {
+                            return this.Toast("作废成功");
+                        }
+
+                        this.Toast(response.msg);
+                    }).catch(e => {
+                        this.Toast(`作废请求失败, ${e.toString()}`);
+                    });
+                }
+            },
         }
     }
 };

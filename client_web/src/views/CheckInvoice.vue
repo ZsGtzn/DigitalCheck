@@ -150,6 +150,11 @@
                                         <span>手机号码: </span>
                                         <span>{{item.sjhm}}</span>
                                     </div>
+                                    <!-- 墩头码头 -->
+                                    <div v-if="type == 'dunTouWharf'">
+                                        <span>姓名: </span>
+                                        <span>{{item.name}}</span>
+                                    </div>
 
                                     <!-- 订单号 -->
                                     <div>
@@ -417,6 +422,9 @@ export default {
             } else if (this.type == 'hxFerryShop') {
                 // 海峡轮渡小卖部
                 serverUrl = '/invoiceApi/hxldxmb/canInvoiceList'
+            } else if (this.type == 'dunTouWharf') {
+                // 墩头码头
+                serverUrl = '/invoiceApi/dtky/canInvoiceList'
             } else {
                 this.Toast(`无效的平台, ${this.type}, 无法获取到对应的订单信息`)
             }
@@ -485,6 +493,9 @@ export default {
             } else if (this.type == 'hxFerryShop') {
                 // 海峡轮渡小卖部
                 serverUrl = '/invoiceApi/hxldxmb/doInvoice'
+            } else if (this.type == 'hxFerryShop') {
+                // 墩头码头
+                serverUrl = '/invoiceApi/dtky/doInvoice'
             } else {
                 this.Toast(`无效的平台, ${this.type}`)
             }
