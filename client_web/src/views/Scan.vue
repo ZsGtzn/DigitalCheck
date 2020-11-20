@@ -39,6 +39,16 @@
         <template v-else-if="type=='dunTouWharf'">
             <DunTouWharf></DunTouWharf>
         </template>
+
+        <!-- 港务码头 -->
+        <template v-else-if="type=='gangWuWharf'">
+            <GangWuWharf></GangWuWharf>
+        </template>
+
+        <!-- 海峰码头 -->
+        <template v-else-if="type=='haiFenWharf'">
+            <HaiFenWharf></HaiFenWharf>
+        </template>
     </div>
 </template>
 
@@ -52,6 +62,8 @@ import PutuoRopeway from "../components/subScan/PutuoRopeway.vue";
 import PutuoNavigator from "../components/subScan/PuTuoNavigator.vue";
 import HxFerryShop from "../components/subScan/hxFerryShop.vue";
 import DunTouWharf from "../components/subScan/DunTouWharf.vue";
+import GangWuWharf from "../components/subScan/GangWuWharf.vue";
+import HaiFenWharf from "../components/subScan/HaiFenWharf.vue";
 
 //
 import store from "../store";
@@ -73,6 +85,8 @@ export default {
         PutuoNavigator,
         HxFerryShop,
         DunTouWharf,
+        GangWuWharf,
+        HaiFenWharf,
      },
 
     props: ["type"],

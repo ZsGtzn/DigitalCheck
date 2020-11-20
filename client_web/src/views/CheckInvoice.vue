@@ -155,6 +155,16 @@
                                         <span>姓名: </span>
                                         <span>{{item.name}}</span>
                                     </div>
+                                     <!-- 港务码头 -->
+                                    <div v-if="type == 'gangWuWharf'">
+                                        <span>姓名: </span>
+                                        <span>{{item.name}}</span>
+                                    </div>
+                                     <!-- 海峰码头 -->
+                                    <div v-if="type == 'haiFenWharf'">
+                                        <span>姓名: </span>
+                                        <span>{{item.name}}</span>
+                                    </div>
 
                                     <!-- 订单号 -->
                                     <div>
@@ -425,6 +435,12 @@ export default {
             } else if (this.type == 'dunTouWharf') {
                 // 墩头码头
                 serverUrl = '/invoiceApi/dtky/canInvoiceList'
+            } else if (this.type == 'gangWuWharf') {
+                // 港务码头
+                serverUrl = '/invoiceApi/dhky/canInvoiceList'
+            } else if (this.type == 'haiFenWharf') {
+                // 海峰码头
+                serverUrl = '/invoiceApi/hfky/canInvoiceList'
             } else {
                 this.Toast(`无效的平台, ${this.type}, 无法获取到对应的订单信息`)
             }
@@ -496,6 +512,12 @@ export default {
             } else if (this.type == 'dunTouWharf') {
                 // 墩头码头
                 serverUrl = '/invoiceApi/dtky/doInvoice'
+            } else if (this.type == 'gangWuWharf') {
+                // 港务码头
+                serverUrl = '/invoiceApi/dhky/doInvoice'
+            } else if (this.type == 'haiFenWharf') {
+                // 海峰码头
+                serverUrl = '/invoiceApi/hfky/doInvoice'
             } else {
                 this.Toast(`无效的平台, ${this.type}`)
             }

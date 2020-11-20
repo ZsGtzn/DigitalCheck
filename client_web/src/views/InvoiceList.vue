@@ -73,6 +73,24 @@
                 </li>
             </ul>
         </template>
+
+        <!-- 港务码头 -->
+        <template v-else-if="type==='gangWuWharf'">
+            <ul style="margin: 5px;padding: 0px;">
+                <li v-for="item of checkedPassenger" :key="item.serialNum" class="listItem" @click="selectInvoice(item)">
+                    <GangWuWharfDetail :item="item"></GangWuWharfDetail>
+                </li>
+            </ul>
+        </template>
+
+        <!-- 海峰码头 -->
+        <template v-else-if="type==='haiFenWharf'">
+            <ul style="margin: 5px;padding: 0px;">
+                <li v-for="item of checkedPassenger" :key="item.serialNum" class="listItem" @click="selectInvoice(item)">
+                    <HaiFenWharfDetail :item="item"></HaiFenWharfDetail>
+                </li>
+            </ul>
+        </template>
     </mt-loadmore>
     <mt-button type="primary" id="checkInvoice" @click="checkInvoice">开票</mt-button>
 </div>
@@ -87,6 +105,8 @@ const PutuoNavigatorDetail = () => import("../components/list/PutuoNavigatorDeta
 const PutuoRopewayDetail = () => import("../components/list/PutuoRopewayDetail.vue");
 const HxFerryShopDetail = () => import("../components/list/HxFerryShopDetail.vue");
 const DunTouWharfDetail = () => import("../components/list/DunTouWharfDetail.vue");
+const GangWuWharfDetail = () => import("../components/list/GangWuWharfDetail.vue");
+const HaiFenWharfDetail = () => import("../components/list/HaiFenWharfDetail.vue");
 
 import { inactiveAuthMobileState } from "../storage/mobile";
 import { saveTicketList } from "../storage/ticketList";
@@ -102,6 +122,8 @@ export default {
         PutuoRopewayDetail,
         HxFerryShopDetail,
         DunTouWharfDetail,
+        GangWuWharfDetail,
+        HaiFenWharfDetail,
     },
 
     props: ['type', 'identifier'],
@@ -192,6 +214,14 @@ export default {
                 break;
                 case 'dunTouWharf': {
                     this.dunTouWharfData(noWaitHttpRequest);
+                }
+                break;
+                case 'gangWuWharf': {
+                    this.gangWuWharfData(noWaitHttpRequest);
+                }
+                break;
+                case 'haiFenWharf': {
+                    this.haiFenWharfData(noWaitHttpRequest);
                 }
                 break;
                 default: {
@@ -341,7 +371,7 @@ export default {
             });
         },
 
-        //
+        // 墩头
         dunTouWharfData(noWaitHttpRequest)
         {
             this.axios.invoice.get(`/invoiceApi/dtky/passengerList?IDCard=${this.identifier}&noWaitHttpRequest=${noWaitHttpRequest ? 'yes' : 'no'}`).then(response => {
@@ -358,6 +388,40 @@ export default {
             });
         },
         
+        // 港务
+        gangWuWharfData(noWaitHttpRequest)
+        {
+            this.axios.invoice.get(`/invoiceApi/dhky/passengerList?IDCard=${this.identifier}&noWaitHttpRequest=${noWaitHttpRequest ? 'yes' : 'no'}`).then(response => {
+                if(response.code === 0)
+                {
+                    return this.checkedPassenger = response.data.map(ele => Object.assign(ele, {
+                        ifSelected: false,
+                    }));
+                }
+
+                this.Toast(response.msg);
+            }).catch(e => {
+                this.Toast(`获取开票列表失败, ${e.toString()}`);
+            });
+        },
+
+        // 海峰
+        haiFenWharfData(noWaitHttpRequest)
+        {
+            this.axios.invoice.get(`/invoiceApi/hfky/passengerList?IDCard=${this.identifier}&noWaitHttpRequest=${noWaitHttpRequest ? 'yes' : 'no'}`).then(response => {
+                if(response.code === 0)
+                {
+                    return this.checkedPassenger = response.data.map(ele => Object.assign(ele, {
+                        ifSelected: false,
+                    }));
+                }
+
+                this.Toast(response.msg);
+            }).catch(e => {
+                this.Toast(`获取开票列表失败, ${e.toString()}`);
+            });
+        },
+
         /**
          * 辅助功能
          */
@@ -482,6 +546,11 @@ export default {
                         case 'hxFerryShop':
                             {
                                 queryPath = "/invoiceApi/hxldxmb/doMinusInvoice";
+                            }
+                            break;
+                        case 'haiFenWharf':
+                            {
+                                queryPath = "/invoiceApi/hfky/doMinusInvoice";
                             }
                             break;
                         default: {
