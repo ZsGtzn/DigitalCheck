@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import mainPageImg from "../../assets/scan/haiJinTransport.png";
+import mainPageImg from "../../assets/scan/haiFenWharf.png";
 
 /**
  * localstorage
