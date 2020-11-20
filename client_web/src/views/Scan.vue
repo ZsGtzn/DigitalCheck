@@ -60,7 +60,7 @@ import SanJiang from "../components/subScan/SanJiang.vue";
 import SanjiangVehiclePark from "../components/subScan/SanjiangVehiclePark.vue";
 import PutuoRopeway from "../components/subScan/PutuoRopeway.vue";
 import PutuoNavigator from "../components/subScan/PuTuoNavigator.vue";
-import HxFerryShop from "../components/subScan/hxFerryShop.vue";
+import HxFerryShop from "../components/subScan/HxFerryShop.vue";
 import DunTouWharf from "../components/subScan/DunTouWharf.vue";
 import GangWuWharf from "../components/subScan/GangWuWharf.vue";
 import HaiFenWharf from "../components/subScan/HaiFenWharf.vue";

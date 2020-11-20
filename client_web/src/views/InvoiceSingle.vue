@@ -1,6 +1,6 @@
 <template>
     <div id="main">
-        <PutuoBus id="singleWrapper" v-if="type =='putuobus'" :item="invoiceDetail"></PutuoBus>
+        <PutuoBusDetail id="singleWrapper" v-if="type =='putuobus'" :item="invoiceDetail"></PutuoBusDetail>
         <BaseInvoiceState :item="invoiceDetail"></BaseInvoiceState>
     </div>
     
@@ -8,14 +8,14 @@
 
 <script>
 
-const PutuoBus = () => import("../components/single/PutuoBus.vue");
+const PutuoBusDetail = () => import("../components/single/PutuoBusDetail.vue");
 
 export default {
     name: "InvoiceSingle",
 
     props: ['type', 'identifier'],
 
-    components: { PutuoBus },
+    components: { PutuoBusDetail },
 
     data() {
         return {
@@ -67,8 +67,17 @@ export default {
                 //
                 if (action == 'confirm')
                 {
+                    let queryPath = "";
+
+                    switch(self.type)
+                    {
+                        default: {
+                            return this.Toast("无效的冲红类型, " + self.type);
+                        }
+                    }
+
                     //
-                    this.axios.invoice.post("/invoiceApi/sjky/doMinusInvoice", {
+                    this.axios.invoice.post(queryPath, {
                         serialNum: invoiceDetail.serialNum,
                     }).then(response => {
                         if(response.code === 0)

@@ -26,7 +26,7 @@
 
 <script>
 export default {
-    name: "PutuoBus",
+    name: "PutuoBusDetail",
 
     props: [ 'item' ],
 }
