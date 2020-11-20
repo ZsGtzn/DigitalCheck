@@ -5,9 +5,14 @@
                 <div>
                     <div style="display:flex;">
                         <div style="margin-bottom:5px;font-size:16px;font-weight:bold;display:flex;align-items:center;">
-                            <span style="margin-right:5px;">海峰码头</span>
-                            <div style="width:20px;height:2px;background-color:#000000;"></div>
-                            <span style="margin:0px 5px 0px 5px;">{{invoiceDetail.endPort}}</span>
+                            <template v-if="invoiceDetail.endPort != null && invoiceDetail.endPort.length > 0">
+                                <span style="margin-right:5px;">{{invoiceDetail.endPort.indexOf("海丰") >= 0 ? "长白" : "海丰"}}</span>
+                                <div style="width:20px;height:2px;background-color:#000000;"></div>
+                                <span style="margin:0px 5px 0px 5px;">{{invoiceDetail.endPort}}</span>
+                            </template>
+                            <template v-else>
+                                <span style="color:red;">航线数据暂无</span>
+                            </template>
                         </div>
                         <div style="width:10px;"></div>
                         <span style="margin-right:5px;" v-if="invoiceDetail.invoiceType == 1">散客交通费</span>
