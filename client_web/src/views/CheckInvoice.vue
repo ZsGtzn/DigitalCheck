@@ -493,7 +493,7 @@ export default {
             } else if (this.type == 'hxFerryShop') {
                 // 海峡轮渡小卖部
                 serverUrl = '/invoiceApi/hxldxmb/doInvoice'
-            } else if (this.type == 'hxFerryShop') {
+            } else if (this.type == 'dunTouWharf') {
                 // 墩头码头
                 serverUrl = '/invoiceApi/dtky/doInvoice'
             } else {
