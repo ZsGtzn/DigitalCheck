@@ -1,0 +1,121 @@
+{
+    "putuobus": {
+        "name": "普陀山旅游巴士",
+        "module": "single",
+        "invoiceDetailComponent": "PutuoBusDetail",
+        "subScanComponent": "PutuoBus",
+        "fetchDataUrl": "fetchPutuoBusData",
+        "rollBackUrl": "",
+        "fetchOneSerialNumDataUrl": "/invoiceApi/zlkc/canInvoiceList",
+        "checkInvoiceUrl": ""
+    },
+
+    "sanjiang": {
+        "name": "三江船票",
+        "module": "list",
+        "invoiceDetailComponent": "RouteDetail",
+        "subScanComponent": "SanJiang",
+        "fetchDataUrl": "fetchSanJiangData",
+        "rollBackUrl": "invoiceApi/sjky/doMinusInvoice",
+        "fetchOneSerialNumDataUrl": "/invoiceApi/sjky/canInvoiceList",
+        "checkInvoiceUrl": ""
+    },
+    
+    "changzhiVehiclePark": {
+        "name": "长峙岛停车场",
+        "module": "list",
+        "invoiceDetailComponent": "ChangzhiVehicleDetail",
+        "subScanComponent": "ChangzhiVehiclePark",
+        "fetchDataUrl": "changzhiVehicleParkData",
+        "rollBackUrl": "",
+        "fetchOneSerialNumDataUrl": "/invoiceApi/czpark/canInvoiceList",
+        "checkInvoiceUrl": ""
+    },
+
+    "sanjiangVehiclePark": {
+        "name": "三江停车场",
+        "module": "list",
+        "invoiceDetailComponent": "SanjiangVehicleDetail",
+        "subScanComponent": "SanjiangVehiclePark",
+        "fetchDataUrl": "sanjiangVehicleParkData",
+        "rollBackUrl": "",
+        "fetchOneSerialNumDataUrl": "/invoiceApi/sjpark/canInvoiceList",
+        "checkInvoiceUrl": ""
+    },
+
+    "putuoNavigator": {
+        "name": "普陀山导游",
+        "module": "list",
+        "invoiceDetailComponent": "PutuoNavigatorDetail",
+        "subScanComponent": "PuTuoNavigator",
+        "fetchDataUrl": "putuoNavigatorData",
+        "rollBackUrl": "",
+        "fetchOneSerialNumDataUrl": "/invoiceApi/zlkcMesh/canInvoiceList",
+        "checkInvoiceUrl": ""
+    },
+    
+    "putuoRopeway": {
+        "name": "普陀山索道",
+        "module": "list",
+        "invoiceDetailComponent": "PutuoRopewayDetail",
+        "subScanComponent": "PutuoRopeway",
+        "fetchDataUrl": "putuoRopewayData",
+        "rollBackUrl": "invoiceApi/ptssd/doMinusInvoice",
+        "fetchOneSerialNumDataUrl": "/invoiceApi/ptssd/canInvoiceList",
+        "checkInvoiceUrl": ""
+    },
+    
+    "hxFerryShop": {
+        "name": "海峡轮渡小卖部",
+        "module": "list",
+        "invoiceDetailComponent": "HxFerryShopDetail",
+        "subScanComponent": "HxFerryShop",
+        "fetchDataUrl": "hxFerryShopData",
+        "rollBackUrl": "invoiceApi/hxldxmb/doMinusInvoice",
+        "fetchOneSerialNumDataUrl": "/invoiceApi/hxldxmb/canInvoiceList",
+        "checkInvoiceUrl": ""
+    },
+    
+    "dunTouWharf": {
+        "name": "墩头码头",
+        "module": "list",
+        "invoiceDetailComponent": "DunTouWharfDetail",
+        "subScanComponent": "DunTouWharf",
+        "fetchDataUrl": "dunTouWharfData",
+        "rollBackUrl": "",
+        "fetchOneSerialNumDataUrl": "/invoiceApi/dtky/canInvoiceList",
+        "checkInvoiceUrl": ""
+    },
+    
+    "gangWuWharf": {
+        "name": "港务码头",
+        "module": "list",
+        "invoiceDetailComponent": "GangWuWharfDetail",
+        "subScanComponent": "GangWuWharf",
+        "fetchDataUrl": "gangWuWharfData",
+        "rollBackUrl": "",
+        "fetchOneSerialNumDataUrl": "/invoiceApi/dhky/canInvoiceList",
+        "checkInvoiceUrl": ""
+    },
+    
+    "haiFenWharf": {
+        "name": "海峰码头",
+        "module": "list",
+        "invoiceDetailComponent": "HaiFenWharfDetail",
+        "subScanComponent": "HaiFenWharf",
+        "fetchDataUrl": "haiFenWharfData",
+        "rollBackUrl": "invoiceApi/hfky/doMinusInvoice",
+        "fetchOneSerialNumDataUrl": "/invoiceApi/hfky/canInvoiceList",
+        "checkInvoiceUrl": ""
+    }
+}
+
+
+
+
+
+
+
+
+
+
