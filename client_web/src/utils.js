@@ -56,7 +56,7 @@ export const downloadUtil = {
         } else {
             eleLink.href = `static/pdf/web/viewer.html?file=${encodeURIComponent(routeInfo.invoiceUrl.replace("http://", "https://"))}`;
         }
-        alert(eleLink.href)
+        
         // 触发点击
         document.body.appendChild(eleLink);
         eleLink.click();
