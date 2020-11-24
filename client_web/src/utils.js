@@ -52,11 +52,11 @@ export const downloadUtil = {
         
         //
         if (window.gtzn.platform == "android") {
-            eleLink.href = `static/pdf/web/viewer.html?file=${encodeURI(routeInfo.invoiceUrl.replace("http://", "https://"))}`;
+            eleLink.href = `static/pdf/web/viewer.html?file=${encodeURIComponent(routeInfo.invoiceUrl.replace("http://", "https://"))}`;
         } else {
-            eleLink.href = `static/pdf/web/viewer.html?file=${encodeURI(routeInfo.invoiceUrl.replace("http://", "https://"))}`;
+            eleLink.href = `static/pdf/web/viewer.html?file=${encodeURIComponent(routeInfo.invoiceUrl.replace("http://", "https://"))}`;
         }
-
+        alert(eleLink.href)
         // 触发点击
         document.body.appendChild(eleLink);
         eleLink.click();
