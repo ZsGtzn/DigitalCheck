@@ -4,21 +4,21 @@
         "module": "single",
         "invoiceDetailComponent": "PutuoBusDetail",
         "subScanComponent": "PutuoBus",
-        "fetchDataUrl": "fetchPutuoBusData",
+        "fetchDataFunc": "fetchPutuoBusData",
         "rollBackUrl": "",
         "fetchOneSerialNumDataUrl": "/invoiceApi/zlkc/canInvoiceList",
-        "checkInvoiceUrl": ""
+        "checkInvoiceUrl": "/invoiceApi/zlkc/doInvoice"
     },
 
     "sanjiang": {
         "name": "三江船票",
         "module": "list",
-        "invoiceDetailComponent": "RouteDetail",
+        "invoiceDetailComponent": "SanjiangDetail",
         "subScanComponent": "SanJiang",
-        "fetchDataUrl": "fetchSanJiangData",
-        "rollBackUrl": "invoiceApi/sjky/doMinusInvoice",
+        "fetchDataFunc": "fetchSanJiangData",
+        "rollBackUrl": "/invoiceApi/sjky/doMinusInvoice",
         "fetchOneSerialNumDataUrl": "/invoiceApi/sjky/canInvoiceList",
-        "checkInvoiceUrl": ""
+        "checkInvoiceUrl": "/invoiceApi/sjky/doInvoice"
     },
     
     "changzhiVehiclePark": {
@@ -26,10 +26,10 @@
         "module": "list",
         "invoiceDetailComponent": "ChangzhiVehicleDetail",
         "subScanComponent": "ChangzhiVehiclePark",
-        "fetchDataUrl": "changzhiVehicleParkData",
+        "fetchDataFunc": "changzhiVehicleParkData",
         "rollBackUrl": "",
         "fetchOneSerialNumDataUrl": "/invoiceApi/czpark/canInvoiceList",
-        "checkInvoiceUrl": ""
+        "checkInvoiceUrl": "/invoiceApi/czpark/doInvoice"
     },
 
     "sanjiangVehiclePark": {
@@ -37,10 +37,10 @@
         "module": "list",
         "invoiceDetailComponent": "SanjiangVehicleDetail",
         "subScanComponent": "SanjiangVehiclePark",
-        "fetchDataUrl": "sanjiangVehicleParkData",
-        "rollBackUrl": "",
+        "fetchDataFunc": "sanjiangVehicleParkData",
+        "rollBackUrl": "/invoiceApi/sjpark/doMinusInvoice",
         "fetchOneSerialNumDataUrl": "/invoiceApi/sjpark/canInvoiceList",
-        "checkInvoiceUrl": ""
+        "checkInvoiceUrl": "/invoiceApi/sjpark/doInvoice"
     },
 
     "putuoNavigator": {
@@ -48,10 +48,10 @@
         "module": "list",
         "invoiceDetailComponent": "PutuoNavigatorDetail",
         "subScanComponent": "PuTuoNavigator",
-        "fetchDataUrl": "putuoNavigatorData",
+        "fetchDataFunc": "putuoNavigatorData",
         "rollBackUrl": "",
         "fetchOneSerialNumDataUrl": "/invoiceApi/zlkcMesh/canInvoiceList",
-        "checkInvoiceUrl": ""
+        "checkInvoiceUrl": "/invoiceApi/zlkcMesh/doInvoice"
     },
     
     "putuoRopeway": {
@@ -59,10 +59,10 @@
         "module": "list",
         "invoiceDetailComponent": "PutuoRopewayDetail",
         "subScanComponent": "PutuoRopeway",
-        "fetchDataUrl": "putuoRopewayData",
-        "rollBackUrl": "invoiceApi/ptssd/doMinusInvoice",
+        "fetchDataFunc": "putuoRopewayData",
+        "rollBackUrl": "/invoiceApi/ptssd/doMinusInvoice",
         "fetchOneSerialNumDataUrl": "/invoiceApi/ptssd/canInvoiceList",
-        "checkInvoiceUrl": ""
+        "checkInvoiceUrl": "/invoiceApi/ptssd/doInvoice"
     },
     
     "hxFerryShop": {
@@ -70,10 +70,10 @@
         "module": "list",
         "invoiceDetailComponent": "HxFerryShopDetail",
         "subScanComponent": "HxFerryShop",
-        "fetchDataUrl": "hxFerryShopData",
-        "rollBackUrl": "invoiceApi/hxldxmb/doMinusInvoice",
+        "fetchDataFunc": "hxFerryShopData",
+        "rollBackUrl": "/invoiceApi/hxldxmb/doMinusInvoice",
         "fetchOneSerialNumDataUrl": "/invoiceApi/hxldxmb/canInvoiceList",
-        "checkInvoiceUrl": ""
+        "checkInvoiceUrl": "/invoiceApi/hxldxmb/doInvoice"
     },
     
     "dunTouWharf": {
@@ -81,10 +81,10 @@
         "module": "list",
         "invoiceDetailComponent": "DunTouWharfDetail",
         "subScanComponent": "DunTouWharf",
-        "fetchDataUrl": "dunTouWharfData",
+        "fetchDataFunc": "dunTouWharfData",
         "rollBackUrl": "",
         "fetchOneSerialNumDataUrl": "/invoiceApi/dtky/canInvoiceList",
-        "checkInvoiceUrl": ""
+        "checkInvoiceUrl": "/invoiceApi/dtky/doInvoice"
     },
     
     "gangWuWharf": {
@@ -92,10 +92,10 @@
         "module": "list",
         "invoiceDetailComponent": "GangWuWharfDetail",
         "subScanComponent": "GangWuWharf",
-        "fetchDataUrl": "gangWuWharfData",
+        "fetchDataFunc": "gangWuWharfData",
         "rollBackUrl": "",
         "fetchOneSerialNumDataUrl": "/invoiceApi/dhky/canInvoiceList",
-        "checkInvoiceUrl": ""
+        "checkInvoiceUrl": "/invoiceApi/dhky/doInvoice"
     },
     
     "haiFenWharf": {
@@ -103,10 +103,10 @@
         "module": "list",
         "invoiceDetailComponent": "HaiFenWharfDetail",
         "subScanComponent": "HaiFenWharf",
-        "fetchDataUrl": "haiFenWharfData",
-        "rollBackUrl": "invoiceApi/hfky/doMinusInvoice",
+        "fetchDataFunc": "haiFenWharfData",
+        "rollBackUrl": "/invoiceApi/hfky/doMinusInvoice",
         "fetchOneSerialNumDataUrl": "/invoiceApi/hfky/canInvoiceList",
-        "checkInvoiceUrl": ""
+        "checkInvoiceUrl": "/invoiceApi/hfky/doInvoice"
     }
 }
 

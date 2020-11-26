@@ -1,7 +1,7 @@
 <template>
     <div id="main">
-        <PutuoBusDetail id="singleWrapper" v-if="type =='putuobus'" :item="invoiceDetail"></PutuoBusDetail>
-        <BaseInvoiceState :item="invoiceDetail"></BaseInvoiceState>
+        <component :is="currentInvoiceConfig.invoiceDetailComponent" id="singleWrapper" :item="invoiceDetail"></component>
+        <BaseInvoiceState :ifShowRollback="currentInvoiceConfig.rollBackUrl && currentInvoiceConfig.rollBackUrl.length > 0" :item="invoiceDetail"></BaseInvoiceState>
     </div>
     
 </template>
@@ -9,6 +9,8 @@
 <script>
 
 const PutuoBusDetail = () => import("../components/single/PutuoBusDetail.vue");
+
+import fetchDataFuncSingle from "./fetchDataFuncSingle";
 
 export default {
     name: "InvoiceSingle",
@@ -27,6 +29,10 @@ export default {
     },
 
     created() {
+        //
+        this.currentInvoiceConfig = this.invoiceConfig[this.type];
+
+        //
         this.fetchData();
 
         //
@@ -43,6 +49,8 @@ export default {
     },
 
     provide() {
+        let self = this;
+        
         return {
             async rollback(invoiceDetail) {
                 //
@@ -67,17 +75,13 @@ export default {
                 //
                 if (action == 'confirm')
                 {
-                    let queryPath = "";
-
-                    switch(self.type)
+                    if(!self.currentInvoiceConfig)
                     {
-                        default: {
-                            return this.Toast("无效的冲红类型, " + self.type);
-                        }
+                        return this.Toast("无效的冲红类型, " + self.type);
                     }
 
                     //
-                    this.axios.invoice.post(queryPath, {
+                    this.axios.invoice.post(self.currentInvoiceConfig.rollBackUrl, {
                         serialNum: invoiceDetail.serialNum,
                     }).then(response => {
                         if(response.code === 0)
@@ -106,34 +110,19 @@ export default {
     },
     
     methods: {
+        ...fetchDataFuncSingle,
+
         fetchData(noWaitHttpRequest = false) {
-            switch(this.type)
+            if(!this.currentInvoiceConfig)
             {
-                case 'putuobus': {
-                    this.fetchPutuoBusData(noWaitHttpRequest);
-                }
-                break;
+                return this.Toast("无效的平台类型, " + self.type);
             }
+
+            //
+            this[this.currentInvoiceConfig.fetchDataFunc](noWaitHttpRequest);
         },
 
-        fetchPutuoBusData(noWaitHttpRequest)
-        {
-            this.axios.invoice.get(`invoiceApi/zlkc/getOrderInfo?serialNum=${this.identifier}&state&noWaitHttpRequest=${noWaitHttpRequest ? 'yes' : 'no'}`).then(response => {
-                if(response.code === 0)
-                {
-                    this.invoiceDetail = Object.assign(response.data, {
-                        serialNum: response.data.out_Trade_No,
-                    });
-
-                    //
-                    return;
-                }
-
-                this.Toast(response.msg);
-            }).catch(e => {
-                this.Toast(`获取开票信息失败, ${e.toString()}`);
-            });;
-        },
+        
     },
 }
 </script>

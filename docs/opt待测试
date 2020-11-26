@@ -1,0 +1,45 @@
+{
+    "putuobus": {
+        "name": "普陀山旅游巴士",
+        "module": "single",
+        "rollBackUrl": "",
+        "fetchOneSerialNumDataUrl": "/invoiceApi/zlkc/canInvoiceList",
+        "checkInvoiceUrl": "/invoiceApi/zlkc/doInvoice"
+    },
+    
+    "changzhiVehiclePark": {
+        "name": "长峙岛停车场", 
+        "module": "list",
+        "rollBackUrl": "",
+        "fetchOneSerialNumDataUrl": "/invoiceApi/czpark/canInvoiceList",
+        "checkInvoiceUrl": "/invoiceApi/czpark/doInvoice"
+    },
+
+
+    "putuoNavigator": {
+        "name": "普陀山导游",
+        "module": "list",
+        "rollBackUrl": "",
+        "fetchOneSerialNumDataUrl": "/invoiceApi/zlkcMesh/canInvoiceList",
+        "checkInvoiceUrl": "/invoiceApi/zlkcMesh/doInvoice"
+    },
+    
+    "hxFerryShop": {
+        "name": "海峡轮渡小卖部",
+        "module": "list",
+        "rollBackUrl": "/invoiceApi/hxldxmb/doMinusInvoice",
+        "fetchOneSerialNumDataUrl": "/invoiceApi/hxldxmb/canInvoiceList",
+        "checkInvoiceUrl": "/invoiceApi/hxldxmb/doInvoice"
+    },
+    
+    "gangWuWharf": {
+        "name": "港务码头",
+        "module": "list",
+        "invoiceDetailComponent": "GangWuWharfDetail",
+        "subScanComponent": "GangWuWharf",
+        "fetchDataFunc": "gangWuWharfData",
+        "rollBackUrl": "",
+        "fetchOneSerialNumDataUrl": "/invoiceApi/dhky/canInvoiceList",
+        "checkInvoiceUrl": "/invoiceApi/dhky/doInvoice"
+    },
+}

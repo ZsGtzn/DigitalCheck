@@ -116,52 +116,32 @@
                             <div class="confirmLabel">发票信息</div>
                             <div class="comfirmContent">
                                 <div v-for="(item, index) of invoiceList" :key="index">
-                                    <!-- 三江码头 -->
-                                    <div v-if="type == 'sanjiang'">
-                                        <span>姓名: </span>
-                                        <span>{{item.name}}</span>
-                                    </div>
-                                    <!-- 普陀山旅游巴士 -->
-                                    <div v-else-if="type == 'putuobus'">
+
+                                    <!-- 普陀山旅游巴士 普陀山旅游 -->
+                                    <div v-if="type == 'putuobus' || type == 'putuoNavigator'">
                                         <span>大巴: </span>
                                         <span>{{item.busNo}}</span>
                                     </div>
-                                    <!-- 长峙停车场 -->
-                                    <div v-else-if="type == 'changzhiVehiclePark'">
+
+                                    <!-- 长峙停车场 三江停车场 -->
+                                    <div v-else-if="type == 'changzhiVehiclePark' || type == 'sanjiangVehiclePark'">
                                         <span>停车场: </span>
                                         <span>{{item.plateNo}}</span>
                                     </div>
-                                    <!-- 三江停车场 -->
-                                    <div v-else-if="type == 'sanjiangVehiclePark'">
-                                        <span>停车场: </span>
-                                        <span>{{item.plateNo}}</span>
-                                    </div>
-                                    <!-- 普陀山旅游 -->
-                                    <div v-else-if="type == 'putuoNavigator'">
-                                        <span>大巴: </span>
-                                        <span>{{item.busNo}}</span>
-                                    </div>
+
                                     <!-- 普陀山索道 -->
                                     <div v-else-if="type == 'putuoRopeway'">
-                                        
+                                        <!-- to do -->
                                     </div>
+
                                     <!-- 海峡轮渡 -->
                                     <div v-else-if="type == 'hxFerryShop'">
                                         <span>手机号码: </span>
                                         <span>{{item.sjhm}}</span>
                                     </div>
-                                    <!-- 墩头码头 -->
-                                    <div v-if="type == 'dunTouWharf'">
-                                        <span>姓名: </span>
-                                        <span>{{item.name}}</span>
-                                    </div>
-                                     <!-- 港务码头 -->
-                                    <div v-if="type == 'gangWuWharf'">
-                                        <span>姓名: </span>
-                                        <span>{{item.name}}</span>
-                                    </div>
-                                     <!-- 海峰码头 -->
-                                    <div v-if="type == 'haiFenWharf'">
+
+                                    <!-- 三江码头 墩头码头 港务码头 海峰码头 -->
+                                    <div v-else>
                                         <span>姓名: </span>
                                         <span>{{item.name}}</span>
                                     </div>
@@ -309,6 +289,9 @@ export default {
 
             //
             altogether: 0,
+
+            //
+            currentInvoiceConfig: null,
         }
     },
 
@@ -322,6 +305,10 @@ export default {
         //
         this.type = this.$attrs.type;
         
+        //
+        this.currentInvoiceConfig = this.invoiceConfig[this.type];
+
+        //
         if(this.$attrs.invoiceList) {
             this.invoiceList = JSON.parse(this.$attrs.invoiceList);
         }
@@ -410,44 +397,14 @@ export default {
             let axiosType = 'invoice'
 
             //
-            let serverUrl = ''
-            if (this.type == 'sanjiang') {
-                // 三江船票
-                serverUrl = '/invoiceApi/sjky/canInvoiceList'
-            } else if (this.type == 'putuobus') {
-                // 普陀山旅游巴士
-                serverUrl = '/invoiceApi/zlkc/canInvoiceList'
-            } else if (this.type == 'changzhiVehiclePark') {
-                // 长峙岛停车场
-                serverUrl = '/invoiceApi/czpark/canInvoiceList'
-            } else if (this.type == 'sanjiangVehiclePark') {
-                // 三江停车场
-                serverUrl = '/invoiceApi/sjpark/canInvoiceList'
-            } else if (this.type == 'putuoNavigator') {
-                // 普陀山导游
-                serverUrl = '/invoiceApi/zlkcMesh/canInvoiceList'
-            } else if (this.type == 'putuoRopeway') {
-                // 普陀山索道
-                serverUrl = '/invoiceApi/ptssd/canInvoiceList'
-            } else if (this.type == 'hxFerryShop') {
-                // 海峡轮渡小卖部
-                serverUrl = '/invoiceApi/hxldxmb/canInvoiceList'
-            } else if (this.type == 'dunTouWharf') {
-                // 墩头码头
-                serverUrl = '/invoiceApi/dtky/canInvoiceList'
-            } else if (this.type == 'gangWuWharf') {
-                // 港务码头
-                serverUrl = '/invoiceApi/dhky/canInvoiceList'
-            } else if (this.type == 'haiFenWharf') {
-                // 海峰码头
-                serverUrl = '/invoiceApi/hfky/canInvoiceList'
-            } else {
-                this.Toast(`无效的平台, ${this.type}, 无法获取到对应的订单信息`)
+            if(!this.currentInvoiceConfig)
+            {
+                return this.Toast(`无效的平台, ${this.type}, 无法获取到对应的订单信息`)
             }
 
             //
             return this.axios[axiosType]
-                .get(serverUrl, {
+                .get(this.currentInvoiceConfig.fetchOneSerialNumDataUrl, {
                     serialNum: this.$attrs.assembleSerialNo,
                 })
                 .then((response) => {
@@ -487,44 +444,13 @@ export default {
             let axiosType = 'invoice'
 
             //
-            let serverUrl = ''
-            if (this.type == 'sanjiang') {
-                // 三江船票
-                serverUrl = '/invoiceApi/sjky/doInvoice'
-            } else if (this.type == 'putuobus') {
-                // 普陀山旅游巴士
-                serverUrl = '/invoiceApi/zlkc/doInvoice'
-            } else if (this.type == 'changzhiVehiclePark') {
-                // 长峙岛停车场
-                serverUrl = '/invoiceApi/czpark/doInvoice'
-            } else if (this.type == 'sanjiangVehiclePark') {
-                // 三江停车场
-                serverUrl = '/invoiceApi/sjpark/doInvoice'
-            } else if (this.type == 'putuoNavigator') {
-                // 普陀山导游
-                serverUrl = '/invoiceApi/zlkcMesh/doInvoice'
-            } else if (this.type == 'putuoRopeway') {
-                // 普陀山索道
-                serverUrl = '/invoiceApi/ptssd/doInvoice'
-            } else if (this.type == 'hxFerryShop') {
-                // 海峡轮渡小卖部
-                serverUrl = '/invoiceApi/hxldxmb/doInvoice'
-            } else if (this.type == 'dunTouWharf') {
-                // 墩头码头
-                serverUrl = '/invoiceApi/dtky/doInvoice'
-            } else if (this.type == 'gangWuWharf') {
-                // 港务码头
-                serverUrl = '/invoiceApi/dhky/doInvoice'
-            } else if (this.type == 'haiFenWharf') {
-                // 海峰码头
-                serverUrl = '/invoiceApi/hfky/doInvoice'
-            } else {
-                this.Toast(`无效的平台, ${this.type}`)
+            if(!this.currentInvoiceConfig) {
+                return this.Toast(`无效的平台, ${this.type}`)
             }
 
             //
             return this.axios[axiosType]
-                .post(serverUrl, {
+                .post(this.currentInvoiceConfig.checkInvoiceUrl, {
                     orderInfoList: JSON.stringify(this.invoiceList),
                     serialNum: serialNumList,
                     buyerName: buyerName,

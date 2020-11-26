@@ -1,6 +1,5 @@
 <template>
 <div>    
-    <BaseInvoiceListState :ifShowRollback="true" :item="invoiceDetail">
         <div style="overflow:auto;width:100%;height:100%;">
             <div id="invoiceDetail">
                 <span class="title">流水号</span><span style="font-size:10px;color:#e91010;">{{invoiceDetail.serialNum}}</span>
@@ -22,7 +21,6 @@
                 <span class="title">支付金额</span><span style="font-size:12.5px;">￥{{invoiceDetail.je}}</span>
             </div>
         </div>
-    </BaseInvoiceListState>
 </div>
 </template>
 

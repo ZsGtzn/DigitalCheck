@@ -1,6 +1,5 @@
 <template>
 <div>    
-    <BaseInvoiceListState :ifShowRollback="true" :item="invoiceDetail">
         <div style="overflow:auto;width:100%;height:100%;">
             <div id="invoiceDetail">
                 <span class="title">开票金额</span><span style="font-size:20px;color:#e91010;">￥{{invoiceDetail.invoiceAmount}}</span>
@@ -18,7 +17,6 @@
                 <span class="title">检票时间</span><span style="font-size:12.5px;">{{invoiceDetail.checkTime}}</span>
             </div>
         </div>
-    </BaseInvoiceListState>
 </div>
 </template>
 

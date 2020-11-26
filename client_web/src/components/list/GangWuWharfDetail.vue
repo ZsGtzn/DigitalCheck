@@ -1,6 +1,5 @@
 <template>
     <div style="width:100%;">
-        <BaseInvoiceListState :item="invoiceDetail">
             <div style="display:flex;box-sizing:border-box;padding:10px;">
                 <div>
                     <div style="display:flex;">
@@ -29,7 +28,6 @@
                     <span style="font-size:25px;font-weight:bold;">{{invoiceDetail.invoiceAmount}}</span>
                 </div>
             </div>
-        </BaseInvoiceListState>
     </div>
 </template>
 

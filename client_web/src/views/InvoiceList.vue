@@ -8,86 +8,28 @@
         <mt-switch v-model="altogether">是否合并开票</mt-switch>
     </div>
     <mt-loadmore :top-method="loadTop" :bottom-all-loaded="true" ref="loadmore" :class="[ type === 'sanjiang' ? 'passengerInvoiceSwitcherShow' : 'passengerInvoiceSwitcherHide']">
-        <!-- 三江码头船票 -->
-        <template v-if="type==='sanjiang'">
-            <span class="warning">以下情况不支持开票及注意事项：1.请您在乘船次日起45天内开电子发票，逾期作废；2.全退订单不开票（退票未产生手续费的）；3.已取票的不开票；4.退票产生手续费的可开票；5.如遇到发票不能显示的问题，请与客服联系，联系方式：0580-2626888</span>
+        <template>
             <ul style="margin: 5px;padding: 0px;">
-                <li v-for="item of checkedPassenger" :key="item.serialNum" class="listItem" @click="selectInvoice(item)">
-                    <route-detail :item="item"></route-detail>
-                </li>
-            </ul>
-        </template>
+                <!-- 三江码头船票 -->
+                <template v-if="type==='sanjiang'">
+                    <span class="warning">以下情况不支持开票及注意事项：1.请您在乘船次日起45天内开电子发票，逾期作废；2.全退订单不开票（退票未产生手续费的）；3.已取票的不开票；4.退票产生手续费的可开票；5.如遇到发票不能显示的问题，请与客服联系，联系方式：0580-2626888</span>
+                </template>
 
-        <!-- 长峙岛停车场 -->
-        <template v-else-if="type==='changzhiVehiclePark'">
-            <ul style="margin: 5px;padding: 0px;">
-                <li v-for="item of checkedPassenger" :key="item.serialNum" class="listItem" @click="selectInvoice(item)">
-                    <ChangzhiVehicleDetail :item="item"></ChangzhiVehicleDetail>
-                </li>
-            </ul>
-        </template>
+                <!-- 普陀山导游 -->
+                <template v-else-if="type==='putuoNavigator'">
+                    <mt-button type="danger" size="small" style="width:100%;margin:5px 0px 5px 0px;box-sizing:border-box;" @click="putuoNavigatorReLogin">切换账号</mt-button>
+                </template>
 
-        <!-- 三江码头停车场 -->
-        <template v-else-if="type==='sanjiangVehiclePark'">
-            <ul style="margin: 5px;padding: 0px;">
-                <li v-for="item of checkedPassenger" :key="item.serialNum" class="listItem" @click="selectInvoice(item)">
-                    <SanJiangVehicleDetail :item="item"></SanJiangVehicleDetail>
-                </li>
-            </ul>
-        </template>
+                <!-- 海峡轮渡小卖部 -->
+                <template v-else-if="type==='hxFerryShop'">
+                    <mt-button type="danger" size="small" style="width:100%;margin:5px 0px 5px 0px;box-sizing:border-box;" @click="hxFerryShopReLogin">切换账号</mt-button>
+                </template>
 
-        <!-- 普陀山导游 -->
-        <template v-else-if="type==='putuoNavigator'">
-            <mt-button type="danger" size="small" style="width:100%;margin:5px 0px 5px 0px;box-sizing:border-box;" @click="putuoNavigatorReLogin">切换账号</mt-button>
-            <ul style="margin: 5px;padding: 0px;">
+                <!-- 通用 -->
                 <li v-for="item of checkedPassenger" :key="item.serialNum" class="listItem" @click="selectInvoice(item)">
-                    <PutuoNavigatorDetail :item="item"></PutuoNavigatorDetail>
-                </li>
-            </ul>
-        </template>
-
-        <!-- 普陀山索道 -->
-        <template v-else-if="type==='putuoRopeway'">
-            <ul style="margin: 5px;padding: 0px;">
-                <li v-for="item of checkedPassenger" :key="item.serialNum" class="listItem" @click="selectInvoice(item)">
-                    <PutuoRopewayDetail :item="item"></PutuoRopewayDetail>
-                </li>
-            </ul>
-        </template>
-
-        <!-- 海峡轮渡小卖部 -->
-        <template v-else-if="type==='hxFerryShop'">
-            <mt-button type="danger" size="small" style="width:100%;margin:5px 0px 5px 0px;box-sizing:border-box;" @click="hxFerryShopReLogin">切换账号</mt-button>
-            <ul style="margin: 5px;padding: 0px;">
-                <li v-for="item of checkedPassenger" :key="item.serialNum" class="listItem" @click="selectInvoice(item)">
-                    <HxFerryShopDetail :item="item"></HxFerryShopDetail>
-                </li>
-            </ul>
-        </template>
-
-        <!-- 墩头码头 -->
-        <template v-else-if="type==='dunTouWharf'">
-            <ul style="margin: 5px;padding: 0px;">
-                <li v-for="item of checkedPassenger" :key="item.serialNum" class="listItem" @click="selectInvoice(item)">
-                    <DunTouWharfDetail :item="item"></DunTouWharfDetail>
-                </li>
-            </ul>
-        </template>
-
-        <!-- 港务码头 -->
-        <template v-else-if="type==='gangWuWharf'">
-            <ul style="margin: 5px;padding: 0px;">
-                <li v-for="item of checkedPassenger" :key="item.serialNum" class="listItem" @click="selectInvoice(item)">
-                    <GangWuWharfDetail :item="item"></GangWuWharfDetail>
-                </li>
-            </ul>
-        </template>
-
-        <!-- 海峰码头 -->
-        <template v-else-if="type==='haiFenWharf'">
-            <ul style="margin: 5px;padding: 0px;">
-                <li v-for="item of checkedPassenger" :key="item.serialNum" class="listItem" @click="selectInvoice(item)">
-                    <HaiFenWharfDetail :item="item"></HaiFenWharfDetail>
+                    <BaseInvoiceListState :ifShowRollback="currentInvoiceConfig.rollBackUrl && currentInvoiceConfig.rollBackUrl.length > 0" :item="item">
+                        <component :is="currentInvoiceConfig.invoiceDetailComponent" :item="item"></component>
+                    </BaseInvoiceListState>
                 </li>
             </ul>
         </template>
@@ -98,9 +40,9 @@
 
 <script>
 
-const RouteDetail = () => import("../components/list/RouteDetail.vue");
+const SanjiangDetail = () => import("../components/list/SanjiangDetail.vue");
 const ChangzhiVehicleDetail = () => import("../components/list/ChangzhiVehicleDetail.vue");
-const SanJiangVehicleDetail = () => import("../components/list/SanjiangVehicleDetail.vue");
+const SanjiangVehicleDetail = () => import("../components/list/SanjiangVehicleDetail.vue");
 const PutuoNavigatorDetail = () => import("../components/list/PutuoNavigatorDetail.vue");
 const PutuoRopewayDetail = () => import("../components/list/PutuoRopewayDetail.vue");
 const HxFerryShopDetail = () => import("../components/list/HxFerryShopDetail.vue");
@@ -110,14 +52,15 @@ const HaiFenWharfDetail = () => import("../components/list/HaiFenWharfDetail.vue
 
 import { inactiveAuthMobileState } from "../storage/mobile";
 import { saveTicketList } from "../storage/ticketList";
+import fetchDataFuncList from "./fetchDataFuncList";
 
 export default {
     name: 'InvoiceList',
     
     components: { 
-        RouteDetail, 
+        SanjiangDetail, 
         ChangzhiVehicleDetail, 
-        SanJiangVehicleDetail, 
+        SanjiangVehicleDetail, 
         PutuoNavigatorDetail, 
         PutuoRopewayDetail,
         HxFerryShopDetail,
@@ -134,11 +77,16 @@ export default {
             ifAllSelected: false,
             intervalInstance: undefined,
             altogether: 1,
+            currentInvoiceConfig: null,
         }
     },
 
     created()
     {
+        //
+        this.currentInvoiceConfig = this.invoiceConfig[this.type];
+
+        //
         this.fetchData();
 
         //
@@ -182,244 +130,21 @@ export default {
     },
     
     methods: {
+        ...fetchDataFuncList,
+
         /**
          * 获取列表数据
          */
         fetchData(noWaitHttpRequest = false) {
-            switch(this.type)
+          
+               
+            if(!this.currentInvoiceConfig)
             {
-                case 'sanjiang': {
-                    this.fetchSanJiangData(noWaitHttpRequest);
-                }
-                break;
-                case 'changzhiVehiclePark': {
-                    this.changzhiVehicleParkData(noWaitHttpRequest);
-                }
-                break;
-                case 'sanjiangVehiclePark': {
-                    this.sanjiangVehicleParkData(noWaitHttpRequest);
-                }
-                break;
-                case 'putuoNavigator': {
-                    this.putuoNavigatorData(noWaitHttpRequest);
-                }
-                break;
-                case 'putuoRopeway': {
-                    this.putuoRopewayData(noWaitHttpRequest);
-                }
-                break;
-                case 'hxFerryShop': {
-                    this.hxFerryShopData(noWaitHttpRequest);
-                }
-                break;
-                case 'dunTouWharf': {
-                    this.dunTouWharfData(noWaitHttpRequest);
-                }
-                break;
-                case 'gangWuWharf': {
-                    this.gangWuWharfData(noWaitHttpRequest);
-                }
-                break;
-                case 'haiFenWharf': {
-                    this.haiFenWharfData(noWaitHttpRequest);
-                }
-                break;
-                default: {
-                    alert(`错误的平台类型`);
-                }
+                return alert(`错误的平台类型`);
             }
-        },
-
-        // 三江码头船票
-        fetchSanJiangData(noWaitHttpRequest)
-        {
-            this.axios.invoice.get(`/invoiceApi/sjky/passengerList?IDCard=${this.identifier}&state&noWaitHttpRequest=${noWaitHttpRequest ? 'yes' : 'no'}`).then(response => {
-                if(response.code === 0)
-                {
-                    return this.checkedPassenger = response.data.map(ele => Object.assign(ele, {
-                        ifSelected: false,
-                    }));
-                }
-
-                this.Toast(response.msg);
-            }).catch(e => {
-                this.Toast(`获取开票列表失败, ${e.toString()}`);
-            });
-        },
-
-        // 长峙岛停车场
-        changzhiVehicleParkData(noWaitHttpRequest) 
-        {
-            this.axios.invoice.get(`/invoiceApi/czpark/recordList?plateNo=${this.identifier}&noWaitHttpRequest=${noWaitHttpRequest ? 'yes' : 'no'}`).then(response => {
-                if(response.code === 0)
-                {
-                    return this.checkedPassenger = response.data.map(ele => Object.assign(ele, {
-                        ifSelected: false,
-                        serialNum: ele.uniqueNo,
-                    }));
-                }
-
-                this.Toast(response.msg);
-            }).catch(e => {
-                this.Toast(`获取开票列表失败, ${e.toString()}`);
-            });
-        },
-
-        // 三江停车场
-        sanjiangVehicleParkData(noWaitHttpRequest)
-        {
-            this.axios.invoice.get(`/invoiceApi/sjpark/recordList?plateNo=${this.identifier}&noWaitHttpRequest=${noWaitHttpRequest ? 'yes' : 'no'}`).then(response => {
-                if(response.code === 0)
-                {
-                    return this.checkedPassenger = response.data.map(ele => Object.assign(ele, {
-                        ifSelected: false,
-                        serialNum: ele.uniqueNo,
-                    }));
-                }
-
-                this.Toast(response.msg);
-            }).catch(e => {
-                this.Toast(`获取开票列表失败, ${e.toString()}`);
-            });
-        },
-
-        // 普陀导游
-        putuoNavigatorData(noWaitHttpRequest)
-        {
-            this.axios.invoice.get(`/invoiceApi/zlkcMesh/getOrderList?mobile=${this.identifier}&noWaitHttpRequest=${noWaitHttpRequest ? 'yes' : 'no'}`).then(response => {
-                if(response.code === 0)
-                {
-                    return this.checkedPassenger = response.data.map(ele => Object.assign(ele, {
-                        ifSelected: false,
-                        serialNum: ele.out_Trade_No,
-                    }));
-                }
-
-                this.Toast(response.msg);
-            }).catch(e => {
-                this.Toast(`获取开票列表失败, ${e.toString()}`);
-            });
-        },
-
-        // 普陀山索道
-        putuoRopewayData(noWaitHttpRequest)
-        {
-            let seperatorPosition = this.identifier.indexOf('_');
-            if(seperatorPosition < 0)
-            {
-                return this.Toast("无效的查询标记, " + this.identifier);
-            }
-
+               
             //
-            let idType = this.identifier.substring(0, seperatorPosition);
-            let realidentifier = this.identifier.substring(seperatorPosition + 1);
-            let queryPath = "";
-
-            //
-            switch(idType)
-            {
-                case "orderNum":
-                    {
-                        queryPath = `orderCode=${realidentifier}&certNo=&mobile=`;
-                    }
-                    break;
-                case "identity":
-                    {
-                        queryPath = `orderCode=&certNo=${realidentifier}&mobile=`;
-                    }
-                    break;
-                case "mobile":
-                    {
-                        queryPath = `orderCode=&certNo=&mobile=${realidentifier}`;
-                    }
-                    break;
-                default: {
-                    return this.Toast("错误的查询类型: " + this.idType);
-                }
-            }
-
-            this.axios.invoice.get(`/invoiceApi/ptssd/orderInfo?${queryPath}&noWaitHttpRequest=${noWaitHttpRequest ? 'yes' : 'no'}`).then(response => {
-                if(response.code === 0)
-                {
-                    return this.checkedPassenger = response.data.map(ele => Object.assign(ele, {
-                        ifSelected: false,
-                        serialNum: ele.orderCode,
-                    }));
-                }
-
-                this.Toast(response.msg);
-            }).catch(e => {
-                this.Toast(`获取开票列表失败, ${e.toString()}`);
-            });
-        },
-
-        // 海峡轮渡小卖部
-        hxFerryShopData(noWaitHttpRequest)
-        {
-            this.axios.invoice.get(`/invoiceApi/hxldxmb/getOrderList?mobile=${this.identifier}&noWaitHttpRequest=${noWaitHttpRequest ? 'yes' : 'no'}`).then(response => {
-                if(response.code === 0)
-                {
-                    return this.checkedPassenger = response.data.map(ele => Object.assign(ele, {
-                        ifSelected: false,
-                        serialNum: ele.ddh,
-                    }));
-                }
-
-                this.Toast(response.msg);
-            }).catch(e => {
-                this.Toast(`获取开票列表失败, ${e.toString()}`);
-            });
-        },
-
-        // 墩头
-        dunTouWharfData(noWaitHttpRequest)
-        {
-            this.axios.invoice.get(`/invoiceApi/dtky/passengerList?IDCard=${this.identifier}&noWaitHttpRequest=${noWaitHttpRequest ? 'yes' : 'no'}`).then(response => {
-                if(response.code === 0)
-                {
-                    return this.checkedPassenger = response.data.map(ele => Object.assign(ele, {
-                        ifSelected: false,
-                    }));
-                }
-
-                this.Toast(response.msg);
-            }).catch(e => {
-                this.Toast(`获取开票列表失败, ${e.toString()}`);
-            });
-        },
-        
-        // 港务
-        gangWuWharfData(noWaitHttpRequest)
-        {
-            this.axios.invoice.get(`/invoiceApi/dhky/passengerList?IDCard=${this.identifier}&noWaitHttpRequest=${noWaitHttpRequest ? 'yes' : 'no'}`).then(response => {
-                if(response.code === 0)
-                {
-                    return this.checkedPassenger = response.data.map(ele => Object.assign(ele, {
-                        ifSelected: false,
-                    }));
-                }
-
-                this.Toast(response.msg);
-            }).catch(e => {
-                this.Toast(`获取开票列表失败, ${e.toString()}`);
-            });
-        },
-
-        // 海峰
-        haiFenWharfData(noWaitHttpRequest)
-        {
-            this.axios.invoice.get(`/invoiceApi/hfky/passengerList?IDCard=${this.identifier}&noWaitHttpRequest=${noWaitHttpRequest ? 'yes' : 'no'}`).then(response => {
-                if(response.code === 0)
-                {
-                    return this.checkedPassenger = response.data.map(ele => Object.assign(ele, {
-                        ifSelected: false,
-                    }));
-                }
-
-                this.Toast(response.msg);
-            }).catch(e => {
-                this.Toast(`获取开票列表失败, ${e.toString()}`);
-            });
+            this[this.currentInvoiceConfig.fetchDataFunc](noWaitHttpRequest);
         },
 
         /**
@@ -528,38 +253,13 @@ export default {
                 //
                 if (action == 'confirm')
                 {
-                    let queryPath = "";
-
-                    switch(self.type)
+                    if(!self.currentInvoiceConfig)
                     {
-                        case 'sanjiang': 
-                            {
-                                queryPath = "/invoiceApi/sjky/doMinusInvoice";
-                            }
-                            break;
-                        
-                        case 'putuoRopeway':
-                            {
-                                queryPath = "/invoiceApi/ptssd/doMinusInvoice";
-                            }
-                            break;
-                        case 'hxFerryShop':
-                            {
-                                queryPath = "/invoiceApi/hxldxmb/doMinusInvoice";
-                            }
-                            break;
-                        case 'haiFenWharf':
-                            {
-                                queryPath = "/invoiceApi/hfky/doMinusInvoice";
-                            }
-                            break;
-                        default: {
-                            return this.Toast("无效的冲红类型, " + self.type);
-                        }
+                        return this.Toast("无效的冲红类型, " + self.type);
                     }
 
                     //
-                    this.axios.invoice.post(queryPath, {
+                    this.axios.invoice.post(self.currentInvoiceConfig.rollBackUrl, {
                         serialNum: invoiceDetail.serialNum,
                     }).then(response => {
                         if(response.code === 0)

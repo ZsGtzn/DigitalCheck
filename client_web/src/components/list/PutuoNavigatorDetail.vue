@@ -1,6 +1,5 @@
 <template>
 <div>    
-    <BaseInvoiceListState :item="invoiceDetail">
         <div style="overflow:auto;width:100%;height:100%;">
             <div id="invoiceDetail">
                 <span class="title">流水号</span><span style="font-size:10px;color:#e91010;">{{invoiceDetail.serialNum}}</span>
@@ -24,7 +23,6 @@
                 <span class="title">交易时间</span><span style="font-size:12.5px;">{{invoiceDetail.time_End}}</span>
             </div>
         </div>
-    </BaseInvoiceListState>
 </div>
 </template>
 
