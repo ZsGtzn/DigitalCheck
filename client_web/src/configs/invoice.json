@@ -107,6 +107,17 @@
         "rollBackUrl": "/invoiceApi/hfky/doMinusInvoice",
         "fetchOneSerialNumDataUrl": "/invoiceApi/hfky/canInvoiceList",
         "checkInvoiceUrl": "/invoiceApi/hfky/doInvoice"
+    },
+
+    "sanjiangCargo": {
+        "name": "三江货运",
+        "module": "list",
+        "invoiceDetailComponent": "SanjiangCargoDetail",
+        "subScanComponent": "SanjiangCargo",
+        "fetchDataFunc": "sanjiangCargoData",
+        "rollBackUrl": "/invoiceApi/sjhy/doMinusInvoice",
+        "fetchOneSerialNumDataUrl": "/invoiceApi/sjhy/canInvoiceList",
+        "checkInvoiceUrl": "/invoiceApi/sjhy/doInvoice"
     }
 }
 

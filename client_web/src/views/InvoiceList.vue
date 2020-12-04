@@ -25,6 +25,11 @@
                     <mt-button type="danger" size="small" style="width:100%;margin:5px 0px 5px 0px;box-sizing:border-box;" @click="hxFerryShopReLogin">切换账号</mt-button>
                 </template>
 
+                <!-- 三江货运 -->
+                <template v-else-if="type==='sanjiangCargo'">
+                    <mt-button type="danger" size="small" style="width:100%;margin:5px 0px 5px 0px;box-sizing:border-box;" @click="sanjiangCargoReLogin">切换账号</mt-button>
+                </template>
+
                 <!-- 通用 -->
                 <li v-for="item of checkedPassenger" :key="item.serialNum" class="listItem" @click="selectInvoice(item)">
                     <BaseInvoiceListState :ifShowRollback="currentInvoiceConfig.rollBackUrl && currentInvoiceConfig.rollBackUrl.length > 0" :item="item">
@@ -49,6 +54,7 @@ const HxFerryShopDetail = () => import("../components/list/HxFerryShopDetail.vue
 const DunTouWharfDetail = () => import("../components/list/DunTouWharfDetail.vue");
 const GangWuWharfDetail = () => import("../components/list/GangWuWharfDetail.vue");
 const HaiFenWharfDetail = () => import("../components/list/HaiFenWharfDetail.vue");
+const SanjiangCargoDetail = () => import("../components/list/SanjiangCargoDetail.vue");
 
 import { inactiveAuthMobileState } from "../storage/mobile";
 import { saveTicketList } from "../storage/ticketList";
@@ -67,6 +73,7 @@ export default {
         DunTouWharfDetail,
         GangWuWharfDetail,
         HaiFenWharfDetail,
+        SanjiangCargoDetail,
     },
 
     props: ['type', 'identifier'],
@@ -221,6 +228,17 @@ export default {
                 path: "/scan/hxFerryShop",
             })
         },
+
+        sanjiangCargoReLogin()
+        {
+            //
+            inactiveAuthMobileState();
+
+            //
+            this.$router.replace({
+                path: "/scan/sanjiangCargo",
+            })
+        }
     },
 
     provide() {

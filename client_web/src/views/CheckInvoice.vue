@@ -134,8 +134,8 @@
                                         <!-- to do -->
                                     </div>
 
-                                    <!-- 海峡轮渡 -->
-                                    <div v-else-if="type == 'hxFerryShop'">
+                                    <!-- 海峡轮渡 三江货运 -->
+                                    <div v-else-if="type == 'hxFerryShop' || type == 'sanjiangCargo'">
                                         <span>手机号码: </span>
                                         <span>{{item.sjhm}}</span>
                                     </div>

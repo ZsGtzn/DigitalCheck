@@ -179,6 +179,21 @@ function haiFenWharfData(noWaitHttpRequest)
     });
 }
 
+function sanjiangCargoData(noWaitHttpRequest) {
+    this.axios.invoice.get(`/invoiceApi/sjhy/getOrderList?mobile=${this.identifier}&noWaitHttpRequest=${noWaitHttpRequest ? 'yes' : 'no'}`).then(response => {
+        if (response.code === 0) {
+            return this.checkedPassenger = response.data.map(ele => Object.assign(ele, {
+                ifSelected: false,
+                serialNum: ele.ddh,
+            }));
+        }
+
+        this.Toast(response.msg);
+    }).catch(e => {
+        this.Toast(`获取开票列表失败, ${e.toString()}`);
+    });
+}
+
 export default {
     fetchSanJiangData,
     changzhiVehicleParkData,
@@ -189,4 +204,5 @@ export default {
     dunTouWharfData,
     gangWuWharfData,
     haiFenWharfData,
+    sanjiangCargoData,
 }
