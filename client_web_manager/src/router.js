@@ -27,6 +27,11 @@ const routerInstance = new Router({
             path: '/hxFerryShop',
             component: () => import('./views/HxFerryShop.vue'),
         },
+
+        {
+            path: '/sanjiangCargo',
+            component: () => import('./views/SanjiangCargo.vue'),
+        },
     ]
 });
 
