@@ -134,7 +134,7 @@ export default {
         sanjiangData() 
         {
             //
-            this.axios.sanjiangInvoice.get(`/invoiceApi/sjhy/statistics?startDate=${this.formattedBeginTime}&endDate=${this.formattedEndTime}`).then(response => {
+            this.axios.invoice.get(`/invoiceApi/sjhy/statistics?startDate=${this.formattedBeginTime}&endDate=${this.formattedEndTime}`).then(response => {
                 if(response.code === 0)
                 {
                     this.invoiceList = response.data.list;

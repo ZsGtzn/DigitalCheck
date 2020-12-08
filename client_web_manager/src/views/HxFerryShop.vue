@@ -114,7 +114,7 @@ export default {
         changzhiVehicleParkData() 
         {
             //
-            this.axios.changzhiVehicleParkinvoice.get(`/invoiceApi/hxldxmb/statistics?startDate=${this.formattedBeginTime}&endDate=${this.formattedEndTime}`).then(response => {
+            this.axios.invoice.get(`/invoiceApi/hxldxmb/statistics?startDate=${this.formattedBeginTime}&endDate=${this.formattedEndTime}`).then(response => {
                 if(response.code === 0)
                 {
                     this.invoiceList = response.data.list;

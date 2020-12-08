@@ -1,10 +1,7 @@
 {
 	"axios": {
-        "changzhiVehicleParkinvoice": {
+        "invoice": {
             "host": "https://zyb.ziubao.com/invoice-test/"
-        },
-        "sanjiangInvoice": {
-            "host": "https://invoice.ziubao.com"
         }
     }
 }

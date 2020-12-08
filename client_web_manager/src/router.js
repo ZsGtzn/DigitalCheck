@@ -9,6 +9,11 @@ const routerInstance = new Router({
     base: process.env.BASE_URL,
     routes: [
         {
+            path: '/',
+            component: () => import('./views/Main.vue'),
+        },
+
+        {
             path: '/changzhiVehiclePark',
             component: () => import('./views/ChangzhiVehiclePark.vue'),
         },
