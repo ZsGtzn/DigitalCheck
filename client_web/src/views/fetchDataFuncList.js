@@ -1,7 +1,17 @@
 // 三江码头船票
-function fetchSanJiangData(noWaitHttpRequest)
+function fetchSanJiangData(noWaitHttpRequest, ifScan = false)
 {
-    this.axios.invoice.get(`/invoiceApi/sjky/passengerList?IDCard=${this.identifier}&state&noWaitHttpRequest=${noWaitHttpRequest ? 'yes' : 'no'}`).then(response => {
+    //
+    let path = "/invoiceApi/sjky/passengerList";
+
+    //
+    if(ifScan)
+    {
+        path = "";
+    }
+
+    //
+    this.axios.invoice.get(`${path}?IDCard=${this.identifier}&state&noWaitHttpRequest=${noWaitHttpRequest ? 'yes' : 'no'}`).then(response => {
         if (response.code === 0) {
             return this.checkedPassenger = response.data.map(ele => Object.assign(ele, {
                 ifSelected: false,
@@ -15,7 +25,7 @@ function fetchSanJiangData(noWaitHttpRequest)
 }
 
 // 长峙岛停车场
-function changzhiVehicleParkData(noWaitHttpRequest)
+function changzhiVehicleParkData(noWaitHttpRequest, ifScan = false)
 {
     this.axios.invoice.get(`/invoiceApi/czpark/recordList?plateNo=${this.identifier}&noWaitHttpRequest=${noWaitHttpRequest ? 'yes' : 'no'}`).then(response => {
         if (response.code === 0) {
@@ -32,7 +42,7 @@ function changzhiVehicleParkData(noWaitHttpRequest)
 }
 
 // 三江停车场
-function sanjiangVehicleParkData(noWaitHttpRequest)
+function sanjiangVehicleParkData(noWaitHttpRequest, ifScan = false)
 {
     this.axios.invoice.get(`/invoiceApi/sjpark/recordList?plateNo=${this.identifier}&noWaitHttpRequest=${noWaitHttpRequest ? 'yes' : 'no'}`).then(response => {
         if (response.code === 0) {
@@ -49,7 +59,7 @@ function sanjiangVehicleParkData(noWaitHttpRequest)
 }
 
 // 普陀导游
-function putuoNavigatorData(noWaitHttpRequest)
+function putuoNavigatorData(noWaitHttpRequest, ifScan = false)
 {
     this.axios.invoice.get(`/invoiceApi/zlkcMesh/getOrderList?mobile=${this.identifier}&noWaitHttpRequest=${noWaitHttpRequest ? 'yes' : 'no'}`).then(response => {
         if (response.code === 0) {
@@ -66,7 +76,7 @@ function putuoNavigatorData(noWaitHttpRequest)
 }
 
 // 普陀山索道
-function putuoRopewayData(noWaitHttpRequest)
+function putuoRopewayData(noWaitHttpRequest, ifScan = false)
 {
     let seperatorPosition = this.identifier.indexOf('_');
     if (seperatorPosition < 0) {
@@ -115,7 +125,7 @@ function putuoRopewayData(noWaitHttpRequest)
 }
 
 // 海峡轮渡小卖部
-function hxFerryShopData(noWaitHttpRequest)
+function hxFerryShopData(noWaitHttpRequest, ifScan = false)
 {
     this.axios.invoice.get(`/invoiceApi/hxldxmb/getOrderList?mobile=${this.identifier}&noWaitHttpRequest=${noWaitHttpRequest ? 'yes' : 'no'}`).then(response => {
         if (response.code === 0) {
@@ -132,7 +142,7 @@ function hxFerryShopData(noWaitHttpRequest)
 }
 
 // 墩头
-function dunTouWharfData(noWaitHttpRequest)
+function dunTouWharfData(noWaitHttpRequest, ifScan = false)
 {
     this.axios.invoice.get(`/invoiceApi/dtky/passengerList?IDCard=${this.identifier}&noWaitHttpRequest=${noWaitHttpRequest ? 'yes' : 'no'}`).then(response => {
         if (response.code === 0) {
@@ -148,7 +158,7 @@ function dunTouWharfData(noWaitHttpRequest)
 }
 
 // 港务
-function gangWuWharfData(noWaitHttpRequest)
+function gangWuWharfData(noWaitHttpRequest, ifScan = false)
 {
     this.axios.invoice.get(`/invoiceApi/dhky/passengerList?IDCard=${this.identifier}&noWaitHttpRequest=${noWaitHttpRequest ? 'yes' : 'no'}`).then(response => {
         if (response.code === 0) {
@@ -164,7 +174,7 @@ function gangWuWharfData(noWaitHttpRequest)
 }
 
 // 海峰
-function haiFenWharfData(noWaitHttpRequest)
+function haiFenWharfData(noWaitHttpRequest, ifScan = false)
 {
     this.axios.invoice.get(`/invoiceApi/hfky/passengerList?IDCard=${this.identifier}&noWaitHttpRequest=${noWaitHttpRequest ? 'yes' : 'no'}`).then(response => {
         if (response.code === 0) {
@@ -179,7 +189,7 @@ function haiFenWharfData(noWaitHttpRequest)
     });
 }
 
-function sanjiangCargoData(noWaitHttpRequest) {
+function sanjiangCargoData(noWaitHttpRequest, ifScan = false) {
     this.axios.invoice.get(`/invoiceApi/sjhy/getOrderList?mobile=${this.identifier}&noWaitHttpRequest=${noWaitHttpRequest ? 'yes' : 'no'}`).then(response => {
         if (response.code === 0) {
             return this.checkedPassenger = response.data.map(ele => Object.assign(ele, {
@@ -195,7 +205,7 @@ function sanjiangCargoData(noWaitHttpRequest) {
 }
 
 // 舟旅客运
-function zlkyData(noWaitHttpRequest) {
+function zlkyData(noWaitHttpRequest, ifScan = false) {
     let seperatorPosition = this.identifier.indexOf('_');
     if (seperatorPosition < 0) {
         return this.Toast("无效的查询标记, " + this.identifier);
