@@ -194,6 +194,54 @@ function sanjiangCargoData(noWaitHttpRequest) {
     });
 }
 
+//
+function zlkyData(noWaitHttpRequest) {
+    let seperatorPosition = this.identifier.indexOf('_');
+    if (seperatorPosition < 0) {
+        return this.Toast("无效的查询标记, " + this.identifier);
+    }
+
+    //
+    let idType = this.identifier.substring(0, seperatorPosition);
+    let realidentifier = this.identifier.substring(seperatorPosition + 1);
+    let queryPath = "";
+
+    //
+    switch (idType) {
+        case "orderNum":
+            {
+                queryPath = `orderCode=${realidentifier}&certNo=&mobile=`;
+            }
+            break;
+        case "identity":
+            {
+                queryPath = `orderCode=&certNo=${realidentifier}&mobile=`;
+            }
+            break;
+        case "mobile":
+            {
+                queryPath = `orderCode=&certNo=&mobile=${realidentifier}`;
+            }
+            break;
+        default: {
+            return this.Toast("错误的查询类型: " + this.idType);
+        }
+    }
+
+    this.axios.invoice.get(`/invoiceApi/ptssd/orderInfo?${queryPath}&noWaitHttpRequest=${noWaitHttpRequest ? 'yes' : 'no'}`).then(response => {
+        if (response.code === 0) {
+            return this.checkedPassenger = response.data.map(ele => Object.assign(ele, {
+                ifSelected: false,
+                serialNum: ele.orderCode,
+            }));
+        }
+
+        this.Toast(response.msg);
+    }).catch(e => {
+        this.Toast(`获取开票列表失败, ${e.toString()}`);
+    });
+}
+
 export default {
     fetchSanJiangData,
     changzhiVehicleParkData,
@@ -205,4 +253,5 @@ export default {
     gangWuWharfData,
     haiFenWharfData,
     sanjiangCargoData,
+    zlkyData,
 }
