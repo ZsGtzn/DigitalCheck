@@ -18,6 +18,7 @@ import DunTouWharf from "../components/subScan/DunTouWharf.vue";
 import GangWuWharf from "../components/subScan/GangWuWharf.vue";
 import HaiFenWharf from "../components/subScan/HaiFenWharf.vue";
 import SanjiangCargo from "../components/subScan/SanjiangCargo.vue";
+import Zlky from "../components/subScan/Zlky.vue";
 
 //
 import store from "../store";
@@ -42,6 +43,7 @@ export default {
         GangWuWharf,
         HaiFenWharf,
         SanjiangCargo,
+        Zlky,
      },
 
     props: ["type"],

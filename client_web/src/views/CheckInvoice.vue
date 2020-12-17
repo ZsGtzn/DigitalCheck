@@ -129,8 +129,8 @@
                                         <span>{{item.plateNo}}</span>
                                     </div>
 
-                                    <!-- 普陀山索道 -->
-                                    <div v-else-if="type == 'putuoRopeway'">
+                                    <!-- 普陀山索道 舟旅客运 -->
+                                    <div v-else-if="type == 'putuoRopeway' || type == 'zlky'">
                                         <!-- to do -->
                                     </div>
 

@@ -194,7 +194,7 @@ function sanjiangCargoData(noWaitHttpRequest) {
     });
 }
 
-//
+// 舟旅客运
 function zlkyData(noWaitHttpRequest) {
     let seperatorPosition = this.identifier.indexOf('_');
     if (seperatorPosition < 0) {
@@ -228,7 +228,7 @@ function zlkyData(noWaitHttpRequest) {
         }
     }
 
-    this.axios.invoice.get(`/invoiceApi/ptssd/orderInfo?${queryPath}&noWaitHttpRequest=${noWaitHttpRequest ? 'yes' : 'no'}`).then(response => {
+    this.axios.invoice.get(`/invoiceApi/ljsky/orderInfo?${queryPath}&noWaitHttpRequest=${noWaitHttpRequest ? 'yes' : 'no'}`).then(response => {
         if (response.code === 0) {
             return this.checkedPassenger = response.data.map(ele => Object.assign(ele, {
                 ifSelected: false,

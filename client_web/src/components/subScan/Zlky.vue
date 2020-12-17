@@ -1,6 +1,6 @@
 <template>
     <div id="main">
-        <img :src="zlkyMainImg" style="width:100%;margin:10px 0px 10px 0px;" />
+        <img :src="mainImg" style="width:100%;margin:10px 0px 10px 0px;" />
 
         <template v-if="idType == 'orderNum'">
             <mt-field placeholder="请您输入商户单号" style="width:100%;border-radius:10px;" v-model="orderNum"></mt-field>
@@ -32,7 +32,7 @@
 
 //
 import zlkyZiubaoImg from "../../assets/scan/zlkyZiubao.png";
-import zlkyImg from "../../assets/scan/zlky.png"
+import zlkyImg from "../../assets/scan/zlky.png";
 
 /**
  * localstorage
@@ -90,7 +90,7 @@ export default {
             identity: getScanZlkyIdentity(),
             mobile: getScanZlkyMobile(),
             verifyCode: "",
-            zlkyMainImg: "",
+            mainImg: "",
             idType: getScanZlkyIdType(),
         };
     },
@@ -98,11 +98,11 @@ export default {
     created() {
         if(process.env.ziubao_invoice_platform == "zlkc")
         {
-            this.zlkyMainImg = zlkcImg;
+            this.mainImg = zlkyImg;
         }
         else
         {
-            this.zlkyMainImg = ziubaoImg;
+            this.mainImg = zlkyZiubaoImg;
         }
     },
 
@@ -153,7 +153,7 @@ export default {
 
             //
             this.$router.push({
-                path: `/invoiceList/putuoRopeway/${this.idType}_${identityNo}`
+                path: `/invoiceList/zlky/${this.idType}_${identityNo}`
             });
         }
     }

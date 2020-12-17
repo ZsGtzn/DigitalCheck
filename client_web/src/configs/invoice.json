@@ -118,6 +118,17 @@
         "rollBackUrl": "/invoiceApi/sjhy/doMinusInvoice",
         "fetchOneSerialNumDataUrl": "/invoiceApi/sjhy/canInvoiceList",
         "checkInvoiceUrl": "/invoiceApi/sjhy/doInvoice"
+    },
+
+    "zlky": {
+        "name": "舟旅客运",
+        "module": "list",
+        "invoiceDetailComponent": "ZlkyDetail",
+        "subScanComponent": "Zlky",
+        "fetchDataFunc": "zlkyData",
+        "rollBackUrl": "/invoiceApi/ljsky/doMinusInvoice",
+        "fetchOneSerialNumDataUrl": "/invoiceApi/ljsky/canInvoiceList",
+        "checkInvoiceUrl": "/invoiceApi/ljsky/doInvoice"
     }
 }
 

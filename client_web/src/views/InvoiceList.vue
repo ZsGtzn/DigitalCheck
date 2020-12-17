@@ -55,6 +55,7 @@ const DunTouWharfDetail = () => import("../components/list/DunTouWharfDetail.vue
 const GangWuWharfDetail = () => import("../components/list/GangWuWharfDetail.vue");
 const HaiFenWharfDetail = () => import("../components/list/HaiFenWharfDetail.vue");
 const SanjiangCargoDetail = () => import("../components/list/SanjiangCargoDetail.vue");
+const ZlkyDetail = () => import("../components/list/ZlkyDetail.vue");
 
 import { inactiveAuthMobileState } from "../storage/mobile";
 import { saveTicketList } from "../storage/ticketList";
@@ -74,6 +75,7 @@ export default {
         GangWuWharfDetail,
         HaiFenWharfDetail,
         SanjiangCargoDetail,
+        ZlkyDetail,
     },
 
     props: ['type', 'identifier'],
