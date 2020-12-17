@@ -112,14 +112,14 @@ export default {
     methods: {
         ...fetchDataFuncSingle,
 
-        fetchData(noWaitHttpRequest = false) {
+        async fetchData(noWaitHttpRequest = false) {
             if(!this.currentInvoiceConfig)
             {
                 return this.Toast("无效的平台类型, " + self.type);
             }
 
             //
-            this[this.currentInvoiceConfig.fetchDataFunc](noWaitHttpRequest);
+            this.invoiceDetail = await this[this.currentInvoiceConfig.fetchDataFunc](this.identifier, noWaitHttpRequest);
         },
 
         

@@ -144,7 +144,7 @@ export default {
         /**
          * 获取列表数据
          */
-        fetchData(noWaitHttpRequest = false) {
+        async fetchData(noWaitHttpRequest = false) {
           
                
             if(!this.currentInvoiceConfig)
@@ -153,7 +153,7 @@ export default {
             }
                
             //
-            this[this.currentInvoiceConfig.fetchDataFunc](noWaitHttpRequest);
+            this.checkedPassenger = await this[this.currentInvoiceConfig.fetchDataFunc](this.identifier, noWaitHttpRequest);
         },
 
         /**

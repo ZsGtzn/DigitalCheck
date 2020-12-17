@@ -1,19 +1,18 @@
-function fetchPutuoBusData(noWaitHttpRequest)
+async function fetchPutuoBusData(identifier, noWaitHttpRequest)
 {
-    this.axios.invoice.get(`invoiceApi/zlkc/getOrderInfo?serialNum=${this.identifier}&state&noWaitHttpRequest=${noWaitHttpRequest ? 'yes' : 'no'}`).then(response => {
+    try {
+        const response = await this.axios.invoice.get(`invoiceApi/zlkc/getOrderInfo?serialNum=${identifier}&state&noWaitHttpRequest=${noWaitHttpRequest ? 'yes' : 'no'}`);
+
         if (response.code === 0) {
-            this.invoiceDetail = Object.assign(response.data, {
+            return Object.assign(response.data, {
                 serialNum: response.data.out_Trade_No,
             });
-
-            //
-            return;
         }
 
         this.Toast(response.msg);
-    }).catch(e => {
+    } catch (error) {
         this.Toast(`获取开票信息失败, ${e.toString()}`);
-    });;
+    }
 }
 
 export default {

@@ -156,6 +156,7 @@ export default {
 
             //
             try {
+                const self = this;
                 wx.scanQRCode({
                     desc: 'scanQRCode desc',
                     needResult: 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
@@ -166,7 +167,7 @@ export default {
                         window.location.href = resultStr;              
                     },
                     fail: ({errMsg}) => {
-                        this.Toast("微信扫一扫接口调用失败: " + errMsg.toString())
+                        self.Toast("微信扫一扫接口调用失败: " + errMsg.toString())
                     }
                 });
             } catch (e) {

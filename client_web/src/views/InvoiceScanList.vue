@@ -1,8 +1,12 @@
 <template>
 <div id="main">
-    <div class="selectAll" @click="selectALl">
-        <input type="checkbox" id="selectAll" v-model="ifAllSelected">
-        <label for="selectAll" @click="selectALl">全选</label>
+    <div class="header">
+        <div @click="selectALl">
+            <input type="checkbox" id="selectAll" v-model="ifAllSelected">
+            <label for="selectAll" @click="selectALl">全选</label>
+        </div>
+        <div style="flex-grow:1;"></div>
+        <mt-button type="primary" size="small" @click="scanFetchData">扫一扫添加开票订单</mt-button>
     </div>
     <div v-if="type ==='sanjiang'" class="conditionFrame">
         <mt-switch v-model="altogether">是否合并开票</mt-switch>
@@ -13,21 +17,6 @@
                 <!-- 三江码头船票 -->
                 <template v-if="type==='sanjiang'">
                     <span class="warning">以下情况不支持开票及注意事项：1.请您在乘船次日起45天内开电子发票，逾期作废；2.全退订单不开票（退票未产生手续费的）；3.已取票的不开票；4.退票产生手续费的可开票；5.如遇到发票不能显示的问题，请与客服联系，联系方式：0580-2626888</span>
-                </template>
-
-                <!-- 普陀山导游 -->
-                <template v-else-if="type==='putuoNavigator'">
-                    <mt-button type="danger" size="small" style="width:100%;margin:5px 0px 5px 0px;box-sizing:border-box;" @click="putuoNavigatorReLogin">切换账号</mt-button>
-                </template>
-
-                <!-- 海峡轮渡小卖部 -->
-                <template v-else-if="type==='hxFerryShop'">
-                    <mt-button type="danger" size="small" style="width:100%;margin:5px 0px 5px 0px;box-sizing:border-box;" @click="hxFerryShopReLogin">切换账号</mt-button>
-                </template>
-
-                <!-- 三江货运 -->
-                <template v-else-if="type==='sanjiangCargo'">
-                    <mt-button type="danger" size="small" style="width:100%;margin:5px 0px 5px 0px;box-sizing:border-box;" @click="sanjiangCargoReLogin">切换账号</mt-button>
                 </template>
 
                 <!-- 通用 -->
@@ -78,7 +67,13 @@ export default {
         ZlkyDetail,
     },
 
-    props: ['type', 'identifier'],
+    props: {
+        type: String,
+        identifierList: {
+            type: Array,
+            default: []
+        },
+    },
 
     data() {
         return {
@@ -94,6 +89,11 @@ export default {
     {
         //
         this.currentInvoiceConfig = this.invoiceConfig[this.type];
+
+        if(!this.currentInvoiceConfig)
+        {
+            return alert(`错误的平台类型`);
+        }
 
         //
         this.fetchData();
@@ -144,16 +144,54 @@ export default {
         /**
          * 获取列表数据
          */
-        fetchData(noWaitHttpRequest = false) {
-          
-               
-            if(!this.currentInvoiceConfig)
-            {
-                return alert(`错误的平台类型`);
-            }
-               
+        fetchData(noWaitHttpRequest = false) {     
             //
-            this[this.currentInvoiceConfig.fetchDataFunc](noWaitHttpRequest);
+            for(let i = 0; i < this.identifierList.length; i ++)
+            {
+                this[this.currentInvoiceConfig.fetchDataFunc](this.identifier, noWaitHttpRequest, true).then(data => {
+                    this.checkedPassenger.push.apply(this.checkedPassenger, data);
+                });
+            }
+        },
+
+        /**
+         * 扫一扫获取订单
+         */
+        scanFetchData()
+        {
+            try {
+                const self = this;
+
+                //
+                wx.scanQRCode({
+                    desc: 'scanQRCode desc',
+                    needResult: 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
+                    scanType: ["qrCode", "barCode"], // 可以指定扫二维码还是一维码，默认二者都有
+                    success: function ({resultStr}) {
+                        const [, , type, serialNum] = resultStr.match(/https:\/\/(.+)\/invoiceApi\/(.+)\/scanToInvoice\?serialNum=(.+)/);
+
+                        //
+                        if(type !== self.type)
+                        {
+                            return self.Toast(`平台冲突, 当前平台:${self.type}, 二维码所属平台:${type}`);
+                        }
+
+                        //
+                        self[self.currentInvoiceConfig.fetchDataFunc](self.identifier, noWaitHttpRequest, true).then(data => {
+                            //
+                            data.map(el => el.ifSelected = true);
+
+                            //
+                            self.checkedPassenger.push.apply(self.checkedPassenger, data);
+                        });
+                    },
+                    fail: ({errMsg}) => {
+                        self.Toast("添加订单失败: " + errMsg.toString())
+                    }
+                });
+            } catch (e) {
+                this.Toast("微信扫一扫接口调用异常: " + e.toString());
+            }
         },
 
         /**
@@ -327,7 +365,9 @@ $checkInvoiceHeight: 50px;
     align-items: center;
 }
 
-.selectAll {
+.header {
+    display: flex;
+    align-items: center;
     width: 100%;
     height: $selectAllHeight;
     background-color: white;

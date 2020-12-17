@@ -35,6 +35,12 @@ const routerInstance = new Router({
         },
 
         {
+            path: '/invoiceScanList/:type/:identifierList',
+            component: () => import('./views/InvoiceScanList.vue'),
+            props: true,
+        },
+
+        {
             path: '/invoiceSingle/:type/:identifier',
             component: () => import('./views/InvoiceSingle.vue'),
             props: true,
