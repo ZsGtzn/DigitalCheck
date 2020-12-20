@@ -35,7 +35,7 @@ const routerInstance = new Router({
         },
 
         {
-            path: '/invoiceScanList/:type/:identifierList',
+            path: '/invoiceScanList/:urlIdentifier/:identifierList',
             component: () => import('./views/InvoiceScanList.vue'),
             props: true,
         },

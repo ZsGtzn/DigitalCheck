@@ -472,7 +472,7 @@ export default {
                     if (response.code === 0) {
                         setTimeout(() => {
                             this.$router.go(-1)
-                        }, 500)
+                        }, 500);
                     }
 
                     this.Toast(response.msg)

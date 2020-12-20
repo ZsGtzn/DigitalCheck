@@ -1,16 +1,16 @@
 // 三江码头船票
 async function fetchSanJiangData(identifier, noWaitHttpRequest, ifScan = false) {
     //
-    let path = "/invoiceApi/sjky/passengerList";
+    let path = `/invoiceApi/sjky/passengerList?IDCard=${identifier}&state&noWaitHttpRequest=${noWaitHttpRequest ? 'yes' : 'no'}`;
 
     //
     if (ifScan) {
-        path = "";
+        path = `/invoiceApi/sjky/oredrInformation?serialNum=${identifier}&state&noWaitHttpRequest=${noWaitHttpRequest ? 'yes' : 'no'}`;
     }
 
     //
     try {
-        const response = await this.axios.invoice.get(`${path}?IDCard=${identifier}&state&noWaitHttpRequest=${noWaitHttpRequest ? 'yes' : 'no'}`);
+        const response = await this.axios.invoice.get(path);
 
         if (response.code === 0) {
             return response.data.map(ele => Object.assign(ele, {
@@ -201,7 +201,7 @@ async function haiFenWharfData(identifier, noWaitHttpRequest, ifScan = false) {
 
         this.Toast(response.msg);
     }
-    catch {
+    catch (e) {
         this.Toast(`获取开票列表失败, ${e.toString()}`);
     }
 }

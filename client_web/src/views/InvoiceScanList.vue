@@ -6,7 +6,9 @@
             <label for="selectAll" @click="selectALl">全选</label>
         </div>
         <div style="flex-grow:1;"></div>
-        <mt-button type="primary" size="small" @click="scanFetchData">扫一扫添加开票订单</mt-button>
+        <mt-button type="primary" size="small" @click="clearData">清空列表</mt-button>
+        <div style="width:10px;"></div>
+        <mt-button type="primary" size="small" @click="scanNewData">扫一扫添加开票订单</mt-button>
     </div>
     <div v-if="type ==='sanjiang'" class="conditionFrame">
         <mt-switch v-model="altogether">是否合并开票</mt-switch>
@@ -50,10 +52,35 @@ import { inactiveAuthMobileState } from "../storage/mobile";
 import { saveTicketList } from "../storage/ticketList";
 import fetchDataFuncList from "./fetchDataFuncList";
 
+/**
+ * localstorage
+ */
+const InvoiceScanListIdentifierListKey = "InvoiceScanListIdentifierList";
+
+const saveInvoiceScanListIdentifierList = (val) => {
+    localStorage.setItem(InvoiceScanListIdentifierListKey, JSON.stringify(val));
+}
+
+const getInvoiceScanListIdentifierList = () => {
+    let content = localStorage.getItem(InvoiceScanListIdentifierListKey);
+
+    //
+    if(content)
+    {
+        return JSON.parse(content)
+    }
+
+    return [];
+}
+
+const clearInvoiceScanListIdentifierList = () => {
+    return localStorage.removeItem(InvoiceScanListIdentifierListKey);
+}
+
 export default {
     name: 'InvoiceList',
     
-    components: { 
+    components: {
         SanjiangDetail, 
         ChangzhiVehicleDetail, 
         SanjiangVehicleDetail, 
@@ -68,12 +95,14 @@ export default {
     },
 
     props: {
-        type: String,
+        urlIdentifier: String,
         identifierList: {
             type: Array,
             default: []
         },
     },
+
+    inject: ['scanQRCode'],
 
     data() {
         return {
@@ -82,18 +111,57 @@ export default {
             intervalInstance: undefined,
             altogether: 1,
             currentInvoiceConfig: null,
+            type: undefined,
+            mode: 'url',
         }
     },
 
     created()
     {
         //
-        this.currentInvoiceConfig = this.invoiceConfig[this.type];
-
-        if(!this.currentInvoiceConfig)
+        for(let key in this.invoiceConfig)
         {
-            return alert(`错误的平台类型`);
+            let item = this.invoiceConfig[key];
+
+            //
+            if(item.urlIdentifier == this.urlIdentifier)
+            {
+                this.type = key;
+
+                //
+                break;
+            }
         }
+
+        //
+        this.identifierList == decodeURIComponent(this.identifierList);
+
+        //
+        if(this.identifierList == "[]")
+        {
+            // 以本地缓存为主
+            this.identifierList = getInvoiceScanListIdentifierList();
+
+            //
+            this.mode = 'localstorage';
+        }
+        else
+        {
+            // 以url为主
+            this.identifierList = this.identifierList.slice(1, -1).split(",").map(el => ({
+                identifier: el,
+                isValid: true,
+            }));
+        }
+
+        //
+        if(!this.type)
+        {
+            return this.Toast(`错误的平台类型, ${this.urlIdentifier}`);
+        }
+
+        //
+        this.currentInvoiceConfig = this.invoiceConfig[this.type];
 
         //
         this.fetchData();
@@ -101,7 +169,7 @@ export default {
         //
         this.intervalInstance = setInterval(() => {
             this.fetchData(true);
-        }, 6000);
+        }, 10000);
     },
 
     destroyed() {
@@ -148,49 +216,142 @@ export default {
             //
             for(let i = 0; i < this.identifierList.length; i ++)
             {
-                this[this.currentInvoiceConfig.fetchDataFunc](this.identifier, noWaitHttpRequest, true).then(data => {
-                    this.checkedPassenger.push.apply(this.checkedPassenger, data);
+                let item = this.identifierList[i];
+
+                if(!item.isValid)
+                {
+                    continue;
+                }
+
+                this[this.currentInvoiceConfig.fetchDataFunc](item.identifier, noWaitHttpRequest, true).then(data => {
+                    // data不存在, 表示这张票无效, 剔除这张票
+                    if(!data)
+                    {
+                        //
+                        item.isValid = false;
+
+                        //
+                        return;
+                    }
+
+                    this.updateCheckedPassenger(data);
                 });
             }
         },
 
         /**
+         * 清空列表
+         */
+        clearData()
+        {
+            //
+            clearInvoiceScanListIdentifierList();
+
+            //
+            this.identifierList = [];
+
+            //
+            this.checkedPassenger = [];
+        },
+
+        /**
          * 扫一扫获取订单
          */
-        scanFetchData()
+        scanNewData()
         {
-            try {
-                const self = this;
+            let self = this;
+
+            //
+            this.scanQRCode((resultStr) => {
+                let urlIdentifier, serialNum;
 
                 //
-                wx.scanQRCode({
-                    desc: 'scanQRCode desc',
-                    needResult: 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
-                    scanType: ["qrCode", "barCode"], // 可以指定扫二维码还是一维码，默认二者都有
-                    success: function ({resultStr}) {
-                        const [, , type, serialNum] = resultStr.match(/https:\/\/(.+)\/invoiceApi\/(.+)\/scanToInvoice\?serialNum=(.+)/);
+                try{
+                    ([, , urlIdentifier, serialNum] = resultStr.match(/https:\/\/(.+)\/invoiceApi\/(.+)\/scanToInvoice\?serialNum=(.+)/));
+                }
+                catch(e) {
+                    return self.Toast(`二维码不符合规范, ${resultStr}`);
+                }
 
-                        //
-                        if(type !== self.type)
+                //
+                if(urlIdentifier !== self.urlIdentifier)
+                {
+                    return self.Toast(`平台冲突, 当前平台:${self.urlIdentifier}, 二维码所属平台:${urlIdentifier}`);
+                }
+
+                //
+                self[self.currentInvoiceConfig.fetchDataFunc](serialNum, false, true).then(data => {
+                    //
+                    console.log("serialNum: " + serialNum);
+
+                    // 检查订单是否重复
+                    for(let identifierObj of self.identifierList)
+                    {
+                        if(identifierObj.identifier == serialNum)
                         {
-                            return self.Toast(`平台冲突, 当前平台:${self.type}, 二维码所属平台:${type}`);
+                            console.log("check serialNum: " + identifierObj.identifier);
+
+                            //
+                            return this.Toast(`重复订单: ${serialNum}`);
                         }
+                    }
+
+                    //
+                    self.identifierList.push({
+                        identifier: serialNum,
+                        isValid: data ? true : false, // data不存在, 表示这张票无效, 不应当显示
+                    });
+
+                    //
+                    if(this.mode == 'localstorage')
+                    {
+                        saveInvoiceScanListIdentifierList(self.identifierList);
+                    }
+                    
+
+                    //
+                    self.updateCheckedPassenger(data);
+                });
+            }); 
+        },
+
+        /**
+         * 更新订单列表
+         */
+        updateCheckedPassenger(data)
+        {
+            //
+            if(!data || data.length == 0)
+            {
+                return;
+            }
+
+            //
+            for(let el of data)
+            {   
+                let i = 0
+
+                //
+                for(; i < this.checkedPassenger.length; i ++)
+                {
+                    if(this.checkedPassenger[i].serialNum == el.serialNum) {
+                        //
+                        el.ifSelected = this.checkedPassenger[i].ifSelected;
+
+                        // 视图列表更新订单
+                        this.$set(this.checkedPassenger, i, el);
 
                         //
-                        self[self.currentInvoiceConfig.fetchDataFunc](self.identifier, noWaitHttpRequest, true).then(data => {
-                            //
-                            data.map(el => el.ifSelected = true);
-
-                            //
-                            self.checkedPassenger.push.apply(self.checkedPassenger, data);
-                        });
-                    },
-                    fail: ({errMsg}) => {
-                        self.Toast("添加订单失败: " + errMsg.toString())
+                        break;
                     }
-                });
-            } catch (e) {
-                this.Toast("微信扫一扫接口调用异常: " + e.toString());
+                }
+
+                // 视图列表新增订单
+                if(i == this.checkedPassenger.length)
+                {                   
+                    //
+                    this.checkedPassenger.push(el);
+                }
             }
         },
 
@@ -231,7 +392,7 @@ export default {
             alert("如要公司报销 ，抬头请填写公司名称、税号。");
 
             //
-            this.$router.push({ 
+            this.$router.push({
                 path: `/checkInvoice/${this.type}`, 
                 query: { 
                     type: this.type,
@@ -242,43 +403,6 @@ export default {
             // store selection 
             saveTicketList(JSON.stringify(this.multipleSelection));
         },
-
-
-        /**
-         * 重新登录
-         */
-        putuoNavigatorReLogin()
-        {
-            //
-            inactiveAuthMobileState();
-
-            //
-            this.$router.replace({
-                path: "/scan/putuoNavigator",
-            })
-        },
-
-        hxFerryShopReLogin()
-        {
-            //
-            inactiveAuthMobileState();
-
-            //
-            this.$router.replace({
-                path: "/scan/hxFerryShop",
-            })
-        },
-
-        sanjiangCargoReLogin()
-        {
-            //
-            inactiveAuthMobileState();
-
-            //
-            this.$router.replace({
-                path: "/scan/sanjiangCargo",
-            })
-        }
     },
 
     provide() {

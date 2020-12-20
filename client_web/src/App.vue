@@ -4,7 +4,7 @@
         <span slot="left">
             <mt-button icon="back" @click="back"></mt-button>
         </span>
-        <div slot="right" @click="scan" v-show="ifZiubaoPlatform && isWeChat" style="display:flex;flex-direction:column;align-items:flex-end;">
+        <div slot="right" @click="scanQRCode(null)" v-show="ifZiubaoPlatform && isWeChat" style="display:flex;flex-direction:column;align-items:flex-end;">
             <div style="display:flex;flex-direction:column;align-items:center;width:25px;margin-right:10px;">
                 <img :src="scanImg" style="width:28px;"/>
                 <span style="font-size:11px;margin-top:5px;">扫一扫</span>
@@ -30,7 +30,6 @@ export default {
     data() {
         return {
             scanImg: scanImg,
-            weChatAuthState: 0,
             isWeChat: isWeChat(),
             ifZiubaoPlatform: true,
             ifWechatJsApiAuthFinish: true,
@@ -64,7 +63,7 @@ export default {
                 this.ifWechatJsApiAuthFinish = true;
 
                 //
-                this.weChatAuthState = 1;
+                window.weChatAuthState = 1;
             });
 
             //
@@ -94,7 +93,7 @@ export default {
         checkIfShowScan() {
             try {
                 // already pass wechat auth
-                if(this.weChatAuthState == 1) {
+                if(window.weChatAuthState == 1) {
                     return;
                 }
 
@@ -125,6 +124,7 @@ export default {
 
         async weChatJsSdkAuth()
         {
+            //
             this.ifWechatJsApiAuthFinish = false;
 
             //
@@ -145,34 +145,6 @@ export default {
                 signature: data.signature,// 必填，签名
                 jsApiList: ['scanQRCode'], // 必填，需要使用的JS接口列表
             });
-        },
-
-        scan()
-        {
-            if(this.weChatAuthState !== 1)
-            {
-                return this.Toast("微信api授权失败,无法使用扫一扫功能,请刷新页面或者使用微信自带的扫一扫");
-            }
-
-            //
-            try {
-                const self = this;
-                wx.scanQRCode({
-                    desc: 'scanQRCode desc',
-                    needResult: 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
-                    scanType: ["qrCode", "barCode"], // 可以指定扫二维码还是一维码，默认二者都有
-                    success: function ({resultStr}) {
-
-                        // just jump
-                        window.location.href = resultStr;              
-                    },
-                    fail: ({errMsg}) => {
-                        self.Toast("微信扫一扫接口调用失败: " + errMsg.toString())
-                    }
-                });
-            } catch (e) {
-                this.Toast("微信扫一扫接口调用异常: " + e.toString());
-            }
         },
 
         back() {
@@ -199,7 +171,45 @@ export default {
 
             //
             this.$router.go(-1);
-        }
+        },
+
+        scanQRCode(handleFn)
+        {
+            if(window.weChatAuthState !== 1)
+            {
+                return this.Toast("微信api授权失败,无法使用扫一扫功能,请刷新页面");
+            }
+
+            //
+            try {
+                wx.scanQRCode({
+                    desc: 'scanQRCode desc',
+                    needResult: 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
+                    scanType: ["qrCode", "barCode"], // 可以指定扫二维码还是一维码，默认二者都有
+                    success: function({resultStr}) {
+                        if(handleFn)
+                        {
+                            return handleFn(resultStr);
+                        }
+
+                        // just jump
+                        window.location.href = resultStr;
+                    },
+                    fail: function({errMsg}) {
+                        this.Toast("微信扫一扫接口调用失败: " + errMsg.toString())
+                    }
+                });
+            } catch (scanQRCodeErr) {
+                this.Toast("微信扫一扫接口调用异常: " + scanQRCodeErr.toString());
+            }
+        },
+    },
+
+    provide()
+    {
+        return {
+            scanQRCode: this.scanQRCode,
+        };
     },
 }
 </script>

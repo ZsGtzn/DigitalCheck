@@ -1,6 +1,7 @@
 {
     "putuobus": {
         "name": "普陀山旅游巴士",
+        "urlIdentifier": "zlkc",
         "module": "single",
         "invoiceDetailComponent": "PutuoBusDetail",
         "subScanComponent": "PutuoBus",
@@ -12,6 +13,7 @@
 
     "sanjiang": {
         "name": "三江船票",
+        "urlIdentifier": "sjky",
         "module": "list",
         "invoiceDetailComponent": "SanjiangDetail",
         "subScanComponent": "SanJiang",
@@ -23,6 +25,7 @@
     
     "changzhiVehiclePark": {
         "name": "长峙岛停车场",
+        "urlIdentifier": "czpark",
         "module": "list",
         "invoiceDetailComponent": "ChangzhiVehicleDetail",
         "subScanComponent": "ChangzhiVehiclePark",
@@ -34,6 +37,7 @@
 
     "sanjiangVehiclePark": {
         "name": "三江停车场",
+        "urlIdentifier": "sjpark",
         "module": "list",
         "invoiceDetailComponent": "SanjiangVehicleDetail",
         "subScanComponent": "SanjiangVehiclePark",
@@ -45,6 +49,7 @@
 
     "putuoNavigator": {
         "name": "普陀山导游",
+        "urlIdentifier": "zlkcMesh",
         "module": "list",
         "invoiceDetailComponent": "PutuoNavigatorDetail",
         "subScanComponent": "PuTuoNavigator",
@@ -56,6 +61,7 @@
     
     "putuoRopeway": {
         "name": "普陀山索道",
+        "urlIdentifier": "ptssd",
         "module": "list",
         "invoiceDetailComponent": "PutuoRopewayDetail",
         "subScanComponent": "PutuoRopeway",
@@ -67,6 +73,7 @@
     
     "hxFerryShop": {
         "name": "海峡轮渡小卖部",
+        "urlIdentifier": "hxldxmb",
         "module": "list",
         "invoiceDetailComponent": "HxFerryShopDetail",
         "subScanComponent": "HxFerryShop",
@@ -78,6 +85,7 @@
     
     "dunTouWharf": {
         "name": "墩头码头",
+        "urlIdentifier": "dtky",
         "module": "list",
         "invoiceDetailComponent": "DunTouWharfDetail",
         "subScanComponent": "DunTouWharf",
@@ -89,6 +97,7 @@
     
     "gangWuWharf": {
         "name": "港务码头",
+        "urlIdentifier": "dhky",
         "module": "list",
         "invoiceDetailComponent": "GangWuWharfDetail",
         "subScanComponent": "GangWuWharf",
@@ -100,6 +109,7 @@
     
     "haiFenWharf": {
         "name": "海峰码头",
+        "urlIdentifier": "hfky",
         "module": "list",
         "invoiceDetailComponent": "HaiFenWharfDetail",
         "subScanComponent": "HaiFenWharf",
@@ -111,6 +121,7 @@
 
     "sanjiangCargo": {
         "name": "三江货运",
+        "urlIdentifier": "sjhy",
         "module": "list",
         "invoiceDetailComponent": "SanjiangCargoDetail",
         "subScanComponent": "SanjiangCargo",
@@ -122,6 +133,7 @@
 
     "zlky": {
         "name": "舟旅客运",
+        "urlIdentifier": "ljsky",
         "module": "list",
         "invoiceDetailComponent": "ZlkyDetail",
         "subScanComponent": "Zlky",

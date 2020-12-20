@@ -119,7 +119,9 @@ export default {
             }
 
             //
-            this.invoiceDetail = await this[this.currentInvoiceConfig.fetchDataFunc](this.identifier, noWaitHttpRequest);
+            this.invoiceDetail = await this[this.currentInvoiceConfig.fetchDataFunc](this.identifier, noWaitHttpRequest) || {
+                serialNum: "",
+            };
         },
 
         
