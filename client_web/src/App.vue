@@ -4,7 +4,7 @@
         <span slot="left">
             <mt-button icon="back" @click="back"></mt-button>
         </span>
-        <div slot="right" @click="scanQRCode(null)" v-show="ifZiubaoPlatform && isWeChat" style="display:flex;flex-direction:column;align-items:flex-end;">
+        <div slot="right" @click="scanQRCode(null)" v-show="ifShowHeadScan" style="display:flex;flex-direction:column;align-items:flex-end;">
             <div style="display:flex;flex-direction:column;align-items:center;width:25px;margin-right:10px;">
                 <img :src="scanImg" style="width:28px;"/>
                 <span style="font-size:11px;margin-top:5px;">扫一扫</span>
@@ -86,6 +86,13 @@ export default {
     watch: {
         ifWechatJsApiAuthFinish(newVal) {
             this.$store.commit("auth/setIfWechatAuthFinish", newVal)
+        },
+    },
+
+    computed: {
+        ifShowHeadScan()
+        {
+            return this.ifZiubaoPlatform && this.isWeChat && window.location.href.indexOf("invoiceScanList") <= 0;
         }
     },
 

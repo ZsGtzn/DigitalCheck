@@ -61,4 +61,4 @@ https://zyb.ziubao.com/invoiceApi/sjky/scanToInvoice?serialNum=1608024055055230d
 https://zyb.ziubao.com/invoiceApi/sjky/scanToInvoice?serialNum=202012171426368274296972966820 可开票
 
 扫码地址
-https://zyb.ziubao.com/yingqiyu-test/ziubao-test/main/#/invoiceScanList/sjky/[202012171426368274296972966820,202012171426245430606061031040,202012171424591242984965595770]/
+https://zyb.ziubao.com/yingqiyu-test/ziubao-test/main/#/invoiceScanList/sjky/%5b202012171426368274296972966820%2c202012171426245430606061031040%2c202012171424591242984965595770%5d/

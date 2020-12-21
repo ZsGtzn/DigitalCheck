@@ -6,9 +6,9 @@
             <label for="selectAll" @click="selectALl">全选</label>
         </div>
         <div style="flex-grow:1;"></div>
-        <mt-button type="primary" size="small" @click="clearData">清空列表</mt-button>
+        <mt-button type="primary" size="small" plain @click="clearData">清空列表</mt-button>
         <div style="width:10px;"></div>
-        <mt-button type="primary" size="small" @click="scanNewData">扫一扫添加开票订单</mt-button>
+        <mt-button type="primary" size="small" plain @click="scanNewData">扫一扫添加开票订单</mt-button>
     </div>
     <div v-if="type ==='sanjiang'" class="conditionFrame">
         <mt-switch v-model="altogether">是否合并开票</mt-switch>
@@ -58,6 +58,12 @@ import fetchDataFuncList from "./fetchDataFuncList";
 const InvoiceScanListIdentifierListKey = "InvoiceScanListIdentifierList";
 
 const saveInvoiceScanListIdentifierList = (val) => {
+    for(let el of val)
+    {
+        el.isValid = true;
+    }
+
+    //
     localStorage.setItem(InvoiceScanListIdentifierListKey, JSON.stringify(val));
 }
 
@@ -77,6 +83,7 @@ const clearInvoiceScanListIdentifierList = () => {
     return localStorage.removeItem(InvoiceScanListIdentifierListKey);
 }
 
+//
 export default {
     name: 'InvoiceList',
     
@@ -112,13 +119,14 @@ export default {
             altogether: 1,
             currentInvoiceConfig: null,
             type: undefined,
-            mode: 'url',
         }
     },
 
     created()
     {
-        //
+        /**
+         * check type
+         */
         for(let key in this.invoiceConfig)
         {
             let item = this.invoiceConfig[key];
@@ -133,37 +141,55 @@ export default {
             }
         }
 
-        //
-        this.identifierList == decodeURIComponent(this.identifierList);
-
-        //
-        if(this.identifierList == "[]")
-        {
-            // 以本地缓存为主
-            this.identifierList = getInvoiceScanListIdentifierList();
-
-            //
-            this.mode = 'localstorage';
-        }
-        else
-        {
-            // 以url为主
-            this.identifierList = this.identifierList.slice(1, -1).split(",").map(el => ({
-                identifier: el,
-                isValid: true,
-            }));
-        }
-
-        //
         if(!this.type)
         {
             return this.Toast(`错误的平台类型, ${this.urlIdentifier}`);
         }
 
-        //
+        /**
+         * handle storage
+         */
+        const nowTime = Date.now();
+        const cachedIdentifierList = getInvoiceScanListIdentifierList().filter(el => {
+            return (nowTime - el.createTime) < 24 * 60 * 60 * 1000;
+        });
+
+        /**
+         * handle url
+         */
+        this.identifierList = decodeURIComponent(this.identifierList);
+        let urlIdentifierList = [];
+        if(this.identifierList !== "[]") {
+            urlIdentifierList = this.identifierList.slice(1, -1).split(",").map(el => ({
+                identifier: el,
+                isValid: true,
+                createTime: Date.now(),
+            }));
+            urlIdentifierList = _.uniqWith(urlIdentifierList, (arrVal, othVal) => {
+                return arrVal.identifier === othVal.identifier;
+            });
+        }
+
+        /**
+         * union storage and url
+         */
+        this.identifierList = _.unionWith(cachedIdentifierList, urlIdentifierList, (arrVal, othVal) => {
+            return arrVal.identifier === othVal.identifier;
+        });
+
+        /**
+         * save
+         */
+        saveInvoiceScanListIdentifierList(this.identifierList);
+
+        /**
+         * init data fetch func
+         */
         this.currentInvoiceConfig = this.invoiceConfig[this.type];
 
-        //
+        /**
+         * fetch data
+         */
         this.fetchData();
 
         //
@@ -300,14 +326,11 @@ export default {
                     self.identifierList.push({
                         identifier: serialNum,
                         isValid: data ? true : false, // data不存在, 表示这张票无效, 不应当显示
+                        createTime: Date.now(),
                     });
 
                     //
-                    if(this.mode == 'localstorage')
-                    {
-                        saveInvoiceScanListIdentifierList(self.identifierList);
-                    }
-                    
+                    saveInvoiceScanListIdentifierList(self.identifierList);
 
                     //
                     self.updateCheckedPassenger(data);
@@ -353,6 +376,9 @@ export default {
                     this.checkedPassenger.push(el);
                 }
             }
+
+            // sort
+            this.checkedPassenger = _.orderBy(this.checkedPassenger, el => el.isInvoice == true ? 1 : 0);
         },
 
         /**
