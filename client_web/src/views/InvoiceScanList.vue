@@ -115,7 +115,6 @@ export default {
         return {
             checkedPassenger: [],
             ifAllSelected: false,
-            intervalInstance: undefined,
             altogether: 1,
             currentInvoiceConfig: null,
             type: undefined,
@@ -193,16 +192,13 @@ export default {
         this.fetchData();
 
         //
-        this.intervalInstance = setInterval(() => {
+        setTimeout(() => {
             this.fetchData(true);
-        }, 10000);
-    },
+        }, 5000);
+},
 
     destroyed() {
-        if(this.intervalInstance)
-        {
-            clearInterval(this.intervalInstance)
-        }
+       
     },
 
     computed: {
