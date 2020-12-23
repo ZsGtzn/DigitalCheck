@@ -56,6 +56,10 @@ O2020112422564287700243
 202012171426245430606061031040
 202012171424591242984965595770
 
+长峙客运
+33090319920707023X
+/#/checkInvoice/changzhikeyun?type=changzhikeyun&assembleSerialNo=20201113209000024
+
 测试二维码
 https://zyb.ziubao.com/invoiceApi/sjky/scanToInvoice?serialNum=1608024055055230d206908d111d90 不可开票
 https://zyb.ziubao.com/invoiceApi/sjky/scanToInvoice?serialNum=202012171426368274296972966820 可开票

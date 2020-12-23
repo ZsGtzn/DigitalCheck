@@ -314,6 +314,7 @@ export default {
         }
         else if(this.$attrs.assembleSerialNo)
         {
+            // this api has been deprecated, now qrcode scan operate jump to invoiceScanList, so assembleSerialNo is useless
             this.fetchInvoiceList();
         }
         else

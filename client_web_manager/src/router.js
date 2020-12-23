@@ -37,6 +37,11 @@ const routerInstance = new Router({
             path: '/sanjiangCargo',
             component: () => import('./views/SanjiangCargo.vue'),
         },
+
+        {
+            path: '/changZhiKeYun',
+            component: () => import('./views/ChangZhiKeYun.vue'),
+        },
     ]
 });
 
