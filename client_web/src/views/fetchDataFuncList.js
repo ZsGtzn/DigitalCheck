@@ -275,6 +275,29 @@ async function zlkyData(identifier, noWaitHttpRequest, ifScan = false) {
     }
 }
 
+
+// 长峙客运
+async function changZhiKeYunData(identifier, noWaitHttpRequest, ifScan = false) {
+    //
+    let path = `/invoiceApi/czky/passengerList?IDCard=${identifier}&state&noWaitHttpRequest=${noWaitHttpRequest ? 'yes' : 'no'}`;
+
+    //
+    try {
+        const response = await this.axios.invoice.get(path);
+
+        if (response.code === 0) {
+            return response.data.map(ele => Object.assign(ele, {
+                ifSelected: false,
+            }));
+        }
+
+        this.Toast(response.msg);
+    }
+    catch (e) {
+        this.Toast(`获取开票列表失败, ${e.toString()}`);
+    }
+}
+
 export default {
     fetchSanJiangData,
     changzhiVehicleParkData,
@@ -287,4 +310,5 @@ export default {
     haiFenWharfData,
     sanjiangCargoData,
     zlkyData,
+    changZhiKeYunData,
 }

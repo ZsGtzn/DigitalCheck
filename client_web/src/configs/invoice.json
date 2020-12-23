@@ -141,6 +141,18 @@
         "rollBackUrl": "/invoiceApi/ljsky/doMinusInvoice",
         "fetchOneSerialNumDataUrl": "/invoiceApi/ljsky/canInvoiceList",
         "checkInvoiceUrl": "/invoiceApi/ljsky/doInvoice"
+    },
+
+    "changzhikeyun": {
+        "name": "长峙客运",
+        "urlIdentifier": "czky",
+        "module": "list",
+        "invoiceDetailComponent": "ChangZhiKeYunDetail",
+        "subScanComponent": "ChangZhiKeYun",
+        "fetchDataFunc": "changZhiKeYunData",
+        "rollBackUrl": "/invoiceApi/czky/doMinusInvoice",
+        "fetchOneSerialNumDataUrl": "/invoiceApi/czky/canInvoiceList",
+        "checkInvoiceUrl": "/invoiceApi/czky/doInvoice"
     }
 }
 

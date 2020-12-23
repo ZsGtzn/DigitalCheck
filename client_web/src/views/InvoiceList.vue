@@ -56,6 +56,7 @@ const GangWuWharfDetail = () => import("../components/list/GangWuWharfDetail.vue
 const HaiFenWharfDetail = () => import("../components/list/HaiFenWharfDetail.vue");
 const SanjiangCargoDetail = () => import("../components/list/SanjiangCargoDetail.vue");
 const ZlkyDetail = () => import("../components/list/ZlkyDetail.vue");
+const ChangZhiKeYunDetail = () => import("../components/list/ChangZhiKeYunDetail.vue");
 
 import { inactiveAuthMobileState } from "../storage/mobile";
 import { saveTicketList } from "../storage/ticketList";
@@ -76,6 +77,7 @@ export default {
         HaiFenWharfDetail,
         SanjiangCargoDetail,
         ZlkyDetail,
+        ChangZhiKeYunDetail,
     },
 
     props: ['type', 'identifier'],
@@ -279,9 +281,18 @@ export default {
                     }
 
                     //
-                    this.axios.invoice.post(self.currentInvoiceConfig.rollBackUrl, {
-                        serialNum: invoiceDetail.serialNum,
-                    }).then(response => {
+                    let postData = {
+                        serialNum: invoiceDetail.serialNum
+                    };
+
+                    //
+                    if(self.type == 'changzhikeyun')
+                    {
+                        postData.IDCard = self.identifier;
+                    }
+
+                    //
+                    this.axios.invoice.post(self.currentInvoiceConfig.rollBackUrl, postData).then(response => {
                         if(response.code === 0)
                         {
                             return this.Toast("作废成功");

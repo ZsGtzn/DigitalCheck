@@ -467,9 +467,18 @@ export default {
                     }
 
                     //
-                    this.axios.invoice.post(self.currentInvoiceConfig.rollBackUrl, {
-                        serialNum: invoiceDetail.serialNum,
-                    }).then(response => {
+                    let postData = {
+                        serialNum: invoiceDetail.serialNum
+                    };
+
+                    //
+                    if(self.type == 'changzhikeyun')
+                    {
+                        postData.IDCard = self.identifier;
+                    }
+
+                    //
+                    this.axios.invoice.post(self.currentInvoiceConfig.rollBackUrl, postData).then(response => {
                         if(response.code === 0)
                         {
                             return this.Toast("作废成功");
