@@ -90,7 +90,7 @@
         "invoiceDetailComponent": "DunTouWharfDetail",
         "subScanComponent": "DunTouWharf",
         "fetchDataFunc": "dunTouWharfData",
-        "rollBackUrl": "",
+        "rollBackUrl": "/invoiceApi/dtky/doMinusInvoice",
         "fetchOneSerialNumDataUrl": "/invoiceApi/dtky/canInvoiceList",
         "checkInvoiceUrl": "/invoiceApi/dtky/doInvoice"
     },
@@ -102,7 +102,7 @@
         "invoiceDetailComponent": "GangWuWharfDetail",
         "subScanComponent": "GangWuWharf",
         "fetchDataFunc": "gangWuWharfData",
-        "rollBackUrl": "",
+        "rollBackUrl": "/invoiceApi/dhky/doMinusInvoice",
         "fetchOneSerialNumDataUrl": "/invoiceApi/dhky/canInvoiceList",
         "checkInvoiceUrl": "/invoiceApi/dhky/doInvoice"
     },
