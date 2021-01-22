@@ -70,7 +70,7 @@ Vue.mixin({
             Toast,
             MessageBox,
         }
-    }
+    },
 });
 
 //

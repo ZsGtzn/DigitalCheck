@@ -65,3 +65,7 @@ export const downloadUtil = {
         document.body.removeChild(eleLink);
     }
 }
+
+export const addPlatformSuffix = () => {
+    return `_${process.env.ziubao_invoice_platform}`;
+}

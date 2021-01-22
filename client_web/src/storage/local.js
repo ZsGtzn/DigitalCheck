@@ -1,3 +1,5 @@
+import { addPlatformSuffix } from "../utils";
+
 /**
  * auto token
  */
@@ -33,21 +35,19 @@ export const clearWxUserInfo = () => {
 }
 
 /**
- * invliceInfo
+ * invoiceInfo
  */
-
-const InvoiceInfoTypeKey = "InvoiceInfoTypeKey";
-const InvoiceInfoUsernameKey = "InvoiceInfoUsernameKey";
-const InvoiceInfoCompanyHeadKey = "InvoiceInfoCompanyHeadKey";
-const InvoiceInfoEmailKey = "InvoiceInfoEmailKey";
-const InvoiceInfoTaxNoKey = "InvoiceInfoTaxNoKey";
-const InvoiceInfoCompanyAddressKey = "InvoiceInfoCompanyAddressKey";
-const InvoiceInfoCompanyTelephoneKey = "InvoiceInfoCompanyTelephoneKey";
-const InvoiceInfoCompanyBankKey = "InvoiceInfoCompanyBankKey";
-const InvoiceInfoCompanyBankAccountKey = "InvoiceInfoCompanyBankAccountKey";
-const InvoiceInfoRemarkKey = "InvoiceInfoRemarkKey";
-const InvoiceInfoMobileKey = "InvoiceInfoMobileKey";
-const InvoiceInfoPersonIdentifierKey = "InvoiceInfoPersonIdentifierKey";
+const InvoiceInfoTypeKey = "InvoiceInfoTypeKey" + addPlatformSuffix();
+const InvoiceInfoUsernameKey = "InvoiceInfoUsernameKey" + addPlatformSuffix();
+const InvoiceInfoCompanyHeadKey = "InvoiceInfoCompanyHeadKey" + addPlatformSuffix();
+const InvoiceInfoEmailKey = "InvoiceInfoEmailKey" + addPlatformSuffix();
+const InvoiceInfoTaxNoKey = "InvoiceInfoTaxNoKey" + addPlatformSuffix();
+const InvoiceInfoCompanyAddressKey = "InvoiceInfoCompanyAddressKey" + addPlatformSuffix();
+const InvoiceInfoCompanyTelephoneKey = "InvoiceInfoCompanyTelephoneKey" + addPlatformSuffix();
+const InvoiceInfoCompanyBankKey = "InvoiceInfoCompanyBankKey" + addPlatformSuffix();
+const InvoiceInfoCompanyBankAccountKey = "InvoiceInfoCompanyBankAccountKey" + addPlatformSuffix();
+const InvoiceInfoMobileKey = "InvoiceInfoMobileKey" + addPlatformSuffix();
+const InvoiceInfoPersonIdentifierKey = "InvoiceInfoPersonIdentifierKey" + addPlatformSuffix();
 
 export const setInvoiceInfoType = (type) => {
     localStorage.setItem(InvoiceInfoTypeKey, type);
