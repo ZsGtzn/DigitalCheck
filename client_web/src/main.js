@@ -71,6 +71,13 @@ Vue.mixin({
             MessageBox,
         }
     },
+
+    methods: {
+        urlLocate(url)
+        {
+            window.location.href = url;
+        }
+    }
 });
 
 //

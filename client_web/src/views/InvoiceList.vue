@@ -32,7 +32,7 @@
 
                 <!-- 通用 -->
                 <li v-for="item of checkedPassenger" :key="item.serialNum" class="listItem" @click="selectInvoice(item)">
-                    <BaseInvoiceListState :ifShowRollback="currentInvoiceConfig.rollBackUrl && currentInvoiceConfig.rollBackUrl.length > 0" :item="item">
+                    <BaseInvoiceListState :type="type" :ifShowRollback="currentInvoiceConfig.rollBackUrl && currentInvoiceConfig.rollBackUrl.length > 0" :item="item">
                         <component :is="currentInvoiceConfig.invoiceDetailComponent" :item="item"></component>
                     </BaseInvoiceListState>
                 </li>

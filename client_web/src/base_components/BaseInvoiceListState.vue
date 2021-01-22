@@ -23,19 +23,21 @@
         <slot></slot>
         <div v-if="routeInfo.invoiceUrl && routeInfo.invoiceUrl.length > 0">
             <div style="background-color:#f1f1f1;height:1px;margin:10px;"></div>
-            <div style="text-align:right;display:flex;justify-content:flex-end;box-sizing:border-box;padding:10px;">
+            <div style="text-align:right;box-sizing:border-box;padding:10px;">
                 <div
+                    class="download"
                     @click.capture="showOpenBrowserHint">
                     <mt-button
-                        type="primary"
                         class="download"
+                        type="primary"
                         @click.capture="download(routeInfo)"
                     >下载</mt-button>
                 </div>
-                <div style="width:10px;" />
                 <mt-button type="primary" class="preview" @click="preview(routeInfo)">查看</mt-button>
+                <!-- sanjiang support wechat card bag -->
+                <mt-button type="primary" v-show="type == 'sanjiang'" class="insertWechatCardBag" @click="insertWechatCardBag(routeInfo)">插入卡包</mt-button>
+                <!-- -->
                 <template v-if="ifShowRollback">
-                    <div style="width:10px;" />
                     <mt-button
                         :plain="routeInfo.isRed"
                         type="primary"
@@ -55,10 +57,16 @@ export default {
     name: "BaseInvoiceListState",
 
     props: {
+        type: {
+            type: String,
+            required: true,
+        },
+
         item: {
             required: true,
             type: Object,
         },
+
         ifShowRollback: {
             default: false,
         },
@@ -90,6 +98,21 @@ export default {
 
     methods: {
         ...downloadUtil,
+
+        insertWechatCardBag()
+        {
+            this.axios.invoice.get("/invoiceApi/common/billingAuthurl", {
+                orderId: this.item.orderId,
+                redirectUrl: `${window.location.href.split('#')[0]}#/insertWechatCardBag?orderId=${this.item.orderId}&redirectUrl=${encodeURIComponent(window.location.href)}`,
+            }).then(({code, msg}) => {
+                if(code == 0)
+                {
+                    return this.Toast(`服务器返回错误, 应当返回105, 现在返回 ${code}`);
+                }
+            }).catch(e => {
+                this.Toast(e.toString());
+            });
+        }
     }
 }
 </script>
@@ -110,14 +133,23 @@ export default {
 
 //
 @mixin pdf {
-    width: 60px;
+    width: 50px;
     height: 30px;
     padding: auto;
-    font-size: 15px;
+    font-size: 10px;
+    display: inline-block;
+    margin: auto;
 }
 
 .preview {
     @include pdf;
+    background-color: #32ddb3;
+}
+
+
+.insertWechatCardBag {
+    @include pdf;
+    width: 80px;
     background-color: #32ddb3;
 }
 

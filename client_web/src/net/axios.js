@@ -141,7 +141,7 @@ class Axios {
             });
         }
 
-        //
+        // relocation url
         if (res.data && res.data.code == 105)
         {
             return window.location.href = res.data.data;

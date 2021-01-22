@@ -79,6 +79,17 @@ const routerInstance = new Router({
                 }
             },
         },
+
+        {
+            path: '/insertWechatCardBag',
+            component: () => import('./views/InsertWechatCardBag.vue'),
+            props: route => {
+                return {
+                    orderId: route.query.orderId,
+                    redirectUrl: route.query.redirectUrl,
+                }
+            },
+        },
     ]
 });
 
@@ -172,6 +183,9 @@ routerInstance.beforeEach((to, from, next) => {
 
         // fetch origin url
         const fromUrl = encodeURIComponent(document.referrer);
+
+        //
+        console.log(`wechatAuthUrl: ${wechatAuthUrl}`);
 
         //
         const wechatAuthUrl = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${appId}&redirect_uri=${encodeRedirectUrl}&response_type=code&scope=snsapi_userinfo&state=${fromUrl}#wechat_redirect`;
