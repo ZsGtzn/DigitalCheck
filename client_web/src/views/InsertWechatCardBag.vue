@@ -15,9 +15,7 @@
             style="width: 80%"
             v-show="!ifInsertSuccess"
             @click="
-                $router.push({
-                    path: `/invoiceList/${this.type}/${this.identifier}`,
-                })
+                goBack
             "
             >返回</mt-button
         >
@@ -66,9 +64,7 @@ export default {
                 })
                 .then(({ code, msg }) => {
                     if (code == 0) {
-                        return this.$router.push({
-                            path: `/invoiceList/${this.type}/${this.identifier}`,
-                        })
+                        return this.goBack();
                     }
 
                     //
@@ -82,6 +78,24 @@ export default {
                 })
         }, 1500)
     },
+
+    methods: {
+        goBack()
+        {
+            if(this.remark == '')
+            {
+                this.$router.push({
+                    path: `/invoiceList/${this.type}/${this.identifier}`,
+                })
+            }
+            else if(this.remark == 'invoiceScanList')
+            {
+                this.$router.push({
+                    path: `/invoiceScanList/${this.type}/${encodeURIComponent('[]')}`,
+                })
+            }
+        }
+    }
 }
 </script>
 

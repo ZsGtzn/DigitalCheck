@@ -35,7 +35,7 @@
                 </div>
                 <mt-button type="primary" class="preview" @click="preview(routeInfo)">查看</mt-button>
                 <!-- sanjiang support wechat card bag -->
-                <mt-button type="primary" v-show="type == 'sanjiang'" class="insertWechatCardBag" @click="insertWechatCardBag(routeInfo)">插入卡包</mt-button>
+                <mt-button type="primary" v-show="type == 'sanjiang' || type == 'sjky'" class="insertWechatCardBag" @click="insertWechatCardBag(routeInfo)">插入卡包</mt-button>
                 <!-- -->
                 <template v-if="ifShowRollback">
                     <mt-button
@@ -67,6 +67,11 @@ export default {
             required: true,
         },
         
+        remark: {
+            type: String,
+            default: '',
+        },
+
         item: {
             required: true,
             type: Object,
@@ -108,7 +113,7 @@ export default {
         {
             this.axios.invoice.get("/invoiceApi/common/billingAuthurl", {
                 orderId: this.item.orderId,
-                redirectUrl: `${window.location.href.split('#')[0]}#/insertWechatCardBag?orderId=${this.item.orderId}&type=${this.type}&identifier=${this.identifier}`,
+                redirectUrl: `${window.location.href.split('#')[0]}#/insertWechatCardBag?orderId=${this.item.orderId}&type=${this.type}&identifier=${this.identifier}&remark=${this.remark}`,
             }).then(({code, msg}) => {
                 if(code == 0)
                 {
