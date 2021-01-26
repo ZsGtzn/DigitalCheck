@@ -86,7 +86,9 @@ const routerInstance = new Router({
             props: route => {
                 return {
                     orderId: route.query.orderId,
-                    redirectUrl: route.query.redirectUrl,
+                    type: route.query.type,
+                    identifier: route.query.identifier,
+                    remark: route.query.remark,
                 }
             },
         },

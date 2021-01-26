@@ -62,6 +62,11 @@ export default {
             required: true,
         },
 
+        identifier: {
+            type: String,
+            required: true,
+        },
+        
         item: {
             required: true,
             type: Object,
@@ -103,7 +108,7 @@ export default {
         {
             this.axios.invoice.get("/invoiceApi/common/billingAuthurl", {
                 orderId: this.item.orderId,
-                redirectUrl: `${window.location.href.split('#')[0]}#/insertWechatCardBag?orderId=${this.item.orderId}&redirectUrl=${encodeURIComponent(window.location.href)}`,
+                redirectUrl: `${window.location.href.split('#')[0]}#/insertWechatCardBag?orderId=${this.item.orderId}&type=${this.type}&identifier=${this.identifier}`,
             }).then(({code, msg}) => {
                 if(code == 0)
                 {
