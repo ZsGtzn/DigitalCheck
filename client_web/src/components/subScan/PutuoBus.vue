@@ -5,7 +5,7 @@
         <mt-field placeholder="请您输入商户单号" style="width:100%;border-radius:10px;" v-model="identityNo"></mt-field>
       
         <div style="text-align: center; position: absolute; bottom: 0px; left: 0px; width: 100%;">
-            <span id="tip">咨询服务电话：0580-6696969</span>
+            <span id="tip">咨询服务电话：<a href="tel:0580-6696969">0580-6696969</a></span>
             <div style="height:10px;"></div>
             <mt-button type="primary" id="checkInvoice" @click="search">查询</mt-button>
         </div>

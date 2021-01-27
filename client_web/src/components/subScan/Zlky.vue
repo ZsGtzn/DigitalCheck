@@ -21,7 +21,7 @@
         </div>
 
         <div style="text-align: center; position: absolute; bottom: 0px; left: 0px; width: 100%;">
-            <span id="tip">咨询服务电话：0580-6093562</span>
+            <span id="tip">咨询服务电话：<a href="tel:0580-6698520">0580-6698520</a></span>
             <div style="height:10px;"></div>
             <mt-button type="primary" id="checkInvoice" @click="search">查询</mt-button>
         </div>

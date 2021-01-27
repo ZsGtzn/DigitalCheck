@@ -6,7 +6,7 @@
 
         <div style="text-align: center; position: absolute; bottom: 0px; left: 0px; width: 100%;">
             <p>
-                电子发票咨询热线：<a href="tel:05802266222">0580-2266222</a>。
+                电子发票咨询热线：<a href="tel:0580-2266222">0580-2266222</a>。
             </p>
             <mt-button type="primary" id="checkInvoice" @click="search">查询</mt-button>
         </div>
