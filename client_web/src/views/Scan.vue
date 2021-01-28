@@ -20,6 +20,7 @@ import HaiFenWharf from "../components/subScan/HaiFenWharf.vue";
 import SanjiangCargo from "../components/subScan/SanjiangCargo.vue";
 import Zlky from "../components/subScan/Zlky.vue";
 import ChangZhiKeYun from "../components/subScan/ChangZhiKeYun.vue";
+import Ybky from "../components/subScan/Ybky.vue";
 
 //
 import store from "../store";
@@ -46,6 +47,7 @@ export default {
         SanjiangCargo,
         Zlky,
         ChangZhiKeYun,
+        Ybky,
      },
 
     props: ["type"],

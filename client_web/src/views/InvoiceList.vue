@@ -4,7 +4,7 @@
         <input type="checkbox" id="selectAll" v-model="ifAllSelected">
         <label for="selectAll" @click="selectALl">全选</label>
     </div>
-    <div v-if="type ==='sanjiang'" class="conditionFrame">
+    <div v-if="type ==='sanjiang' || type == 'ybky'" class="conditionFrame">
         <mt-switch v-model="altogether">是否合并开票</mt-switch>
     </div>
     <mt-loadmore :top-method="loadTop" :bottom-all-loaded="true" ref="loadmore" :class="[ type === 'sanjiang' ? 'passengerInvoiceSwitcherShow' : 'passengerInvoiceSwitcherHide']">
@@ -57,6 +57,7 @@ const HaiFenWharfDetail = () => import("../components/list/HaiFenWharfDetail.vue
 const SanjiangCargoDetail = () => import("../components/list/SanjiangCargoDetail.vue");
 const ZlkyDetail = () => import("../components/list/ZlkyDetail.vue");
 const ChangZhiKeYunDetail = () => import("../components/list/ChangZhiKeYunDetail.vue");
+const YbkyDetail = () => import("../components/list/YbkyDetail.vue");
 
 import { inactiveAuthMobileState } from "../storage/mobile";
 import fetchDataFuncList from "./fetchDataFuncList";
@@ -84,6 +85,7 @@ export default {
         SanjiangCargoDetail,
         ZlkyDetail,
         ChangZhiKeYunDetail,
+        YbkyDetail,
     },
 
     props: ['type', 'identifier'],

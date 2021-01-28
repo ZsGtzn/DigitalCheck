@@ -153,6 +153,18 @@
         "rollBackUrl": "/invoiceApi/czky/doMinusInvoice",
         "fetchOneSerialNumDataUrl": "/invoiceApi/czky/canInvoiceList",
         "checkInvoiceUrl": "/invoiceApi/czky/doInvoice"
+    },
+
+    "ybky": {
+        "name": "鸭白客运",
+        "urlIdentifier": "ybky",
+        "module": "list",
+        "invoiceDetailComponent": "YbkyDetail",
+        "subScanComponent": "Ybky",
+        "fetchDataFunc": "ybkyData",
+        "rollBackUrl": "/invoiceApi/ybky/doMinusInvoice",
+        "fetchOneSerialNumDataUrl": "/invoiceApi/ybky/canInvoiceList",
+        "checkInvoiceUrl": "/invoiceApi/ybky/doInvoice"
     }
 }
 

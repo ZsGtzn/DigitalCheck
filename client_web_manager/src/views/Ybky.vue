@@ -75,7 +75,7 @@
 <script>
 
 export default {
-    name: "SanJiang",
+    name: "Ybky",
 
     data() {
         return {
@@ -124,7 +124,7 @@ export default {
         fetchInvoiceList() 
         {
             //
-            this.axios.invoice.get(`/invoiceApi/sjky/statistics?startDate=${this.formattedBeginTime}&endDate=${this.formattedEndTime}`).then(response => {
+            this.axios.invoice.get(`/invoiceApi/ybky/statistics?startDate=${this.formattedBeginTime}&endDate=${this.formattedEndTime}`).then(response => {
                 if(response.code === 0)
                 {
                     this.invoiceList = response.data.list;

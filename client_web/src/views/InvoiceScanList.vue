@@ -10,7 +10,7 @@
         <div style="width:10px;"></div>
         <mt-button type="primary" size="small" plain @click="scanNewData">扫一扫添加开票订单</mt-button>
     </div>
-    <div v-if="type ==='sanjiang'" class="conditionFrame">
+    <div v-if="type ==='sanjiang' || type == 'ybky'" class="conditionFrame">
         <mt-switch v-model="altogether">是否合并开票</mt-switch>
     </div>
     <mt-loadmore :top-method="loadTop" :bottom-all-loaded="true" ref="loadmore" :class="[ type === 'sanjiang' ? 'passengerInvoiceSwitcherShow' : 'passengerInvoiceSwitcherHide']">
@@ -47,6 +47,8 @@ const GangWuWharfDetail = () => import("../components/list/GangWuWharfDetail.vue
 const HaiFenWharfDetail = () => import("../components/list/HaiFenWharfDetail.vue");
 const SanjiangCargoDetail = () => import("../components/list/SanjiangCargoDetail.vue");
 const ZlkyDetail = () => import("../components/list/ZlkyDetail.vue");
+const ChangZhiKeYunDetail = () => import("../components/list/ChangZhiKeYunDetail.vue");
+const YbkyDetail = () => import("../components/list/YbkyDetail.vue");
 
 import fetchDataFuncList from "./fetchDataFuncList";
 import {
@@ -104,6 +106,8 @@ export default {
         HaiFenWharfDetail,
         SanjiangCargoDetail,
         ZlkyDetail,
+        ChangZhiKeYunDetail,
+        YbkyDetail,
     },
 
     props: {

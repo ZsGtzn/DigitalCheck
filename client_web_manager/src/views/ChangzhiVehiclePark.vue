@@ -24,7 +24,7 @@
         </div>
 
         <div style="flex-grow:1;text-align:right;">
-            <el-button type="primary" @click="changzhiVehicleParkData">查询</el-button>
+            <el-button type="primary" @click="fetchInvoiceList">查询</el-button>
         </div>
     </div>
     <el-table
@@ -107,7 +107,7 @@ export default {
         this.endTime = now;
 
         //
-        this.changzhiVehicleParkData();
+        this.fetchInvoiceList();
     },
 
     computed: {
@@ -131,7 +131,7 @@ export default {
     },
 
     methods: {
-        changzhiVehicleParkData() 
+        fetchInvoiceList() 
         {
             //
             this.axios.invoice.get(`/invoiceApi/czpark/statistics?startDate=${this.formattedBeginTime}&endDate=${this.formattedEndTime}`).then(response => {

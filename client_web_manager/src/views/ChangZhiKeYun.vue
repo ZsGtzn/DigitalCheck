@@ -24,7 +24,7 @@
         </div>
 
         <div style="flex-grow:1;text-align:right;">
-            <el-button type="primary" @click="sanjiangData">查询</el-button>
+            <el-button type="primary" @click="fetchInvoiceList">查询</el-button>
         </div>
     </div>
     <el-table   
@@ -97,7 +97,7 @@ export default {
         this.endTime = now;
 
         //
-        this.sanjiangData();
+        this.fetchInvoiceList();
     },
 
     computed: {
@@ -121,7 +121,7 @@ export default {
     },
 
     methods: {
-        sanjiangData() 
+        fetchInvoiceList() 
         {
             //
             this.axios.invoice.get(`/invoiceApi/czky/statistics?startDate=${this.formattedBeginTime}&endDate=${this.formattedEndTime}`).then(response => {

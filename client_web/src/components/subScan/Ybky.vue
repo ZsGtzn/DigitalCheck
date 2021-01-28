@@ -11,24 +11,24 @@
 </template>
 
 <script>
-import mainPageImg from "../../assets/scan/changZhiKeYun.png";
+import mainPageImg from "../../assets/scan/ybky.png";
 
 /**
  * localstorage
  */
-const ScanChangeZhiKeYunPersonIdentifierKey = "ScanChangeZhiKeYunPersonIdentifier";
+const ScanYbkyPersonIdentifierKey = "ScanYbkyPersonIdentifier";
 
-const saveScanChangeZhiKeYunPersonIdentifier = (val) => {
-    localStorage.setItem(ScanChangeZhiKeYunPersonIdentifierKey, val);
+const saveScanYbkyPersonIdentifier = (val) => {
+    localStorage.setItem(ScanYbkyPersonIdentifierKey, val);
 }
 
-const getScanChangeZhiKeYunPersonIdentifier = () => {
-    return localStorage.getItem(ScanChangeZhiKeYunPersonIdentifierKey) || "";
+const getScanYbkyPersonIdentifier = () => {
+    return localStorage.getItem(ScanYbkyPersonIdentifierKey) || "";
 }
 
 
 export default {
-    name: "ChangZhiKeYun",
+    name: "Ybky",
     
     inject: ['checkPersonIdentifier'],
 
@@ -36,7 +36,7 @@ export default {
 
     data() {
         return {
-            identityNo: getScanChangeZhiKeYunPersonIdentifier(),
+            identityNo: getScanYbkyPersonIdentifier(),
             mainPageImg: mainPageImg,
         };
     },
@@ -49,12 +49,12 @@ export default {
         search() {
            
             //
-            saveScanChangeZhiKeYunPersonIdentifier(this.identityNo);
+            saveScanYbkyPersonIdentifier(this.identityNo);
 
             //
             if (this.checkPersonIdentifier(this.identityNo)) {
                 this.$router.push({
-                    path: `/invoiceList/changzhikeyun/${this.identityNo}`
+                    path: `/invoiceList/ybky/${this.identityNo}`
                 });
             }
         }

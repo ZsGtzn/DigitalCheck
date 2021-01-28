@@ -140,7 +140,7 @@
                                         <span>{{item.sjhm}}</span>
                                     </div>
 
-                                    <!-- 三江码头 墩头码头 港务码头 海峰码头 长峙客运 -->
+                                    <!-- 三江码头 墩头码头 港务码头 海峰码头 长峙客运 鸭白客运 -->
                                     <div v-else>
                                         <span>姓名: </span>
                                         <span>{{item.name}}</span>
