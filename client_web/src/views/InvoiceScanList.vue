@@ -116,17 +116,23 @@ import {
  */
 const InvoiceScanListIdentifierListKey = 'InvoiceScanListIdentifierList'
 
-const saveInvoiceScanListIdentifierList = (val) => {
+const saveInvoiceScanListIdentifierList = (type, val) => {
+    const key = InvoiceScanListIdentifierListKey + "_" + type;
+
+    //
     for (let el of val) {
         el.isValid = true
     }
 
     //
-    localStorage.setItem(InvoiceScanListIdentifierListKey, JSON.stringify(val))
+    localStorage.setItem(key, JSON.stringify(val))
 }
 
-const getInvoiceScanListIdentifierList = () => {
-    let content = localStorage.getItem(InvoiceScanListIdentifierListKey)
+const getInvoiceScanListIdentifierList = (type) => {
+    const key = InvoiceScanListIdentifierListKey + "_" + type;
+
+    //
+    let content = localStorage.getItem(key)
 
     //
     if (content) {
@@ -136,8 +142,11 @@ const getInvoiceScanListIdentifierList = () => {
     return []
 }
 
-const clearInvoiceScanListIdentifierList = () => {
-    return localStorage.removeItem(InvoiceScanListIdentifierListKey)
+const clearInvoiceScanListIdentifierList = (type) => {
+    const key = InvoiceScanListIdentifierListKey + "_" + type;
+
+    //
+    return localStorage.removeItem(key)
 }
 
 //
@@ -204,7 +213,7 @@ export default {
          * handle storage
          */
         const nowTime = Date.now()
-        const cachedIdentifierList = getInvoiceScanListIdentifierList().filter(
+        const cachedIdentifierList = getInvoiceScanListIdentifierList(this.type).filter(
             (el) => {
                 return nowTime - el.createTime < 24 * 60 * 60 * 1000
             }
@@ -232,6 +241,10 @@ export default {
             )
         }
 
+        //
+        console.log(`cachedIdentifierList: ${JSON.stringify(cachedIdentifierList)}`);
+        console.log(`urlIdentifierList: ${JSON.stringify(urlIdentifierList)}`);
+
         /**
          * union storage and url
          */
@@ -246,7 +259,7 @@ export default {
         /**
          * save
          */
-        saveInvoiceScanListIdentifierList(this.identifierList)
+        saveInvoiceScanListIdentifierList(this.type, this.identifierList)
 
         /**
          * init data fetch func
@@ -330,7 +343,7 @@ export default {
          */
         clearData() {
             //
-            clearInvoiceScanListIdentifierList()
+            clearInvoiceScanListIdentifierList(this.type)
 
             //
             this.identifierList = []
@@ -394,7 +407,7 @@ export default {
                     })
 
                     //
-                    saveInvoiceScanListIdentifierList(self.identifierList)
+                    saveInvoiceScanListIdentifierList(self.type, self.identifierList)
 
                     //
                     self.updateCheckedPassenger(data)

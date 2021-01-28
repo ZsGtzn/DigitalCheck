@@ -7,6 +7,10 @@ https://invoice.ziubao.com
 三江船票
 330921196908070514
 /invoiceScanList/sjky/%5b202012171426368274296972966820%2c202012171426245430606061031040%2c202012171424591242984965595770%5d/
+测试二维码
+https://zyb.ziubao.com/invoiceApi/sjky/scanToInvoice?serialNum=1608024055055230d206908d111d90 不可开票
+https://zyb.ziubao.com/invoiceApi/sjky/scanToInvoice?serialNum=202012171426368274296972966820 可开票
+
 三江停车场
 浙LL1001
 
