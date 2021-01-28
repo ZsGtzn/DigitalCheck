@@ -4,7 +4,7 @@
             <div>
                 <div style="display:flex;">
                     <div style="margin-bottom:5px;font-size:16px;font-weight:bold;display:flex;align-items:center;">
-                        <span style="margin-right:5px;">{{invoiceDetail.startPort ? invoiceDetail.startPort: '鸭蛋山'}}</span>
+                        <span style="margin-right:5px;">{{invoiceDetail.startPort ? invoiceDetail.startPort : (invoiceDetail.endPort == '鸭蛋山' ? '白峰' : '鸭蛋山')}}</span>
                         <div style="width:20px;height:2px;background-color:#000000;"></div>
                         <span style="margin:0px 5px 0px 5px;">{{invoiceDetail.endPort}}</span>
                     </div>

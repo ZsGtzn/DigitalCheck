@@ -83,7 +83,8 @@ function getRollbackFunc(self) {
             };
 
             //
-            if (self.type == 'changzhikeyun') {
+            if (self.type == 'changzhikeyun'
+            || self.type == 'ybky') {
                 postData.IDCard = self.identifier;
             }
 
@@ -101,11 +102,17 @@ function getRollbackFunc(self) {
     }
 }
 
+function ifNeedShowInvoiceTogetherButton(type)
+{
+    return type === 'sanjiang' || type == 'ybky';
+}
+
 export {
     loadTop,
     selectInvoice,
     selectALl,
     checkInvoice,
     getRollbackFunc,
+    ifNeedShowInvoiceTogetherButton,
 }
 
