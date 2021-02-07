@@ -8,7 +8,8 @@
         "fetchDataFunc": "fetchPutuoBusData",
         "rollBackUrl": "",
         "fetchOneSerialNumDataUrl": "/invoiceApi/zlkc/canInvoiceList",
-        "checkInvoiceUrl": "/invoiceApi/zlkc/doInvoice"
+        "checkInvoiceUrl": "/invoiceApi/zlkc/doInvoice",
+        "ifCacheEmail": true
     },
 
     "sanjiang": {
@@ -20,7 +21,8 @@
         "fetchDataFunc": "fetchSanJiangData",
         "rollBackUrl": "/invoiceApi/sjky/doMinusInvoice",
         "fetchOneSerialNumDataUrl": "/invoiceApi/sjky/canInvoiceList",
-        "checkInvoiceUrl": "/invoiceApi/sjky/doInvoice"
+        "checkInvoiceUrl": "/invoiceApi/sjky/doInvoice",
+        "ifCacheEmail": true
     },
     
     "changzhiVehiclePark": {
@@ -32,7 +34,8 @@
         "fetchDataFunc": "changzhiVehicleParkData",
         "rollBackUrl": "",
         "fetchOneSerialNumDataUrl": "/invoiceApi/czpark/canInvoiceList",
-        "checkInvoiceUrl": "/invoiceApi/czpark/doInvoice"
+        "checkInvoiceUrl": "/invoiceApi/czpark/doInvoice",
+        "ifCacheEmail": false
     },
 
     "sanjiangVehiclePark": {
@@ -44,7 +47,8 @@
         "fetchDataFunc": "sanjiangVehicleParkData",
         "rollBackUrl": "/invoiceApi/sjpark/doMinusInvoice",
         "fetchOneSerialNumDataUrl": "/invoiceApi/sjpark/canInvoiceList",
-        "checkInvoiceUrl": "/invoiceApi/sjpark/doInvoice"
+        "checkInvoiceUrl": "/invoiceApi/sjpark/doInvoice",
+        "ifCacheEmail": true
     },
 
     "putuoNavigator": {
@@ -56,7 +60,8 @@
         "fetchDataFunc": "putuoNavigatorData",
         "rollBackUrl": "",
         "fetchOneSerialNumDataUrl": "/invoiceApi/zlkcMesh/canInvoiceList",
-        "checkInvoiceUrl": "/invoiceApi/zlkcMesh/doInvoice"
+        "checkInvoiceUrl": "/invoiceApi/zlkcMesh/doInvoice",
+        "ifCacheEmail": true
     },
     
     "putuoRopeway": {
@@ -68,7 +73,8 @@
         "fetchDataFunc": "putuoRopewayData",
         "rollBackUrl": "/invoiceApi/ptssd/doMinusInvoice",
         "fetchOneSerialNumDataUrl": "/invoiceApi/ptssd/canInvoiceList",
-        "checkInvoiceUrl": "/invoiceApi/ptssd/doInvoice"
+        "checkInvoiceUrl": "/invoiceApi/ptssd/doInvoice",
+        "ifCacheEmail": true
     },
     
     "hxFerryShop": {
@@ -80,7 +86,8 @@
         "fetchDataFunc": "hxFerryShopData",
         "rollBackUrl": "/invoiceApi/hxldxmb/doMinusInvoice",
         "fetchOneSerialNumDataUrl": "/invoiceApi/hxldxmb/canInvoiceList",
-        "checkInvoiceUrl": "/invoiceApi/hxldxmb/doInvoice"
+        "checkInvoiceUrl": "/invoiceApi/hxldxmb/doInvoice",
+        "ifCacheEmail": false
     },
     
     "dunTouWharf": {
@@ -92,7 +99,8 @@
         "fetchDataFunc": "dunTouWharfData",
         "rollBackUrl": "/invoiceApi/dtky/doMinusInvoice",
         "fetchOneSerialNumDataUrl": "/invoiceApi/dtky/canInvoiceList",
-        "checkInvoiceUrl": "/invoiceApi/dtky/doInvoice"
+        "checkInvoiceUrl": "/invoiceApi/dtky/doInvoice",
+        "ifCacheEmail": true
     },
     
     "gangWuWharf": {
@@ -104,7 +112,8 @@
         "fetchDataFunc": "gangWuWharfData",
         "rollBackUrl": "/invoiceApi/dhky/doMinusInvoice",
         "fetchOneSerialNumDataUrl": "/invoiceApi/dhky/canInvoiceList",
-        "checkInvoiceUrl": "/invoiceApi/dhky/doInvoice"
+        "checkInvoiceUrl": "/invoiceApi/dhky/doInvoice",
+        "ifCacheEmail": true
     },
     
     "haiFenWharf": {
@@ -116,7 +125,8 @@
         "fetchDataFunc": "haiFenWharfData",
         "rollBackUrl": "/invoiceApi/hfky/doMinusInvoice",
         "fetchOneSerialNumDataUrl": "/invoiceApi/hfky/canInvoiceList",
-        "checkInvoiceUrl": "/invoiceApi/hfky/doInvoice"
+        "checkInvoiceUrl": "/invoiceApi/hfky/doInvoice",
+        "ifCacheEmail": true
     },
 
     "sanjiangCargo": {
@@ -128,7 +138,8 @@
         "fetchDataFunc": "sanjiangCargoData",
         "rollBackUrl": "/invoiceApi/sjhy/doMinusInvoice",
         "fetchOneSerialNumDataUrl": "/invoiceApi/sjhy/canInvoiceList",
-        "checkInvoiceUrl": "/invoiceApi/sjhy/doInvoice"
+        "checkInvoiceUrl": "/invoiceApi/sjhy/doInvoice",
+        "ifCacheEmail": true
     },
 
     "zlky": {
@@ -140,7 +151,8 @@
         "fetchDataFunc": "zlkyData",
         "rollBackUrl": "/invoiceApi/ljsky/doMinusInvoice",
         "fetchOneSerialNumDataUrl": "/invoiceApi/ljsky/canInvoiceList",
-        "checkInvoiceUrl": "/invoiceApi/ljsky/doInvoice"
+        "checkInvoiceUrl": "/invoiceApi/ljsky/doInvoice",
+        "ifCacheEmail": true
     },
 
     "changzhikeyun": {
@@ -152,7 +164,8 @@
         "fetchDataFunc": "changZhiKeYunData",
         "rollBackUrl": "/invoiceApi/czky/doMinusInvoice",
         "fetchOneSerialNumDataUrl": "/invoiceApi/czky/canInvoiceList",
-        "checkInvoiceUrl": "/invoiceApi/czky/doInvoice"
+        "checkInvoiceUrl": "/invoiceApi/czky/doInvoice",
+        "ifCacheEmail": false
     },
 
     "ybky": {
@@ -164,7 +177,8 @@
         "fetchDataFunc": "ybkyData",
         "rollBackUrl": "/invoiceApi/ybky/doMinusInvoice",
         "fetchOneSerialNumDataUrl": "/invoiceApi/ybky/canInvoiceList",
-        "checkInvoiceUrl": "/invoiceApi/ybky/doInvoice"
+        "checkInvoiceUrl": "/invoiceApi/ybky/doInvoice",
+        "ifCacheEmail": false
     }
 }
 

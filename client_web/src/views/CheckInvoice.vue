@@ -246,7 +246,7 @@ export default {
             //
             username: getInvoiceInfoUsername(),
             companyHead: getInvoiceInfoCompanyHead(),
-            email: getInvoiceInfoEmail(),
+            email: '',
             taxNo: getInvoiceInfoTaxNo(),
             companyAddress: getInvoiceInfoCompanyAddress(),
             companyTelephone: getInvoiceInfoCompanyTelephone(),
@@ -334,6 +334,14 @@ export default {
         });
     },
 
+    mounted()
+    {
+        if(this.currentInvoiceConfig.ifCacheEmail)
+        {
+            
+            this.email = getInvoiceInfoEmail();
+        }
+    },
 
     watch: {
         invoiceList() {
