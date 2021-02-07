@@ -171,7 +171,7 @@ export default {
         return {
             checkedPassenger: [],
             ifAllSelected: false,
-            altogether: 1,
+            altogether: 0,
             currentInvoiceConfig: null,
         }
     },
