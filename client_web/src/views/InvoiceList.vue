@@ -142,7 +142,6 @@ import {
     selectInvoice,
     selectALl,
     checkInvoice,
-    getRollbackFunc,
     ifNeedShowInvoiceTogetherButton,
 } from './invoiceListUtils'
 
@@ -274,17 +273,6 @@ export default {
                 path: '/scan/sanjiangCargo',
             })
         },
-    },
-
-    provide() {
-        let self = this
-
-        return {
-            /**
-             * 冲红
-             */
-            rollback: getRollbackFunc(self),
-        }
     },
 }
 </script>

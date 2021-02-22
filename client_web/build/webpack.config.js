@@ -31,6 +31,13 @@ module.exports = {
         'vue-router': 'VueRouter',
         'mint-ui': 'MINT',
     },
+    resolve: {
+        extensions: [".js", ".vue", ".json"],
+        alias: {
+            // used for dynamic compile vue when property template is used
+            "@": path.resolve(__dirname, "../src"),
+        },
+    },
     module: {
         rules: [
             {   // 将js或者jsx文件编译为es5

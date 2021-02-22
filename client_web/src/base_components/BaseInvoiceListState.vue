@@ -83,15 +83,25 @@
                     @click="preview(routeInfo)"
                     >查看</mt-button
                 >
-                <!-- sanjiang support wechat card bag -->
+
+                <!-- currently not platfrom support -->
                 <mt-button
                     type="primary"
-                    v-show="type == 'sanjiang' || type == 'sjky'"
+                    v-show="false"
                     class="insertWechatCardBag"
                     @click="insertWechatCardBag(routeInfo)"
                     >插入卡包</mt-button
                 >
-                <!-- -->
+
+                <!-- sjky support -->
+                <mt-button
+                    type="primary"
+                    v-show="type == 'sjky' || type == 'sanjiang'"
+                    class="scanPrint"
+                    @click="scanPrint(routeInfo)"
+                    >扫码打印</mt-button
+                >
+
                 <template v-if="ifShowRollback">
                     <mt-button
                         :plain="routeInfo.isRed"
@@ -138,16 +148,23 @@ export default {
         },
     },
 
-    inject: ['rollback'],
+    inject: ['scanQRCode'],
 
     data() {
         return {
             routeInfo: this.item,
+
+            currentInvoiceConfig: null,
         }
     },
 
+    mounted() {
+        //
+        this.currentInvoiceConfig = this.invoiceConfig[this.type]
+    },
+
     watch: {
-        item: function (newValue) {
+        item: function () {
             // current item is selected and updated item still can be selected
             // so keep its state to be selected
             if (
@@ -165,6 +182,57 @@ export default {
 
     methods: {
         ...downloadUtil,
+
+        async rollback() {
+            //
+            if (this.item.isRed == true) {
+                return this.MessageBox({
+                    title: '提示',
+                    message: '已作废过一次，无法再次进行作废！',
+                    confirmButtonText: '确认',
+                })
+            }
+
+            //
+            const action = await this.MessageBox({
+                title: '提示',
+                message: '作废只能进行一次，是否进行作废？',
+                showCancelButton: true,
+                confirmButtonText: '是',
+                cancelButtonText: '否',
+            })
+
+            //
+            if (action == 'confirm') {
+                if (!this.currentInvoiceConfig) {
+                    return this.Toast('无效的冲红类型, ' + this.type)
+                }
+
+                //
+                let postData = {
+                    serialNum: this.item.serialNum,
+                }
+
+                //
+                if (this.type == 'changzhikeyun' || this.type == 'ybky') {
+                    postData.IDCard = this.identifier
+                }
+
+                //
+                this.axios.invoice
+                    .post(this.currentInvoiceConfig.rollBackUrl, postData)
+                    .then((response) => {
+                        if (response.code === 0) {
+                            return this.Toast('作废成功')
+                        }
+
+                        this.Toast(response.msg)
+                    })
+                    .catch((e) => {
+                        this.Toast(`作废请求失败, ${e.toString()}`)
+                    })
+            }
+        },
 
         insertWechatCardBag() {
             this.axios.invoice
@@ -186,6 +254,65 @@ export default {
                 .catch((e) => {
                     this.Toast(e.toString())
                 })
+        },
+
+        scanPrint() {
+            //
+            this.scanQRCode(resultStr => {
+                //
+                if(resultStr !== 'gtznsjkpdyjdyfp')
+                {
+                    return this.Toast("二维码错误, 无法打印发票");
+                }
+
+                //
+                this.axios.invoice
+                    .post('/invoiceApi/common/sendFpUrl', {
+                        orderId: this.item.orderId,
+                        shortUrl: this.item.shortUrl,
+                    })
+                    .then(({ code, msg, data }) => {
+                        if (code !== 0) {
+                            return this.Toast(msg)
+                        }
+
+                        //
+                        const { cookie, guid } = data
+
+                        //
+                        this.MessageBox({
+                            title: '提示',
+                            message: '是否需要打印发票',
+                            showCancelButton: true,
+                            confirmButtonText: '是',
+                            cancelButtonText: '否',
+                        }).then((action) => {
+                            //
+                            if (action !== 'confirm') {
+                                return
+                            }
+
+                            //
+                            this.axios.invoice
+                                .post('/invoiceApi/common/printFp', {
+                                    orderId: this.item.orderId,
+                                    cookie,
+                                    guid,
+                                })
+                                .then(({ code, msg }) => {
+                                    if (code !== 0) {
+                                        return this.Toast(msg)
+                                    }
+
+                                    //
+                                    this.Toast('打印请求发送成功')
+                                })
+                        })
+                    })
+                    .catch((e) => {
+                        this.Toast(e.toString())
+                    })
+            })
         },
     },
 }
@@ -220,6 +347,12 @@ export default {
 }
 
 .insertWechatCardBag {
+    @include pdf;
+    width: 80px;
+    background-color: #32ddb3;
+}
+
+.scanPrint {
     @include pdf;
     width: 80px;
     background-color: #32ddb3;
