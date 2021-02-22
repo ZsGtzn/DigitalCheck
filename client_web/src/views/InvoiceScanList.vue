@@ -150,7 +150,7 @@ const clearInvoiceScanListIdentifierList = (type) => {
 
 //
 export default {
-    name: 'InvoiceList',
+    name: 'InvoiceScanList',
 
     components: {
         SanjiangDetail,

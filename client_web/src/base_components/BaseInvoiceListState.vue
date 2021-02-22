@@ -96,7 +96,7 @@
                 <!-- sjky support -->
                 <mt-button
                     type="primary"
-                    v-show="type == 'sjky' || type == 'sanjiang'"
+                    v-show="projectConfigType == 'sanjiang'"
                     class="scanPrint"
                     @click="scanPrint(routeInfo)"
                     >扫码打印</mt-button
@@ -123,6 +123,8 @@ export default {
     name: 'BaseInvoiceListState',
 
     props: {
+        // !!! type include project config type and url type, they are diffent, 
+        // for example, project config type sanjiang and url type sjky represents same config
         type: {
             type: String,
             required: true,
@@ -133,6 +135,8 @@ export default {
             required: true,
         },
 
+        // show if invoiceScanList or invoiceList, invoiceScanList's type is url idendifier, 
+        // but invoiceList's is project config type
         remark: {
             type: String,
             default: '',
@@ -154,13 +158,42 @@ export default {
         return {
             routeInfo: this.item,
 
+            //
+            projectConfigType: null,
             currentInvoiceConfig: null,
         }
     },
 
-    mounted() {
+    created() {
         //
-        this.currentInvoiceConfig = this.invoiceConfig[this.type]
+        if(this.remark == "invoiceScanList")
+        {
+            /**
+             * check type
+             */
+            for (let key in this.invoiceConfig) {
+                let item = this.invoiceConfig[key]
+
+                //
+                if (item.urlIdentifier == this.type) {
+                    this.projectConfigType = key
+
+                    //
+                    break
+                }
+            }
+
+            if (!this.projectConfigType) {
+                return this.Toast(`错误的平台类型, ${this.type}`)
+            }
+        }
+        else
+        {
+            this.projectConfigType = this.type
+        }
+
+        //
+        this.currentInvoiceConfig = this.invoiceConfig[this.projectConfigType]
     },
 
     watch: {
@@ -205,7 +238,7 @@ export default {
             //
             if (action == 'confirm') {
                 if (!this.currentInvoiceConfig) {
-                    return this.Toast('无效的冲红类型, ' + this.type)
+                    return this.Toast('无效的冲红类型, ' + this.projectConfigType)
                 }
 
                 //
@@ -214,7 +247,7 @@ export default {
                 }
 
                 //
-                if (this.type == 'changzhikeyun' || this.type == 'ybky') {
+                if (this.projectConfigType == 'changzhikeyun' || this.projectConfigType == 'ybky') {
                     postData.IDCard = this.identifier
                 }
 
