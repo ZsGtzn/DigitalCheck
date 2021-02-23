@@ -19,7 +19,7 @@
                 style="
                     color: #ffffff;
                     font-size: 11px;
-                    width: 100px;
+                    width: 60px;
                     height: 30px;
                     border-radius: 0px 0px 10px 10px;
                     display: flex;
@@ -48,7 +48,7 @@
                     margin-left: 10px;
                     color: #ffffff;
                     font-size: 11px;
-                    width: 100px;
+                    width: 60px;
                     height: 30px;
                     border-radius: 0px 0px 10px 10px;
                     display: flex;
@@ -59,6 +59,23 @@
                 v-if="routeInfo.isRed"
             >
                 <span>已冲红</span>
+            </div>
+            <div
+                style="
+                    margin-left: 10px;
+                    color: #ffffff;
+                    font-size: 11px;
+                    width: 60px;
+                    height: 30px;
+                    border-radius: 0px 0px 10px 10px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                "
+                class="printed"
+                v-if="routeInfo.isPrint"
+            >
+                <span>已打印</span>
             </div>
         </div>
         <slot></slot>
@@ -293,7 +310,7 @@ export default {
             //
             this.scanQRCode(resultStr => {
                 //
-                if(resultStr !== 'gtznsjkpdyjdyfp')
+                if(resultStr !== 'http://fapiao.jolimark.com/customer/device.html?PrinterCode=20340007ABD&v=1.3.5.0')
                 {
                     return this.Toast("二维码错误, 无法打印发票");
                 }
@@ -364,6 +381,9 @@ export default {
     background-color: #e8110f;
 }
 
+.printed {
+    background-color: #e8110f;
+}
 //
 @mixin pdf {
     width: 50px;
