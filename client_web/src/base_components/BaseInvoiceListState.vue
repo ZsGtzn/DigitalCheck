@@ -310,7 +310,7 @@ export default {
             //
             this.scanQRCode(resultStr => {
                 //
-                if(resultStr !== 'http://fapiao.jolimark.com/customer/device.html?PrinterCode=20340007ABD&v=1.3.5.0')
+                if(resultStr !== 'http://fapiao.jolimark.com/Invoice/Printer/20340007ABD')
                 {
                     return this.Toast("二维码错误, 无法打印发票");
                 }
