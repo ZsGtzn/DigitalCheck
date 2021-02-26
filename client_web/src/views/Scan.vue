@@ -21,6 +21,7 @@ import SanjiangCargo from "../components/subScan/SanjiangCargo.vue";
 import Zlky from "../components/subScan/Zlky.vue";
 import ChangZhiKeYun from "../components/subScan/ChangZhiKeYun.vue";
 import Ybky from "../components/subScan/Ybky.vue";
+import FoDuKeYun from "../components/subScan/FoDuKeYun.vue";
 
 //
 import store from "../store";
@@ -48,6 +49,7 @@ export default {
         Zlky,
         ChangZhiKeYun,
         Ybky,
+        FoDuKeYun,
      },
 
     props: ["type"],

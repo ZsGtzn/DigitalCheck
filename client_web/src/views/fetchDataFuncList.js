@@ -320,6 +320,28 @@ async function ybkyData(identifier, noWaitHttpRequest, ifScan = false) {
     }
 }
 
+// 佛渡客运
+async function foDuKeYunData(identifier, noWaitHttpRequest, ifScan = false) {
+    //
+    let path = `/invoiceApi/fdky/passengerList?IDCard=${identifier}&state&noWaitHttpRequest=${noWaitHttpRequest ? 'yes' : 'no'}`;
+
+    //
+    try {
+        const response = await this.axios.invoice.get(path);
+
+        if (response.code === 0) {
+            return response.data.map(ele => Object.assign(ele, {
+                ifSelected: false,
+            }));
+        }
+
+        this.Toast(response.msg);
+    }
+    catch (e) {
+        this.Toast(`获取开票列表失败, ${e.toString()}`);
+    }
+}
+
 export default {
     fetchSanJiangData,
     changzhiVehicleParkData,
@@ -334,4 +356,5 @@ export default {
     zlkyData,
     changZhiKeYunData,
     ybkyData,
+    foDuKeYunData,
 }

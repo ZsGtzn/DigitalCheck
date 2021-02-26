@@ -49,7 +49,7 @@ function checkInvoice() {
 
 function ifNeedShowInvoiceTogetherButton(type)
 {
-    return type === 'sanjiang' || type == 'ybky';
+    return type === 'sanjiang' || type == 'ybky' || type == 'foDuKeYun';
 }
 
 export {

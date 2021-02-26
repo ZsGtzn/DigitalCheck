@@ -47,6 +47,11 @@ const routerInstance = new Router({
             path: '/ybky',
             component: () => import('./views/Ybky.vue'),
         },
+
+        {
+            path: '/foDuKeYun',
+            component: () => import('./views/FoDuKeYun.vue'),
+        },
     ]
 });
 

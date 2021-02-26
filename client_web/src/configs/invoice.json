@@ -179,6 +179,19 @@
         "fetchOneSerialNumDataUrl": "/invoiceApi/ybky/canInvoiceList",
         "checkInvoiceUrl": "/invoiceApi/ybky/doInvoice",
         "ifCacheEmail": false
+    },
+
+    "foDuKeYun": {
+        "name": "佛度客运",
+        "urlIdentifier": "fdky",
+        "module": "list",
+        "invoiceDetailComponent": "FoDuKeYunDetail",
+        "subScanComponent": "FoDuKeYun",
+        "fetchDataFunc": "foDuKeYunData",
+        "rollBackUrl": "/invoiceApi/fdky/doMinusInvoice",
+        "fetchOneSerialNumDataUrl": "/invoiceApi/fdky/canInvoiceList",
+        "checkInvoiceUrl": "/invoiceApi/fdky/doInvoice",
+        "ifCacheEmail": true
     }
 }
 

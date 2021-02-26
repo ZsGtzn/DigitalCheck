@@ -134,6 +134,7 @@ const ZlkyDetail = () => import('../components/list/ZlkyDetail.vue')
 const ChangZhiKeYunDetail = () =>
     import('../components/list/ChangZhiKeYunDetail.vue')
 const YbkyDetail = () => import('../components/list/YbkyDetail.vue')
+const FoDuKeYunDetail = () => import('../components/list/FoDuKeYunDetail.vue')
 
 import { inactiveAuthMobileState } from '../storage/mobile'
 import fetchDataFuncList from './fetchDataFuncList'
@@ -162,6 +163,7 @@ export default {
         ZlkyDetail,
         ChangZhiKeYunDetail,
         YbkyDetail,
+        FoDuKeYunDetail,
     },
 
     props: ['type', 'identifier'],
