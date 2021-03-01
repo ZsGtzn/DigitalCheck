@@ -182,7 +182,7 @@
     },
 
     "foDuKeYun": {
-        "name": "佛度客运",
+        "name": "佛渡客运",
         "urlIdentifier": "fdky",
         "module": "list",
         "invoiceDetailComponent": "FoDuKeYunDetail",
