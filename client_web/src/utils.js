@@ -24,17 +24,17 @@ export const downloadUtil = {
         }
     },
 
-    download(routeInfo) {
+    download(routeInfo, urlField) {
         // 创建隐藏的可下载链接
         var eleLink = document.createElement("a");
-        eleLink.download = `${routeInfo.serialNum}.pdf`;
+        eleLink.download = `${routeInfo.serialNum}_${urlField}.pdf`;
         eleLink.style.display = "none";
 
         //
         if (window.gtzn.platform == "android") {
-            eleLink.href = routeInfo.invoiceUrl;
+            eleLink.href = routeInfo[urlField];
         } else {
-            var blob = new Blob([routeInfo.invoiceUrl]);
+            var blob = new Blob([routeInfo[urlField]]);
             eleLink.href = URL.createObjectURL(blob);
         }
 
@@ -46,15 +46,15 @@ export const downloadUtil = {
         document.body.removeChild(eleLink);
     },
 
-    preview(routeInfo) {
+    preview(routeInfo, urlField) {
         // 创建隐藏的可下载链接
         var eleLink = document.createElement("a");
         
         //
         if (window.gtzn.platform == "android") {
-            eleLink.href = `static/pdf/web/viewer.html?file=${encodeURIComponent(routeInfo.invoiceUrl.replace("http://", "https://"))}`;
+            eleLink.href = `static/pdf/web/viewer.html?file=${encodeURIComponent(routeInfo[urlField].replace("http://", "https://"))}`;
         } else {
-            eleLink.href = `static/pdf/web/viewer.html?file=${encodeURIComponent(routeInfo.invoiceUrl.replace("http://", "https://"))}`;
+            eleLink.href = `static/pdf/web/viewer.html?file=${encodeURIComponent(routeInfo[urlField].replace("http://", "https://"))}`;
         }
         
         // 触发点击

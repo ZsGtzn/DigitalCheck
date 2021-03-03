@@ -79,32 +79,36 @@
             </div>
         </div>
         <slot></slot>
-        <div v-if="routeInfo.invoiceUrl && routeInfo.invoiceUrl.length > 0">
-            <div
-                style="background-color: #f1f1f1; height: 1px; margin: 10px"
-            ></div>
-            <div
-                style="text-align: right; box-sizing: border-box; padding: 10px"
-            >
-                <div class="download" @click.capture="showOpenBrowserHint">
+
+        <div
+            style="background-color: #f1f1f1; height: 1px; margin: 10px"
+            v-if="(routeInfo.invoiceUrl && routeInfo.invoiceUrl.length > 0) || (projectConfigType == 'zlky' && routeInfo.mpInvoiceUrl && routeInfo.mpInvoiceUrl.length > 0)"
+        ></div>
+
+        <div
+            style="text-align: right; box-sizing: border-box; padding: 10px"
+        >
+                
+            <template v-if="routeInfo.invoiceUrl && routeInfo.invoiceUrl.length > 0">
+                <div style="display: inline-block;" @click.capture="showOpenBrowserHint">
                     <mt-button
                         class="download"
                         type="primary"
-                        @click.capture="download(routeInfo)"
+                        @click.capture="download(routeInfo, 'invoiceUrl')"
                         >下载</mt-button
                     >
                 </div>
                 <mt-button
                     type="primary"
                     class="preview"
-                    @click="preview(routeInfo)"
+                    @click="preview(routeInfo, 'invoiceUrl')"
                     >查看</mt-button
                 >
 
                 <!-- currently not platfrom support -->
                 <mt-button
                     type="primary"
-                    v-show="false"
+                    v-if="false"
                     class="insertWechatCardBag"
                     @click="insertWechatCardBag(routeInfo)"
                     >插入卡包</mt-button
@@ -113,7 +117,7 @@
                 <!-- sjky support -->
                 <mt-button
                     type="primary"
-                    v-show="projectConfigType == 'sanjiang'"
+                    v-if="projectConfigType == 'sanjiang'"
                     class="scanPrint"
                     @click="scanPrint(routeInfo)"
                     >扫码打印</mt-button
@@ -128,7 +132,25 @@
                         >作废</mt-button
                     >
                 </template>
-            </div>
+            </template>
+
+            <!-- zjkc support -->
+            <template v-if="projectConfigType == 'zlky' && routeInfo.mpInvoiceUrl && routeInfo.mpInvoiceUrl.length > 0">
+                <div style="display: inline-block;" @click.capture="showOpenBrowserHint">
+                    <mt-button
+                        class="downloadTicket"
+                        type="primary"
+                        @click.capture="download(routeInfo, 'mpInvoiceUrl')"
+                        >下载门票</mt-button
+                    >
+                </div>
+                <mt-button
+                    type="primary"
+                    class="previewTicket"
+                    @click="preview(routeInfo, 'mpInvoiceUrl')"
+                    >查看门票</mt-button
+                >
+            </template>
         </div>
     </div>
 </template>
@@ -391,7 +413,7 @@ export default {
     padding: auto;
     font-size: 10px;
     display: inline-block;
-    margin: auto;
+    margin: 2px auto;
 }
 
 .preview {
@@ -419,5 +441,17 @@ export default {
 .rollback {
     @include pdf;
     background-color: #e8110f;
+}
+
+.previewTicket {
+    @include pdf;
+    width: 80px;
+    background-color: #32ddb3;
+}
+
+.downloadTicket {
+    @include pdf;
+    width: 80px;
+    background-color: #79c9fe;
 }
 </style>
