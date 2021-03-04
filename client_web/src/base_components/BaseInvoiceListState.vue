@@ -378,6 +378,11 @@ export default {
 
                                     //
                                     this.Toast('打印请求发送成功')
+
+                                    //
+                                    setTimeout(() => {
+                                        window.location.reload();
+                                    }, 200);
                                 })
                         })
                     })
