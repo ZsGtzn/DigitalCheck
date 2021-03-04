@@ -20,35 +20,34 @@
   </head>
   <body style="margin:0;padding:0;">
     <script>
-        
-            let ua = navigator.userAgent;
+        let ua = navigator.userAgent;
 
-            /*  check if wechat app */
-            const ifWeixinBrowser = navigator.userAgent.toLowerCase().match(/MicroMessenger/i) == "micromessenger";
+        /*  check if wechat app */
+        const ifWeixinBrowser = navigator.userAgent.toLowerCase().match(/MicroMessenger/i) == "micromessenger";
 
-            /* check platform */
-            let platform = "";
+        /* check platform */
+        let platform = "";
 
-            if (ua.match(/iPhone|iPod|iPad/i)) { // 判断是否是iOS
-                platform = "ios";
-            }
-            else if (ua.match(/android/i)) { // 判断是否是Android
-                platform = "android";
-            }
-            else if (ua.match(/Windows/i)) 
-            {
-                platform = "windows";
-            }
-            else if(ua.match(/Mac/))
-            {
-                platform = "mac";
-            }
+        if (ua.match(/iPhone|iPod|iPad/i)) { // 判断是否是iOS
+            platform = "ios";
+        }
+        else if (ua.match(/android/i)) { // 判断是否是Android
+            platform = "android";
+        }
+        else if (ua.match(/Windows/i)) 
+        {
+            platform = "windows";
+        }
+        else if(ua.match(/Mac/))
+        {
+            platform = "mac";
+        }
 
-            /* mark wechat app and platform */
-            window.gtzn = {
-                ifWeixinBrowser: ifWeixinBrowser,
-                platform: platform,
-            }
+        /* mark wechat app and platform */
+        window.gtzn = {
+            ifWeixinBrowser: ifWeixinBrowser,
+            platform: platform,
+        }
     </script>
     <noscript>
       <strong>We're sorry but Digital Invoice doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
