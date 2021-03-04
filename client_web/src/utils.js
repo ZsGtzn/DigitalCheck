@@ -16,7 +16,7 @@ export const getUrlQuery = (key) => {
 
 export const downloadUtil = {
     showOpenBrowserHint(event) {
-        if (window.gtzn.ifNeedToJumpOutBrowser) {
+        if (window.gtzn.ifWeixinBrowser) {
             event.stopPropagation();
 
             //
@@ -31,9 +31,11 @@ export const downloadUtil = {
         eleLink.style.display = "none";
 
         //
-        if (window.gtzn.platform == "android") {
+        if (window.gtzn.platform == "android" || window.gtzn.platform == "windows") {
+            //
             eleLink.href = routeInfo[urlField];
-        } else {
+        } else if (window.gtzn.platform == "ios" || window.gtzn.platform == "mac") {
+            //
             var blob = new Blob([routeInfo[urlField]]);
             eleLink.href = URL.createObjectURL(blob);
         }
