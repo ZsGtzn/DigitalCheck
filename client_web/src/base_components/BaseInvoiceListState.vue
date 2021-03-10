@@ -332,16 +332,23 @@ export default {
             //
             this.scanQRCode(resultStr => {
                 //
-                if(resultStr !== 'http://fapiao.jolimark.com/Invoice/Printer/20340007ABD')
+                let markUrl = 'http://fapiao.jolimark.com/customer/device.html';
+                if(resultStr.indexOf(markUrl) < 0)
                 {
                     return this.Toast("二维码错误, 无法打印发票");
                 }
+                let resultStrUrlParam = resultStr.substring(markUrl.length + 1)
+                const [, printerCode] = resultStrUrlParam.match(/PrinterCode=(.+)&.+/);
 
+                //
+                console.log(`printerCode: ${printerCode}`);
+                
                 //
                 this.axios.invoice
                     .post('/invoiceApi/common/sendFpUrl', {
                         orderId: this.item.orderId,
                         shortUrl: this.item.shortUrl,
+                        printerCode,
                     })
                     .then(({ code, msg, data }) => {
                         if (code !== 0) {
