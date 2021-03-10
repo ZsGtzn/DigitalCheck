@@ -30,10 +30,10 @@ export default {
 
 <style lang="scss" scoped>
 
-$headerHeight: 50px;
-
 #app {
     position: fixed;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
     background-color: #f1f1f1

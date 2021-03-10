@@ -1,5 +1,8 @@
 <template>
 <div id="main">
+    <div id="title">
+        <p>佛渡客运</p>
+    </div>
     <div id="header">
         <span style="padding: 20px 20px 20px 20px;">总数量</span><p>{{totalInvoice}}</p>
 
@@ -158,7 +161,26 @@ export default {
     align-items: center;
 }
 
+#title {
+    width: 100%;
+    box-sizing: border-box;
+    background: #ffffff;
+    padding: 10px;
+    margin: 10px 0px;
+    display: table;
+}
+
+#title p {
+    display: table-cell;
+    vertical-align: center;
+    text-align: center;
+    font-size: 30px;
+    font-weight: bold;
+}
+
 #header {
+    margin: 10px 0px;
+    background: #ffffff;
     padding: 10px;
     display: flex;
     width: 100%;

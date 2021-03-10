@@ -1,7 +1,8 @@
 <template>
 <div id="main">
     <div id="title">
-        <p>海峡轮渡</p>
+        <p v-if="platform == 'ljsky_invoice'">洛迦山客运</p>
+        <p v-else-if="platform == 'ljsmp_invoice'">洛迦山门票</p>
     </div>
     <div id="header">
         <span style="padding: 20px 20px 20px 20px;">总数量</span><p>{{totalInvoice}}</p>
@@ -30,41 +31,46 @@
             <el-button type="primary" @click="fetchInvoiceList">查询</el-button>
         </div>
     </div>
-    <el-table
+    <el-table   
         height="100%"
         :data="invoiceList">
         <el-table-column
             prop="buyerName"
-            label="开票人或单位"
-            width="180">
+            label="姓名"
+            width="300">
         </el-table-column>
         <el-table-column
-            prop="invoiceAmount"
-            label="开票金额"
-            width="180">
+            prop="serialNum"
+            label="票据索引"
+            width="250">
         </el-table-column>
         <el-table-column
             prop="invoiceTime"
             label="开票时间"
-            width="200">
+            width="180">
         </el-table-column>
         <el-table-column
-            prop="shipname"
-            label="船舶名称"
-            width="200">
+            prop="submitTime"
+            label="申请时间"
+            width="180">
+        </el-table-column>
+        <el-table-column
+            label="状态"
+            width="180">
+            <template slot-scope="scope">
+                <span style="margin-left: 10px" v-if="scope.row.invoiceUrl = ''">开票中</span>
+                <span style="margin-left: 10px" v-else>开票成功</span>
+            </template>
+        </el-table-column>
+        <el-table-column
+            prop="invoiceAmount"
+            label="开票金额"
+            width="100">
         </el-table-column>
         <el-table-column
             prop="mobile"
             label="手机号"
-            width="300">
-        </el-table-column>
-        <el-table-column
-            label="开票状态"
-            width="100">
-            <template slot-scope="scope">
-                <span style="margin-left: 10px" v-if="scope.row.invoiceUrl = ''">已申请未开票</span>
-                <span style="margin-left: 10px" v-else>开票成功</span>
-            </template>
+            width="180">
         </el-table-column>
     </el-table>
 </div>
@@ -73,7 +79,14 @@
 <script>
 
 export default {
-    name: "ChangzhiVehiclePark",
+    name: "Zhoulvkeyun",
+
+    props: {
+        platform: {
+            type: String,
+            required: true,
+        }
+    },
 
     data() {
         return {
@@ -122,7 +135,11 @@ export default {
         fetchInvoiceList() 
         {
             //
-            this.axios.invoice.get(`/invoiceApi/hxldxmb/statistics?startDate=${this.formattedBeginTime}&endDate=${this.formattedEndTime}`).then(response => {
+            this.axios.invoice.get(`/invoiceApi/common/statistics`, {
+                startDate: this.formattedBeginTime,
+                endDate: this.formattedEndTime,
+                belong: this.platform,
+            }).then(response => {
                 if(response.code === 0)
                 {
                     this.invoiceList = response.data.list;
@@ -143,6 +160,18 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
+//
+#main {
+    box-sizing: border-box;
+    padding: 20px;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
 
 #title {
     width: 100%;
@@ -170,17 +199,4 @@ export default {
     align-items: center;
     box-sizing: border-box;
 }
-
-//
-#main {
-    box-sizing: border-box;
-    padding: 20px;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-}
-
 </style>
