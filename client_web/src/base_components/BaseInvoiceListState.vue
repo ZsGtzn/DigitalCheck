@@ -332,17 +332,16 @@ export default {
             //
             this.scanQRCode(resultStr => {
                 //
-                let markUrl = 'http://fapiao.jolimark.com/customer/device.html';
+                let markUrl = 'http://fapiao.jolimark.com/Invoice/Printer/';
                 if(resultStr.indexOf(markUrl) < 0)
                 {
                     return this.Toast("二维码错误, 无法打印发票");
                 }
-                let resultStrUrlParam = resultStr.substring(markUrl.length + 1)
-                const [, printerCode] = resultStrUrlParam.match(/PrinterCode=(.+)&.+/);
+                let printerCode = resultStr.substring(markUrl.length)
 
                 //
                 console.log(`printerCode: ${printerCode}`);
-                
+
                 //
                 this.axios.invoice
                     .post('/invoiceApi/common/sendFpUrl', {
