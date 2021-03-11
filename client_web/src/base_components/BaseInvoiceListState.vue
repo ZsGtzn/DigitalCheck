@@ -169,6 +169,8 @@ export default {
             required: true,
         },
 
+        // if remark is invoiceScanList identifier is null, if not it is idNum or something can be a proof
+        // of invoice list query
         identifier: {
             type: String,
             required: true,
