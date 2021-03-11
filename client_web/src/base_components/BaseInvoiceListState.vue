@@ -286,8 +286,13 @@ export default {
                 }
 
                 //
-                if (this.projectConfigType == 'changzhikeyun' || this.projectConfigType == 'ybky') {
-                    postData.IDCard = this.identifier
+                if(this.projectConfigType == 'changzhikeyun')
+                {
+                    postData.IDCard = this.item.IDNum
+                }
+                else if(this.projectConfigType == 'ybky')
+                {
+                    postData.IDCard = this.item.IDNum
                 }
 
                 //

@@ -282,6 +282,11 @@ async function changZhiKeYunData(identifier, noWaitHttpRequest, ifScan = false) 
     let path = `/invoiceApi/czky/passengerList?IDCard=${identifier}&state&noWaitHttpRequest=${noWaitHttpRequest ? 'yes' : 'no'}`;
 
     //
+    if (ifScan) {
+        path = `/invoiceApi/czky/oredrInformation?serialNum=${identifier}&state&noWaitHttpRequest=${noWaitHttpRequest ? 'yes' : 'no'}`;
+    }
+
+    //
     try {
         const response = await this.axios.invoice.get(path);
 
@@ -302,6 +307,11 @@ async function changZhiKeYunData(identifier, noWaitHttpRequest, ifScan = false) 
 async function ybkyData(identifier, noWaitHttpRequest, ifScan = false) {
     //
     let path = `/invoiceApi/ybky/passengerList?IDCard=${identifier}&state&noWaitHttpRequest=${noWaitHttpRequest ? 'yes' : 'no'}`;
+
+    //
+    if (ifScan) {
+        path = `/invoiceApi/ybky/oredrInformation?serialNum=${identifier}&state&noWaitHttpRequest=${noWaitHttpRequest ? 'yes' : 'no'}`;
+    }
 
     //
     try {

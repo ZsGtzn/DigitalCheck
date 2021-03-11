@@ -36,6 +36,17 @@ O2021030310134405254998
 海峡轮渡小卖部
 13216800218
 
+长峙客运
+
+330902197602086914
+
+扫码合并开票
+https://zyb.ziubao.com/invoice-test/main/#/invoiceScanList/czky/%5b16101468960568bf945c053659f550%5d/
+https://zyb.ziubao.com/invoice-test/main/#/invoiceScanList/czky/%5b16102756364509be017c8b8caa0010%5d/
+
+16101468960568bf945c053659f550
+16102756364509be017c8b8caa0010
+
 墩头
 420123198207214116
 
@@ -56,6 +67,12 @@ O2020112422564287700243
 鸭蛋山白峰客运
 /invoiceApi/ybky/passengerList?IDCard=341204197207111216  
 /invoiceApi/ybky/canInvoiceList?serialNum=2021012120500009
+
+扫码合并开票
+https://zyb.ziubao.com/invoice-test/main/#/invoiceScanList/ybky/%5b161266962523186513dd7dddbd7ab0%5d/
+https://zyb.ziubao.com/invoice-test/main/#/invoiceScanList/ybky/%5b16140435382703f68c98f8a0d6afd0%5d/
+https://zyb.ziubao.com/invoice-test/main/#/invoiceScanList/ybky/%5b16143910707758ae691f57ab3e71f0%5d/
+
 
 佛渡客运
 330903197612164329
