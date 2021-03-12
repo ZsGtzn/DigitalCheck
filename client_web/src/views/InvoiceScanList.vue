@@ -424,7 +424,7 @@ export default {
             if (!data || data.length == 0) {
                 return
             }
-
+            
             //
             for (let el of data) {
                 let i = 0
@@ -432,14 +432,25 @@ export default {
                 //
                 for (; i < this.checkedPassenger.length; i++) {
                     if (this.checkedPassenger[i].serialNum == el.serialNum) {
-                        //
-                        el.ifSelected = this.checkedPassenger[i].ifSelected
+                        if(this.type == 'changzhikeyun' || this.type == 'ybky')
+                        {
+                            if(this.checkedPassenger[i].IDNum == el.IDNum)
+                            {
+                                break;
+                            }
+                        }
+                        else
+                        {
+                            //
+                            el.ifSelected = this.checkedPassenger[i].ifSelected
 
-                        // 视图列表更新订单
-                        this.$set(this.checkedPassenger, i, el)
+                            // 视图列表更新订单
+                            this.$set(this.checkedPassenger, i, el)
 
-                        //
-                        break
+                            //
+                            break
+                        }
+                        
                     }
                 }
 
