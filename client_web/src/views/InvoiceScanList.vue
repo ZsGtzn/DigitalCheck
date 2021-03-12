@@ -42,10 +42,10 @@
                         >
                     </template>
 
-                    <!-- 通用 -->
+                    <!-- 通用, 订单号不作为唯一索引, 存在某些平台相同的订单号不同的身份证 -->
                     <li
                         v-for="item of checkedPassenger"
-                        :key="item.serialNum"
+                        :key="item.serialNum + (item.IDNum ? item.IDNum : '')"
                         class="listItem"
                         @click="selectInvoice(item)"
                     >
