@@ -432,6 +432,10 @@ export default {
                 //
                 for (; i < this.checkedPassenger.length; i++) {
                     if (this.checkedPassenger[i].serialNum == el.serialNum) {
+                        /**
+                         * 鸭白客运以及长峙客运同一个订单号可以对应多张订单, 根据身份证号码区分
+                         * 这里进行特殊逻辑判断
+                         */
                         if(this.type == 'changzhikeyun' || this.type == 'ybky')
                         {
                             if(this.checkedPassenger[i].IDNum == el.IDNum)
