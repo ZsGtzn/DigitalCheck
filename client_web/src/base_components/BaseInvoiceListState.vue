@@ -296,6 +296,10 @@ export default {
                 {
                     postData.IDCard = this.item.IDNum
                 }
+                else if(this.projectConfigType == 'foDuKeYun')
+                {
+                    postData.IDCard = this.item.IDNum
+                }
 
                 //
                 this.axios.invoice
